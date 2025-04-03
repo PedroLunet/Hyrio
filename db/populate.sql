@@ -19,7 +19,7 @@ INSERT OR IGNORE INTO users (id, name, password, email, role, profile_pic, bio) 
 INSERT OR IGNORE INTO categories (id, name) VALUES
     (1, 'Design'),
     (2, 'Programming'),
-    (3, 'Writing')
+    (3, 'Writing'),
     (4, 'Photography'),
     (5, 'Video Production'),
     (6, 'Game Development'),
