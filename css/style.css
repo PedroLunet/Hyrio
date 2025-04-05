@@ -1,0 +1,31 @@
+#menu-header {
+    width: 30%;
+    font-family: "Inter", sans-serif;
+    background-color: #E6E6E6;
+    color: black;
+    padding: 8px;
+    margin: 0 auto;
+    border-radius: 16px;
+    height: min-content;
+    display: grid;
+    grid-template-columns: 85% 15%;
+    box-shadow: 0 1px 8px 0 #E6E6E6;
+}
+
+#menu-header h1 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+#menu-header button {
+    background-color: #bacb6b;
+    padding: 0;
+    border-radius: 8px;
+    border: 0;
+}
+
+img {
+    display: block;
+    margin: 20% auto 0 auto;
+    width: 30%;
+}
