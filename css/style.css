@@ -1,5 +1,5 @@
 :root {
-	--text: #0c0704;
+	--text: #1E1E1E;
 	--background: #fefcfb;
 	--primary: #c36f53;
 	--secondary: #dcdb9a;
@@ -16,13 +16,13 @@
 	padding: 16px 24px;
 	margin: 20px auto;
 	border-radius: 16px;
-	height: min-content;
+	height: 35px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-left: var(--accent) solid 0.9px;
-	border-right: var(--accent) solid 0.9px;
-	border-bottom: var(--accent) solid 1px;
+	border-left: var(--secondary) solid 1.2px;
+	border-right: var(--secondary) solid 1.2px;
+	border-bottom: var(--secondary) solid 1.5px;
 	box-shadow: 0 1px 8px 0 var(--shadow);
 	transition: all 0.3s ease-in-out;
 }
@@ -37,7 +37,7 @@
 	background-color: var(--secondary);
 	padding: 10px 16px;
 	border-radius: 8px;
-	border: 0;
+	border: var(--accent) solid 0.5px;
 	color: var(--text);
 	font-weight: 500;
 	cursor: pointer;
@@ -48,14 +48,18 @@
 	background-color: var(--accent);
 }
 
+#menu-header img {
+    height: 100%;
+}
+
 @media (max-width: 768px) {
 	#menu-header {
 		width: 90%;
-		padding: 16px;
+		padding: 12px 16px;
 	}
 }
 
-img {
+main img {
 	display: block;
 	margin: 20% auto 0 auto;
 	width: 30%;
