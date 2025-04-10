@@ -1,16 +1,16 @@
 :root {
-	--text: #1E1E1E;
-	--background: #fefcfb;
-	--primary: #c36f53;
-	--secondary: #dcdb9a;
-	--accent: #bacb6b;
+	--text: #1e1e1e;
+	--background: #eeeeee;
+	--primary: #FE8856;
+	--secondary: #bd5656;
+	--accent: #944c4c;
 	--shadow: rgba(0, 0, 0, 0.25);
 	background: var(--background);
+	font-family: 'Inter', sans-serif;
 }
 
 #menu-header {
 	width: 40%;
-	font-family: 'Inter', sans-serif;
 	background-color: #e6e6e6;
 	color: var(--text);
 	padding: 16px 24px;
@@ -49,7 +49,7 @@
 }
 
 #menu-header img {
-    height: 100%;
+	height: 100%;
 }
 
 @media (max-width: 768px) {
@@ -59,8 +59,98 @@
 	}
 }
 
-main img {
+.card img {
 	display: block;
-	margin: 20% auto 0 auto;
-	width: 30%;
+	border-radius: 17px;
+	width: 100%;
+	border-left: var(--secondary) solid 1.2px;
+	border-right: var(--secondary) solid 1.2px;
+	border-bottom: var(--secondary) solid 1.5px;
+	object-fit: cover; /* Ensures images maintain aspect ratio */
+}
+
+.card#container {
+	background-color: whitesmoke;
+	margin: 0 auto;
+	padding: 12px;
+	max-width: 500px; /* Limits maximum width for better readability */
+	border-radius: 25px;
+	box-shadow: 0 2px 15px 0 var(--shadow);
+	transition: all 0.3s ease-in-out;
+}
+
+.card #label {
+	padding: 15px 20px 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.card #titles {
+	padding: 5px 0;
+}
+
+.card #titles h3 {
+	margin: 0 0 5px 0;
+	font-weight: 600;
+	color: var(--text);
+	font-size: 1.3em;
+	letter-spacing: -0.02em;
+	line-height: 1.2;
+}
+
+.card #titles p {
+	margin: 0;
+	color: #555;
+	font-size: 0.95em;
+	font-weight: 200;
+	line-height: 1.4;
+	letter-spacing: 0.01em;
+}
+
+.card button {
+	background-color: var(--primary);
+	margin: auto 0;
+	height: fit-content;
+	padding: 14px 22px;
+	border-radius: 50px;
+	border: none;
+	color: whitesmoke;
+	font-weight: 500;
+	font-size: 0.95em;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card button:hover {
+	background-color: #ff8552; /* Slightly darker shade when hovering */
+	transform: scale(1.01);
+}
+
+.card button i {
+	font-size: 1.1em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+	.card#container {
+		width: 90%;
+		padding: 8px;
+	}
+
+	.card #label {
+		padding: 10px 15px;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	.card button {
+		align-self: flex-end;
+	}
 }
