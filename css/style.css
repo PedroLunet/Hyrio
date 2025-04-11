@@ -1,12 +1,40 @@
 :root {
 	--text: #1e1e1e;
 	--background: #eeeeee;
-	--primary: #FE8856;
+	--primary: #fe8856;
 	--secondary: #bd5656;
 	--accent: #944c4c;
 	--shadow: rgba(0, 0, 0, 0.25);
 	background: var(--background);
 	font-family: 'Inter', sans-serif;
+}
+
+/* Card Grid Layout */
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 30px;
+	margin: 0 auto;
+	max-width: 1200px;
+	padding: 20px;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+	.card-grid {
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+		gap: 20px;
+		padding: 15px;
+	}
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+	.card-grid {
+		grid-template-columns: 1fr;
+		gap: 25px;
+		padding: 10px;
+	}
 }
 
 #menu-header {
@@ -63,6 +91,7 @@
 	display: block;
 	border-radius: 17px;
 	width: 100%;
+	height: 200px; /* Fixed height for consistency */
 	border-left: var(--secondary) solid 1.2px;
 	border-right: var(--secondary) solid 1.2px;
 	border-bottom: var(--secondary) solid 1.5px;
@@ -73,11 +102,16 @@
 	background-color: whitesmoke;
 	margin: 0 auto;
 	padding: 12px;
-	max-width: 500px; /* Limits maximum width for better readability */
+	width: 100%; /* Take full width of grid item */
 	border-radius: 25px;
 	box-shadow: 0 2px 15px 0 var(--shadow);
 	transition: all 0.3s ease-in-out;
+	height: 100%; /* Equal height cards */
+	display: flex;
+	flex-direction: column;
 }
+
+/* Removed the card hover effect as requested */
 
 .card #label {
 	padding: 15px 20px 10px;

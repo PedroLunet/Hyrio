@@ -10,4 +10,4 @@ drawHeader(); ?>
   <?php drawCard() ?>
 </main>
 
-<?php ?>
+<?php drawFooter(); ?>
