@@ -69,13 +69,3 @@
 .btn-text:hover {
 	background-color: rgba(189, 86, 86, 0.1);
 }
-
-/* Specific context overrides */
-.card .btn {
-	border-radius: 50px;
-	padding: 14px 22px;
-}
-
-#menu-header .btn {
-	color: white;
-}

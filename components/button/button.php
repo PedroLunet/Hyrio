@@ -13,6 +13,8 @@
 
 class Button
 {
+  private static $cssIncluded = false;
+
   /**
    * Available button variants
    */
@@ -25,6 +27,17 @@ class Button
   ];
 
   /**
+   * Include the CSS for the button component
+   */
+  public static function includeCSS()
+  {
+    if (!self::$cssIncluded) {
+      echo '<link rel="stylesheet" href="components/button/css/button.css">';
+      self::$cssIncluded = true;
+    }
+  }
+
+  /**
    * Render a button with optional icon
    * 
    * @param string $text The button text
@@ -34,6 +47,8 @@ class Button
    */
   public static function render($text, $iconClass = null, $attributes = [])
   {
+    self::includeCSS();
+
     $variant = self::extractVariant($attributes);
     $attributesStr = self::buildAttributesString($attributes);
 
@@ -56,6 +71,8 @@ class Button
    */
   public static function start($attributes = [])
   {
+    self::includeCSS();
+
     $variant = self::extractVariant($attributes);
     $attributesStr = self::buildAttributesString($attributes);
 

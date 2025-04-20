@@ -42,7 +42,6 @@ function getServices(): array
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/button.css">
         <title>Hyrio</title>
         <link rel="stylesheet" type="text/css"
             href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
@@ -53,7 +52,8 @@ function getServices(): array
 
 <?php function drawHeader()
 {
-    include 'components/navbar.php';
+    require_once(__DIR__ . '/../components/navbar/navbar.php');
+    Navbar::render();
 } ?>
 
 <?php function drawCard()
@@ -61,19 +61,9 @@ function getServices(): array
     // Get services from database
     $services = getServices();
 
-    // If no services found, display a placeholder
-    if (empty($services)) {
-        include 'components/card.php';
-        return;
-    }
-
-    // Display services in a grid
-    echo '<div class="card-grid">';
-    foreach ($services as $service) {
-        // Pass the service data to a modified card component
-        include 'components/card.php';
-    }
-    echo '</div>';
+    // Include and use Card component
+    require_once(__DIR__ . '/../components/card/card.php');
+    Card::renderGrid($services);
 } ?>
 
 <?php function drawFooter()
