@@ -10,9 +10,6 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-left: var(--secondary) solid 1.2px;
-	border-right: var(--secondary) solid 1.2px;
-	border-bottom: var(--secondary) solid 1.5px;
 	box-shadow: 0 1px 8px 0 var(--shadow);
 	transition: all 0.3s ease-in-out;
 }
