@@ -61,21 +61,6 @@
 	font-weight: 600;
 }
 
-#menu-header button {
-	background-color: var(--secondary);
-	padding: 10px 16px;
-	border-radius: 8px;
-	border: var(--accent) solid 0.5px;
-	color: var(--text);
-	font-weight: 500;
-	cursor: pointer;
-	transition: background-color 0.3s ease-in-out;
-}
-
-#menu-header button:hover {
-	background-color: var(--accent);
-}
-
 #menu-header img {
 	height: 100%;
 }
@@ -143,33 +128,6 @@
 	letter-spacing: 0.01em;
 }
 
-.card button {
-	background-color: var(--primary);
-	margin: auto 0;
-	height: fit-content;
-	padding: 14px 22px;
-	border-radius: 50px;
-	border: none;
-	color: whitesmoke;
-	font-weight: 500;
-	font-size: 0.95em;
-	cursor: pointer;
-	transition: all 0.3s ease-in-out;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.card button:hover {
-	background-color: #ff8552; /* Slightly darker shade when hovering */
-	transform: scale(1.01);
-}
-
-.card button i {
-	font-size: 1.1em;
-}
-
 /* Responsive adjustments */
 @media (max-width: 600px) {
 	.card#container {
@@ -184,7 +142,8 @@
 		gap: 10px;
 	}
 
-	.card button {
+	/* Replace specific 'card button' style with btn class */
+	.card .btn {
 		align-self: flex-end;
 	}
 }
