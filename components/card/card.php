@@ -65,9 +65,10 @@ class Card
     self::includeCSS();
 
     if (empty($services)) {
-      // If no services, render a single placeholder card
-      echo '<div class="card-grid">';
-      self::render();
+      // Display a message instead of a placeholder card
+      echo '<div class="no-services-message">';
+      echo '<p>No services found in this category.</p>';
+      echo '<p>Try selecting a different category or check back later.</p>';
       echo '</div>';
       return;
     }

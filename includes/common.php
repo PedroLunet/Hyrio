@@ -12,17 +12,30 @@ function getDatabaseConnection(): PDO
 }
 
 // Function to get all services from the database
-function getServices(): array
+function getServices(?int $categoryId = null): array
 {
     try {
         $db = getDatabaseConnection();
 
-        $stmt = $db->prepare('
+        // Base query
+        $query = '
             SELECT services.*, users.name as seller_name, categories.name as category_name
             FROM services 
             JOIN users ON services.seller = users.id
             JOIN categories ON services.category = categories.id
-        ');
+        ';
+
+        // Add category filter if requested
+        if ($categoryId !== null) {
+            $query .= ' WHERE services.category = :categoryId';
+        }
+
+        $stmt = $db->prepare($query);
+
+        // Bind category parameter if needed
+        if ($categoryId !== null) {
+            $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
+        }
 
         $stmt->execute();
         return $stmt->fetchAll();
@@ -56,10 +69,23 @@ function getServices(): array
     Navbar::render();
 } ?>
 
+<?php function drawCategories()
+{
+    // Get the selected category from the URL query parameter
+    $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+
+    // Include and use Categories component
+    require_once(__DIR__ . '/../components/categories/categories.php');
+    Categories::render($selectedCategoryId);
+} ?>
+
 <?php function drawCard()
 {
-    // Get services from database
-    $services = getServices();
+    // Get selected category from URL if present
+    $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+
+    // Get services from database with optional category filter
+    $services = getServices($selectedCategoryId);
 
     // Include and use Card component
     require_once(__DIR__ . '/../components/card/card.php');

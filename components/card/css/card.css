@@ -223,3 +223,31 @@
 	font-size: 1em;
 	margin-right: 2px; /* Smaller margin between icon and text */
 }
+
+/* No services message styling */
+.no-services-message {
+	background-color: #f8f9fa;
+	border-radius: 8px;
+	padding: 2rem;
+	text-align: center;
+	margin: 2rem 0;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.no-services-message p {
+	margin: 0.5rem 0;
+	color: #555;
+}
+
+.no-services-message p:first-child {
+	font-size: 1.2rem;
+	font-weight: 500;
+	color: #333;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+	.card-grid {
+		grid-template-columns: 1fr;
+	}
+}
