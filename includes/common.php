@@ -65,8 +65,11 @@ function getServices(?int $categoryId = null): array
 
 <?php function drawHeader()
 {
+    // Get the selected category from the URL query parameter
+    $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+
     require_once(__DIR__ . '/../components/navbar/navbar.php');
-    Navbar::render();
+    Navbar::render($selectedCategoryId);
 } ?>
 
 <?php function drawCategories()

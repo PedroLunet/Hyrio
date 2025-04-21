@@ -20,16 +20,37 @@ class Categories
   }
 
   /**
-   * Render the categories filter UI
+   * Get a category by ID
+   * 
+   * @param int $categoryId The category ID
+   * @return array|null The category or null if not found
+   */
+  public static function getCategoryById(int $categoryId): ?array
+  {
+    try {
+      $db = getDatabaseConnection();
+      $stmt = $db->prepare('SELECT * FROM categories WHERE id = ?');
+      $stmt->execute([$categoryId]);
+      $result = $stmt->fetch();
+      return $result ?: null;
+    } catch (PDOException $e) {
+      return null;
+    }
+  }
+
+  /**
+   * Render the categories filter UI (legacy standalone version)
    * 
    * @param int|null $selectedCategoryId Optional currently selected category
    * @return void
    */
   public static function render(?int $selectedCategoryId = null): void
   {
+    // Include CSS only when using standalone component
+    echo '<link rel="stylesheet" href="components/categories/css/categories.css">';
+
     $categories = self::getCategories();
 
-    echo '<link rel="stylesheet" href="components/categories/css/categories.css">';
     echo '<div class="categories-container">';
     echo '<h3>Categories</h3>';
     echo '<div class="categories-list">';
