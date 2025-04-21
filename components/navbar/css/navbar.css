@@ -34,5 +34,5 @@
 
 /* Navbar-specific button override */
 #menu-header .btn {
-	color: white;
+	border-radius: 12px;
 }

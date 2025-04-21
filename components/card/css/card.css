@@ -120,16 +120,21 @@
 	overflow: hidden;
 }
 
+/* Improved card label layout */
 .card #label {
 	padding: 15px 20px 10px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	align-items: center;
+	align-items: center; /* Changed from flex-start to center for vertical alignment */
+	flex-wrap: nowrap; /* Prevent wrapping */
 }
 
 .card #titles {
 	padding: 5px 0;
+	flex: 1; /* Allow titles to take available space */
+	min-width: 0; /* Allow text to truncate if needed */
+	margin-right: 10px; /* Add space between titles and button */
 }
 
 .card #titles h3 {
@@ -139,6 +144,11 @@
 	font-size: 1.3em;
 	letter-spacing: -0.02em;
 	line-height: 1.2;
+	white-space: normal; /* Allow text to wrap naturally */
+	overflow: visible; /* Show all content */
+	display: block; /* Remove line clamping */
+	max-height: none; /* Remove max height limitation */
+	text-overflow: initial; /* Remove ellipsis */
 }
 
 .card #titles p {
@@ -148,6 +158,9 @@
 	font-weight: 200;
 	line-height: 1.4;
 	letter-spacing: 0.01em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis; /* Add ellipsis for text that's too long */
 }
 
 /* Responsive adjustments */
@@ -168,10 +181,45 @@
 	.card .btn {
 		align-self: flex-end;
 	}
+
+	/* Adjust button alignment for mobile */
+	.card .price-button {
+		align-self: flex-end;
+	}
 }
 
-/* Card-specific button style override */
+/* Card-specific button style to prevent wrapping */
 .card .btn {
 	border-radius: 50px;
-	padding: 14px 22px;
+	padding: 10px 15px; /* Reduced padding */
+	white-space: nowrap; /* Prevent text from wrapping */
+	min-width: 0; /* Remove fixed width constraint */
+	justify-content: center;
+	font-size: 0.9em; /* Slightly smaller font */
+}
+
+.card .btn i {
+	font-size: 1em; /* Smaller icon size */
+	flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* Card-specific price button style */
+.card .price-button {
+	border-radius: 50px;
+	padding: 8px 12px;
+	white-space: nowrap;
+	min-width: 0; /* Remove min-width constraint */
+	width: auto; /* Let button size to content */
+	max-width: none; /* Remove max width limitation */
+	justify-content: center;
+	font-size: 0.9em;
+	flex-shrink: 0; /* Prevent button from shrinking */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+	display: inline-flex; /* Use inline-flex for natural width */
+	margin-top: 0; /* Ensure no top margin that might affect vertical centering */
+}
+
+.card .price-button i {
+	font-size: 1em;
+	margin-right: 2px; /* Smaller margin between icon and text */
 }

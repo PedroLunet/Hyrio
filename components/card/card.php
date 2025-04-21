@@ -42,11 +42,11 @@ class Card
           <p><?= isset($service['seller_name']) ? htmlspecialchars($service['seller_name']) : 'bald man' ?></p>
         </div>
         <?php
-        Button::start(['variant' => 'primary']);
+        Button::start(['variant' => 'primary', 'class' => 'price-button']);
         if (isset($service['price'])) {
           ButtonIcon::render('ph-bold ph-currency-eur');
         }
-        echo '<span>a partir de ' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
+        echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
         Button::end();
         ?>
       </div>
