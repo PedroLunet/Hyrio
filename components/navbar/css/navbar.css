@@ -3,16 +3,17 @@
 	width: 90%;
 	background-color: #e6e6e6;
 	color: var(--text);
-	padding: 16px 24px;
+	padding: 15px 24px; /* Horizontal padding only */
 	margin: 20px auto;
 	border-radius: 16px;
-	height: 35px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	box-shadow: 0 1px 8px 0 var(--shadow);
 	transition: all 0.3s ease-in-out;
 	overflow: visible; /* Allow dropdowns to be visible outside */
+	height: 70px; /* Increased height */
+	box-sizing: border-box; /* Include padding in height calculation */
 }
 
 #menu-header h1 {
@@ -22,9 +23,8 @@
 }
 
 #menu-header img {
-	height: 30px; /* Fixed height for logo */
+	height: 100%; /* Increased logo size to match taller navbar */
 	width: auto; /* Maintain aspect ratio */
-	max-height: 100%; /* Ensure it doesn't exceed parent height */
 }
 
 .nav-left,
@@ -156,20 +156,21 @@
 @media (max-width: 768px) {
 	#menu-header {
 		width: 95%;
-		padding: 12px 16px;
-		flex-direction: column;
-		height: auto;
+		padding: 15px 16px; /* Adjust padding to keep consistent height */
+		height: 70px; /* Consistent height on mobile */
+		flex-direction: row; /* Keep in single row */
 		gap: 10px;
 	}
 
 	.nav-left,
 	.nav-right {
-		width: 100%;
+		width: auto; /* Let the content determine width */
 		justify-content: space-between;
 	}
 
 	.nav-right {
 		justify-content: flex-end; /* Align items to the right */
+		flex-grow: 1; /* Take up available space */
 	}
 
 	.categories-dropdown {
@@ -179,18 +180,21 @@
 
 	.dropdown-btn {
 		width: auto; /* Let it size based on content */
-		max-width: 200px; /* Increased maximum width on mobile */
+		max-width: 120px; /* Reduced maximum width on mobile to fit in one line */
+		font-size: 0.8rem; /* Slightly smaller font on mobile */
+		padding: 5px 8px; /* Smaller padding on mobile */
 	}
 
 	.dropdown-content {
 		width: 200px; /* Fixed width for dropdown menu */
 		right: 0; /* Keep aligned to the right */
 	}
+
 }
 
 /* Navbar-specific button override */
 #menu-header .btn {
 	border-radius: 12px;
 	font-size: 0.9rem; /* Slightly smaller font */
-	padding: 6px 12px; /* Smaller padding to match dropdown button */
+
 }
