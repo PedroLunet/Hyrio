@@ -7,6 +7,7 @@ require_once(__DIR__ . '/includes/common.php');
 head();
 drawHeader(); ?>
 <main>
+  <?php drawCategories() ?>
   <?php drawCard() ?>
 </main>
 

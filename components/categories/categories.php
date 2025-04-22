@@ -39,35 +39,77 @@ class Categories
   }
 
   /**
-   * Render the categories filter UI (legacy standalone version)
+   * Get the name of the currently selected category
+   *
+   * @param int|null $categoryId The selected category ID
+   * @return string The category name or "All Categories" if none selected
+   */
+  public static function getSelectedCategoryName(?int $categoryId = null): string
+  {
+    if ($categoryId === null) {
+      return "All Categories";
+    }
+
+    $category = self::getCategoryById($categoryId);
+    return $category ? htmlspecialchars($category['name']) : "All Categories";
+  }
+
+  /**
+   * Render the categories filter UI (as a hamburger menu dropdown)
    * 
    * @param int|null $selectedCategoryId Optional currently selected category
    * @return void
    */
   public static function render(?int $selectedCategoryId = null): void
   {
-    // Include CSS only when using standalone component
+    // Include CSS
     echo '<link rel="stylesheet" href="components/categories/css/categories.css">';
+    // Add Font Awesome
+    echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
 
     $categories = self::getCategories();
+    $selectedCategoryName = self::getSelectedCategoryName($selectedCategoryId);
 
+    // Generate a unique ID for this instance to avoid conflicts
+    $uniqueId = 'cat_' . uniqid();
+
+    // Main container
     echo '<div class="categories-container">';
-    echo '<h3>Categories</h3>';
-    echo '<div class="categories-list">';
+
+    // Selected category title as h1
+    echo '<h1 class="selected-category-title">' . $selectedCategoryName . '</h1>';
+
+    // Simpler dropdown implementation
+    echo '<div class="hamburger-dropdown">';
+
+    // Checkbox hack (no JavaScript needed)
+    echo '<input type="checkbox" id="' . $uniqueId . '" class="hamburger-toggle">';
+    echo '<label for="' . $uniqueId . '" class="hamburger-btn">';
+    echo '<i class="fas fa-bars"></i>';
+    echo '<span>Categories</span>';
+    echo '<i class="fas fa-chevron-down chevron-icon"></i>';
+    echo '</label>';
+
+    // Dropdown content
+    echo '<div class="dropdown-menu">';
 
     // All categories option
     $allSelected = $selectedCategoryId === null ? 'selected' : '';
-    echo "<a href=\"?\" class=\"category-item $allSelected\">All Categories</a>";
+    echo "<a href=\"?\" class=\"category-item $allSelected\">";
+    echo '<i class="fas fa-th-large"></i>';
+    echo "All Categories</a>";
 
     // Each category
     foreach ($categories as $category) {
       $selected = $selectedCategoryId === (int) $category['id'] ? 'selected' : '';
       echo "<a href=\"?category=" . htmlspecialchars($category['id']) . "\" class=\"category-item $selected\">";
+      echo '<i class="fas fa-tag"></i>';
       echo htmlspecialchars($category['name']);
       echo "</a>";
     }
 
-    echo '</div>'; // categories-list
+    echo '</div>'; // dropdown-menu
+    echo '</div>'; // hamburger-dropdown
     echo '</div>'; // categories-container
   }
 }

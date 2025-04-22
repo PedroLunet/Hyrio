@@ -1,83 +1,163 @@
-/* Categories component styling - standalone version */
+/* Categories component - CSS-only dropdown solution */
+
+/* Main container */
 .categories-container {
-	padding: 1.25rem;
-	background-color: #f8f9fa;
-	border-radius: 12px;
+	margin-bottom: 2rem;
+	padding: 0 1rem;
+}
+
+/* Selected category title */
+.selected-category-title {
+	font-size: 2rem;
+	font-weight: 700;
+	color: #2c3e50;
+	margin: 1.5rem 0;
+	padding-bottom: 0.5rem;
+	border-bottom: 3px solid #ff7b00; /* Changed to orange */
+	display: inline-block;
+}
+
+/* Hamburger dropdown container */
+.hamburger-dropdown {
+	position: relative;
+	width: 100%;
+	max-width: 300px;
 	margin-bottom: 1.5rem;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.categories-container h3 {
-	margin-top: 0;
-	margin-bottom: 1rem;
-	font-size: 1.2rem;
-	color: #333;
-	font-weight: 600;
+/* Hide the checkbox */
+.hamburger-toggle {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
 
-.categories-list {
+/* Hamburger button styling */
+.hamburger-btn {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 0.75rem;
+	align-items: center;
+	gap: 12px;
+	background-color: #ffffff;
+	border-radius: 8px;
+	padding: 12px 16px;
+	cursor: pointer;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+	transition: all 0.2s ease;
+	width: 100%;
+	justify-content: space-between;
+	user-select: none;
 }
 
-.category-item {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0.625rem 1.25rem;
+.hamburger-btn:hover {
+	background-color: #fff8f0; /* Lighter orange background on hover */
+	box-shadow: 0 4px 12px rgba(255, 123, 0, 0.15); /* Orange shadow */
+}
+
+.hamburger-btn i {
+	font-size: 1.2rem;
+	color: #ff7b00; /* Changed to orange */
+}
+
+.hamburger-btn span {
+	font-weight: 600;
+	color: #2c3e50;
+	flex-grow: 1;
+	text-align: left;
+	margin-left: 8px;
+}
+
+/* Chevron animation */
+.chevron-icon {
+	transition: transform 0.3s ease;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	top: calc(100% + 8px);
+	left: 0;
+	width: 100%;
 	background-color: white;
-	border: 1px solid #e0e0e0;
+	border-radius: 12px;
+	box-shadow: 0 6px 16px rgba(255, 123, 0, 0.15); /* Orange shadow */
+	padding: 8px;
+	z-index: 1000;
+	max-height: 350px;
+	overflow-y: auto;
+}
+
+/* The CSS-only magic: when checkbox is checked, show the dropdown */
+.hamburger-toggle:checked + .hamburger-btn {
+	background-color: #fff8f0; /* Lighter orange background */
+}
+
+.hamburger-toggle:checked + .hamburger-btn .chevron-icon {
+	transform: rotate(180deg);
+}
+
+.hamburger-toggle:checked ~ .dropdown-menu {
+	display: block;
+}
+
+/* Category items */
+.category-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 16px;
+	margin-bottom: 6px;
 	border-radius: 8px;
-	color: #333;
+	color: #2c3e50;
 	text-decoration: none;
-	font-size: 0.9rem;
+	font-size: 0.95rem;
 	transition: all 0.2s ease;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	background-color: #f8f9fa;
+}
+
+.category-item:last-child {
+	margin-bottom: 0;
 }
 
 .category-item:hover {
-	background-color: #f5f5f5;
-	transform: translateY(-2px);
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+	background-color: #fff0e0; /* Light orange background on hover */
+	transform: translateX(3px);
 }
 
 .category-item.selected {
-	background-color: #4a6fdc;
+	background-color: #ff7b00; /* Changed to orange */
 	color: white;
-	border-color: #4a6fdc;
 	font-weight: 500;
 }
 
-/* Responsive styling */
-@media (max-width: 992px) {
-	.categories-list {
-		gap: 0.5rem;
-	}
-
-	.category-item {
-		padding: 0.5rem 1rem;
-	}
+.category-item.selected i {
+	color: white;
 }
 
+/* Responsive styling */
 @media (max-width: 768px) {
-	.categories-container {
-		padding: 1rem;
+	.selected-category-title {
+		font-size: 1.5rem;
+		margin: 1.2rem 0;
 	}
 
-	.categories-list {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-	}
-
-	.category-item {
-		width: auto;
-		text-align: center;
+	.hamburger-dropdown {
+		max-width: 100%;
 	}
 }
 
 @media (max-width: 480px) {
-	.categories-list {
-		grid-template-columns: 1fr 1fr;
+	.selected-category-title {
+		font-size: 1.3rem;
+		margin: 1rem 0;
+	}
+
+	.hamburger-btn {
+		padding: 10px 14px;
+	}
+
+	.dropdown-menu {
+		max-height: 280px;
 	}
 }
