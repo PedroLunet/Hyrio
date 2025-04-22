@@ -82,7 +82,7 @@ class Categories
     // Simpler dropdown implementation
     echo '<div class="hamburger-dropdown">';
 
-    // Checkbox hack (no JavaScript needed)
+    // Checkbox hack (with JS enhancement to close when clicking outside)
     echo '<input type="checkbox" id="' . $uniqueId . '" class="hamburger-toggle">';
     echo '<label for="' . $uniqueId . '" class="hamburger-btn">';
     echo '<i class="fas fa-bars"></i>';
@@ -111,6 +111,31 @@ class Categories
     echo '</div>'; // dropdown-menu
     echo '</div>'; // hamburger-dropdown
     echo '</div>'; // categories-container
+
+    // Add JavaScript to close dropdown when clicking outside
+    echo '<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const checkbox = document.getElementById("' . $uniqueId . '");
+      const dropdown = checkbox.parentElement;
+      
+      // Close when clicking outside
+      document.addEventListener("click", function(event) {
+        // If the click was outside the dropdown and the dropdown is open
+        if (!dropdown.contains(event.target) && checkbox.checked) {
+          checkbox.checked = false;
+        }
+      });
+      
+      // Prevent dropdown from closing when clicking inside the dropdown menu
+      const dropdownMenu = dropdown.querySelector(".dropdown-menu");
+      dropdownMenu.addEventListener("click", function(event) {
+        // Only prevent propagation if not clicking a link
+        if (!event.target.closest("a")) {
+          event.stopPropagation();
+        }
+      });
+    });
+    </script>';
   }
 }
 ?>
