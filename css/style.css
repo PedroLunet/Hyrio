@@ -11,7 +11,8 @@
 }
 
 /* Set up for sticky footer */
-html, body {
+html,
+body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -21,6 +22,100 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh; /* Full viewport height */
+}
+
+/* Categories with gradient text wrapper */
+.categories-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	margin-bottom: 2rem;
+	box-sizing: border-box;
+	padding: 0;
+	width: 100%;
+	overflow: visible; /* Changed from hidden to visible to prevent dropdown from being cut off */
+	position: relative; /* Added to ensure proper stacking context */
+}
+
+.gradient-text {
+	text-align: center;
+	font-family: 'Inter', sans-serif;
+	font-size: 72px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 90%; /* 64.8px */
+	letter-spacing: -3.24px;
+	background: linear-gradient(
+		90deg,
+		rgba(254, 136, 86, 0.35) 0%,
+		rgba(254, 136, 86, 0.9) 25%,
+		rgba(189, 86, 86, 0.9) 50%,
+		rgba(148, 76, 76, 0.9) 75%,
+		rgba(148, 76, 76, 0.35) 100%
+	);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	flex: 1;
+	box-sizing: border-box;
+	max-width: 50%;
+	padding: 0;
+	margin: 0;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	hyphens: auto;
+}
+
+@media (max-width: 1200px) {
+	.gradient-text {
+		font-size: 56px;
+	}
+}
+
+@media (max-width: 768px) {
+	.categories-wrapper {
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+		padding: 0;
+		width: 100%;
+	}
+
+	.categories-wrapper .categories-container {
+		width: 100%;
+	}
+
+	.categories-wrapper .hamburger-dropdown {
+		max-width: 100%;
+	}
+
+	.gradient-text {
+		font-size: 48px;
+		text-align: center;
+		width: 100%;
+		max-width: 100%;
+		letter-spacing: -2px;
+		padding: 1.5rem 12px;
+		margin: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+	}
+}
+
+@media (max-width: 480px) {
+	.categories-wrapper {
+		padding: 0 10px;
+	}
+
+	.gradient-text {
+		font-size: 40px;
+		letter-spacing: -1.5px;
+		padding: 1.5rem 10px;
+	}
 }
 
 /* Basic layout styles */

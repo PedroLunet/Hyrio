@@ -61,46 +61,48 @@ function getServices(?int $categoryId = null): array
         <link rel="stylesheet" type="text/css"
             href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
     </head>
+
     <body>
-<?php } ?>
+    <?php } ?>
 
-<?php function drawHeader()
-{
-    // Get the selected category from the URL query parameter
-    $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+    <?php function drawHeader()
+    {
+        // Get the selected category from the URL query parameter
+        $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
 
-    require_once(__DIR__ . '/../components/navbar/navbar.php');
-    Navbar::render($selectedCategoryId);
-} ?>
+        require_once(__DIR__ . '/../components/navbar/navbar.php');
+        Navbar::render($selectedCategoryId);
+    } ?>
 
-<?php function drawCategories()
-{
-    // Get the selected category from the URL query parameter
-    $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+    <?php function drawCategories()
+    {
+        // Get the selected category from the URL query parameter
+        $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
 
-    // Include and use Categories component
-    require_once(__DIR__ . '/../components/categories/categories.php');
-    Categories::render($selectedCategoryId);
-} ?>
+        // Include and use Categories component
+        require_once(__DIR__ . '/../components/categories/categories.php');
+        Categories::render($selectedCategoryId);
+    } ?>
 
-<?php function drawCard()
-{
-    // Get selected category from URL if present
-    $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
+    <?php function drawCard()
+    {
+        // Get selected category from URL if present
+        $selectedCategoryId = isset($_GET['category']) ? (int) $_GET['category'] : null;
 
-    // Get services from database with optional category filter
-    $services = getServices($selectedCategoryId);
+        // Get services from database with optional category filter
+        $services = getServices($selectedCategoryId);
 
-    // Include and use Card component
-    require_once(__DIR__ . '/../components/card/card.php');
-    Card::renderGrid($services);
-} ?>
+        // Include and use Card component
+        require_once(__DIR__ . '/../components/card/card.php');
+        Card::renderGrid($services);
+    } ?>
 
-<?php function drawFooter()
-{ ?>
-    <footer>
-        <p>&copy; 2025 Hyrio</p>
-    </footer>
+    <?php function drawFooter()
+    { ?>
+        <footer>
+            <p>&copy; 2025 Hyrio</p>
+        </footer>
     </body>
+
     </html>
 <?php } ?>
