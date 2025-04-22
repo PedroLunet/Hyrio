@@ -1,163 +1,170 @@
-/* Categories component - CSS-only dropdown solution */
+/* Categories component - Simplified and improved */
 
 /* Main container */
 .categories-container {
-	margin-bottom: 2rem;
-	padding: 0 1rem;
+  margin: 0 0 2rem 0;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 /* Selected category title */
 .selected-category-title {
-	font-size: 2rem;
-	font-weight: 700;
-	color: #2c3e50;
-	margin: 1.5rem 0;
-	padding-bottom: 0.5rem;
-	border-bottom: 3px solid #ff7b00; /* Changed to orange */
-	display: inline-block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid #ff7b00;
+  display: inline-block;
 }
 
 /* Hamburger dropdown container */
 .hamburger-dropdown {
-	position: relative;
-	width: 100%;
-	max-width: 300px;
-	margin-bottom: 1.5rem;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 1.5rem;
 }
 
 /* Hide the checkbox */
 .hamburger-toggle {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 /* Hamburger button styling */
 .hamburger-btn {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	background-color: #ffffff;
-	border-radius: 8px;
-	padding: 12px 16px;
-	cursor: pointer;
-	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-	transition: all 0.2s ease;
-	width: 100%;
-	justify-content: space-between;
-	user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: space-between;
+  user-select: none;
+  box-sizing: border-box;
 }
 
 .hamburger-btn:hover {
-	background-color: #fff8f0; /* Lighter orange background on hover */
-	box-shadow: 0 4px 12px rgba(255, 123, 0, 0.15); /* Orange shadow */
+  background-color: #fff8f0;
+  box-shadow: 0 4px 12px rgba(255, 123, 0, 0.15);
 }
 
 .hamburger-btn i {
-	font-size: 1.2rem;
-	color: #ff7b00; /* Changed to orange */
+  font-size: 1.2rem;
+  color: #ff7b00;
 }
 
 .hamburger-btn span {
-	font-weight: 600;
-	color: #2c3e50;
-	flex-grow: 1;
-	text-align: left;
-	margin-left: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+  flex-grow: 1;
+  text-align: left;
+  margin-left: 8px;
 }
 
 /* Chevron animation */
 .chevron-icon {
-	transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 /* Dropdown menu */
 .dropdown-menu {
-	display: none;
-	position: absolute;
-	top: calc(100% + 8px);
-	left: 0;
-	width: 100%;
-	background-color: white;
-	border-radius: 12px;
-	box-shadow: 0 6px 16px rgba(255, 123, 0, 0.15); /* Orange shadow */
-	padding: 8px;
-	z-index: 1000;
-	max-height: 350px;
-	overflow-y: auto;
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(255, 123, 0, 0.15);
+  padding: 10px;
+  z-index: 1050;
+  max-height: 350px;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* The CSS-only magic: when checkbox is checked, show the dropdown */
 .hamburger-toggle:checked + .hamburger-btn {
-	background-color: #fff8f0; /* Lighter orange background */
+  background-color: #fff8f0;
 }
 
 .hamburger-toggle:checked + .hamburger-btn .chevron-icon {
-	transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .hamburger-toggle:checked ~ .dropdown-menu {
-	display: block;
+  display: block;
 }
 
 /* Category items */
 .category-item {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	padding: 12px 16px;
-	margin-bottom: 6px;
-	border-radius: 8px;
-	color: #2c3e50;
-	text-decoration: none;
-	font-size: 0.95rem;
-	transition: all 0.2s ease;
-	background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  color: #2c3e50;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: #f8f9fa;
 }
 
 .category-item:last-child {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .category-item:hover {
-	background-color: #fff0e0; /* Light orange background on hover */
-	transform: translateX(3px);
+  background-color: #fff0e0;
+  transform: translateX(3px);
 }
 
 .category-item.selected {
-	background-color: #ff7b00; /* Changed to orange */
-	color: white;
-	font-weight: 500;
+  background-color: #ff7b00;
+  color: white;
+  font-weight: 500;
 }
 
 .category-item.selected i {
-	color: white;
+  color: white;
 }
 
 /* Responsive styling */
 @media (max-width: 768px) {
-	.selected-category-title {
-		font-size: 1.5rem;
-		margin: 1.2rem 0;
-	}
+  .categories-container {
+    padding: 1rem;
+  }
+  
+  .selected-category-title {
+    font-size: 1.5rem;
+    margin: 1.25rem 0;
+  }
 
-	.hamburger-dropdown {
-		max-width: 100%;
-	}
+  .hamburger-dropdown {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
-	.selected-category-title {
-		font-size: 1.3rem;
-		margin: 1rem 0;
-	}
+  .categories-container {
+    padding: 1rem;
+  }
+  
+  .selected-category-title {
+    font-size: 1.3rem;
+    margin: 1rem 0;
+  }
 
-	.hamburger-btn {
-		padding: 10px 14px;
-	}
-
-	.dropdown-menu {
-		max-height: 280px;
-	}
+  .dropdown-menu {
+    max-height: 280px;
+  }
 }

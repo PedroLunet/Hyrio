@@ -61,6 +61,7 @@ function getServices(?int $categoryId = null): array
         <link rel="stylesheet" type="text/css"
             href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
     </head>
+    <body>
 <?php } ?>
 
 <?php function drawHeader()
@@ -100,6 +101,6 @@ function getServices(?int $categoryId = null): array
     <footer>
         <p>&copy; 2025 Hyrio</p>
     </footer>
-
+    </body>
     </html>
 <?php } ?>
