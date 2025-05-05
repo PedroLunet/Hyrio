@@ -1,0 +1,200 @@
+/* Navbar Component Styles */
+#menu-header {
+	width: 90%;
+	background-color: #e6e6e6;
+	color: var(--text);
+	padding: 15px 24px; /* Horizontal padding only */
+	margin: 20px auto;
+	border-radius: 16px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 1px 8px 0 var(--shadow);
+	transition: all 0.3s ease-in-out;
+	overflow: visible; /* Allow dropdowns to be visible outside */
+	height: 70px; /* Increased height */
+	box-sizing: border-box; /* Include padding in height calculation */
+}
+
+#menu-header h1 {
+	margin: 0;
+	font-size: 1.4em;
+	font-weight: 600;
+}
+
+#menu-header img {
+	height: 100%; /* Increased logo size to match taller navbar */
+	width: auto; /* Maintain aspect ratio */
+}
+
+.nav-left,
+.nav-right {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+.nav-left {
+	gap: 20px;
+	flex-shrink: 0; /* Prevent the nav-left from shrinking too much */
+}
+
+.nav-right {
+	gap: 15px; /* Space between dropdown and login button */
+}
+
+/* Categories dropdown styling */
+.categories-dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-btn {
+	background-color: #fff;
+	color: #333;
+	padding: 6px 12px; /* Smaller padding */
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.9rem;
+	transition: all 0.2s ease;
+	max-width: 180px; /* Increased maximum width */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.dropdown-btn:hover {
+	background-color: #f0f0f0;
+}
+
+.dropdown-icon {
+	font-size: 0.7rem;
+	transition: transform 0.2s ease;
+	flex-shrink: 0; /* Don't let the icon shrink */
+}
+
+.categories-dropdown:hover .dropdown-icon {
+	transform: rotate(180deg);
+}
+
+/* Dropdown content container */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	min-width: 200px;
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	z-index: 100; /* Ensure dropdown appears above other elements */
+	overflow: hidden;
+	max-height: 300px;
+	overflow-y: auto;
+	right: 0; /* Align to the right side of the dropdown button */
+	top: calc(100% - 3px); /* Position closer to the button */
+	margin-top: 0; /* Remove margin gap */
+	transition: opacity 0.2s, visibility 0.2s;
+	opacity: 0;
+	visibility: hidden;
+}
+
+/* Show dropdown when hovering over the container */
+.categories-dropdown:hover .dropdown-content {
+	display: block;
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Keep dropdown visible when hovering over it */
+.dropdown-content:hover {
+	display: block;
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Additional hover area to prevent dropdown from disappearing */
+.categories-dropdown::after {
+	content: '';
+	position: absolute;
+	height: 5px; /* Minimal hover area height */
+	width: 100%;
+	bottom: -5px;
+	left: 0;
+	pointer-events: none; /* Disable pointer events for a cleaner approach */
+}
+
+/* Use a better approach for dropdown visibility */
+.categories-dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+	display: block;
+	opacity: 1;
+	visibility: visible;
+}
+
+.dropdown-content a {
+	display: block;
+	padding: 12px 16px;
+	text-decoration: none;
+	color: #333;
+	transition: all 0.2s ease;
+}
+
+.dropdown-content a:hover {
+	background-color: #f8f9fa;
+}
+
+.dropdown-content a.selected {
+	background-color: var(--primary);
+	color: white;
+	border-color: var(--primary);
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
+	#menu-header {
+		width: 95%;
+		padding: 15px 16px; /* Adjust padding to keep consistent height */
+		height: 70px; /* Consistent height on mobile */
+		flex-direction: row; /* Keep in single row */
+		gap: 10px;
+	}
+
+	.nav-left,
+	.nav-right {
+		width: auto; /* Let the content determine width */
+		justify-content: space-between;
+	}
+
+	.nav-right {
+		justify-content: flex-end; /* Align items to the right */
+		flex-grow: 1; /* Take up available space */
+	}
+
+	.categories-dropdown {
+		margin-right: 10px;
+		max-width: fit-content; /* Adjust width based on content */
+	}
+
+	.dropdown-btn {
+		width: auto; /* Let it size based on content */
+		max-width: 120px; /* Reduced maximum width on mobile to fit in one line */
+		font-size: 0.8rem; /* Slightly smaller font on mobile */
+		padding: 5px 8px; /* Smaller padding on mobile */
+	}
+
+	.dropdown-content {
+		width: 200px; /* Fixed width for dropdown menu */
+		right: 0; /* Keep aligned to the right */
+	}
+
+}
+
+/* Navbar-specific button override */
+#menu-header .btn {
+	border-radius: 12px;
+	font-size: 0.9rem; /* Slightly smaller font */
+
+}

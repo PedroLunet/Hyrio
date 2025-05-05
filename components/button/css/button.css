@@ -1,0 +1,71 @@
+/* Button Component Styles */
+.btn {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	padding: 10px 16px;
+	border-radius: 20px;
+	border: none;
+	font-size: 0.95em;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn i {
+	font-size: 1.1em;
+}
+
+.btn:hover {
+	transform: scale(1.01);
+}
+
+/* Button variants */
+.btn-primary {
+	background-color: var(--primary);
+	color: white;
+}
+
+.btn-primary:hover {
+	background-color: #ff8552; /* Slightly darker shade when hovering */
+}
+
+.btn-secondary {
+	background-color: var(--secondary);
+	color: white;
+}
+
+.btn-secondary:hover {
+	background-color: #a94949;
+}
+
+.btn-accent {
+	background-color: var(--accent);
+	color: white;
+}
+
+.btn-accent:hover {
+	background-color: #7b3f3f;
+}
+
+.btn-outline {
+	background-color: transparent;
+	border: 1px solid var(--secondary);
+	color: var(--secondary);
+}
+
+.btn-outline:hover {
+	background-color: rgba(189, 86, 86, 0.1);
+}
+
+.btn-text {
+	background-color: transparent;
+	color: var(--secondary);
+	box-shadow: none;
+	padding: 6px 10px;
+}
+
+.btn-text:hover {
+	background-color: rgba(189, 86, 86, 0.1);
+}
