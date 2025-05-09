@@ -32,7 +32,7 @@ class Button
   public static function includeCSS()
   {
     if (!self::$cssIncluded) {
-      echo '<link rel="stylesheet" href="components/button/css/button.css">';
+      echo '<link rel="stylesheet" href="/components/button/css/button.css">';
       self::$cssIncluded = true;
     }
   }

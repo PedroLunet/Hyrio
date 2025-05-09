@@ -14,7 +14,7 @@ class Card
   public static function includeCSS()
   {
     if (!self::$cssIncluded) {
-      echo '<link rel="stylesheet" href="components/card/css/card.css">';
+      echo '<link rel="stylesheet" href="/components/card/css/card.css">';
       self::$cssIncluded = true;
     }
   }

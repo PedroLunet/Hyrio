@@ -14,7 +14,7 @@ class Navbar
   public static function includeCSS()
   {
     if (!self::$cssIncluded) {
-      echo '<link rel="stylesheet" href="components/navbar/css/navbar.css">';
+      echo '<link rel="stylesheet" href="/components/navbar/css/navbar.css">';
       self::$cssIncluded = true;
     }
   }
@@ -38,12 +38,14 @@ class Navbar
     ?>
     <header id="menu-header">
       <div class="nav-left">
-        <img src="assets/logo.png" alt="Logo">
+        <a href="/">
+          <img src="/assets/logo.png" alt="Logo">
+        </a>
       </div>
       <div class="nav-right">
         <?php
         // Using the Button component with primary variant for consistency
-        Button::start(['variant' => 'primary', 'onClick' => "console.log('hello')"]);
+        Button::start(['variant' => 'primary', 'onClick' => "window.location.href='/pages/login.php'"]);
         echo '<span>Login</span>';
         Button::end();
         ?>
