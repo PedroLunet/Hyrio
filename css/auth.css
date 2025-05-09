@@ -1,0 +1,14 @@
+.login-form {
+    background-color: #e6e6e6;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 1px 8px 0 var(--shadow);
+    width: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-item {
+    margin: 1%;
+}
