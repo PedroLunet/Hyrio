@@ -12,11 +12,16 @@ $error = null;
 if (empty($name) || empty($email) || empty($password)) {
     $error = "All fields are required";
 } else {
-    $success = User::createUser($name, $email, $password);
-    if ($success) {
-        header('Location: /');
+    $user = User::createUser($name, $email, $password);
+    if ($user) {
+        header('Location: /pages/login.php');
         exit;
     } else {
         $error = "Registration failed. Please try again.";
     }
+}
+
+if ($error) {
+    header('Location: /pages/register.php?error=' . urlencode($error));
+    exit;
 }

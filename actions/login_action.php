@@ -21,3 +21,8 @@ if (empty($email) || empty($password)) {
         $error = "Invalid email or password";
     }
 }
+
+if ($error) {
+    header('Location: /pages/login.php?error=' . urlencode($error));
+    exit;
+}

@@ -1,9 +1,14 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../includes/auth.php');
+
+if (Auth::getInstance()->getUser()) {
+    header('Location: /');
+    exit();
+}
 
 head();
 
@@ -15,6 +20,12 @@ drawHeader();
 <main>
     <form class="register-form" action="/actions/register_action.php" method="POST">
         <h1>Welcome!</h1>
+
+        <?php if (isset($_GET['error'])): ?>
+            <div class="error-message">
+                <?php echo htmlspecialchars($_GET['error']); ?>
+            </div>
+        <?php endif; ?>
 
         <input class="form-item" type="text" name="name" placeholder="Name" required>
         <input class="form-item" type="email" name="email" placeholder="Email" required>
