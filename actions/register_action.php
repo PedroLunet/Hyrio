@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../database/classes/user.php');
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $name = $_POST['name'] ?? '';
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -22,6 +26,7 @@ if (empty($name) || empty($email) || empty($password)) {
 }
 
 if ($error) {
-    header('Location: /pages/register.php?error=' . urlencode($error));
+    $_SESSION['register_error'] = $error;
+    header('Location: /pages/register.php');
     exit;
 }

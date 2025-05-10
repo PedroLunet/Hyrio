@@ -21,9 +21,12 @@ drawHeader();
     <form class="login-form" action="/actions/login_action.php" method="POST">
         <h1>Welcome back!</h1>
 
-        <?php if (isset($_GET['error'])): ?>
+        <?php if (isset($_SESSION['login_error'])): ?>
             <div class="error-message">
-                <?php echo htmlspecialchars($_GET['error']); ?>
+                <?php
+                echo htmlspecialchars($_SESSION['login_error']);
+                unset($_SESSION['login_error']);
+                ?>
             </div>
         <?php endif; ?>
 

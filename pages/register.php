@@ -5,6 +5,10 @@ declare(strict_types=1);
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 if (Auth::getInstance()->getUser()) {
     header('Location: /');
     exit();
@@ -21,9 +25,12 @@ drawHeader();
     <form class="register-form" action="/actions/register_action.php" method="POST">
         <h1>Welcome!</h1>
 
-        <?php if (isset($_GET['error'])): ?>
+        <?php if (isset($_SESSION['register_error'])): ?>
             <div class="error-message">
-                <?php echo htmlspecialchars($_GET['error']); ?>
+                <?php
+                echo htmlspecialchars($_SESSION['register_error']);
+                unset($_SESSION['register_error']);
+                ?>
             </div>
         <?php endif; ?>
 
