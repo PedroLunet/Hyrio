@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/../../includes/database.php');
+
 class Categories
 {
   /**
@@ -10,7 +12,7 @@ class Categories
   public static function getCategories(): array
   {
     try {
-      $db = getDatabaseConnection();
+      $db = Database::getInstance();
       $stmt = $db->prepare('SELECT * FROM categories ORDER BY name');
       $stmt->execute();
       return $stmt->fetchAll();
@@ -28,7 +30,7 @@ class Categories
   public static function getCategoryById(int $categoryId): ?array
   {
     try {
-      $db = getDatabaseConnection();
+      $db = Database::getInstance();
       $stmt = $db->prepare('SELECT * FROM categories WHERE id = ?');
       $stmt->execute([$categoryId]);
       $result = $stmt->fetch();

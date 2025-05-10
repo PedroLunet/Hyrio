@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Navbar Component
  * 
@@ -29,13 +32,13 @@ class Navbar
   {
     self::includeCSS();
 
-    // Include the button component for login button
+
     require_once(__DIR__ . '/../button/button.php');
-    // Include the categories component for the dropdown
     require_once(__DIR__ . '/../categories/categories.php');
+    require_once(__DIR__ . '/../../includes/auth.php');
 
     $categories = Categories::getCategories();
-    ?>
+?>
     <header id="menu-header">
       <div class="nav-left">
         <a href="/">
@@ -44,14 +47,22 @@ class Navbar
       </div>
       <div class="nav-right">
         <?php
-        // Using the Button component with primary variant for consistency
-        Button::start(['variant' => 'primary', 'onClick' => "window.location.href='/pages/login.php'"]);
-        echo '<span>Login</span>';
-        Button::end();
+        if (Auth::getInstance()->getUser()) {
+          $userData = Auth::getInstance()->getUser();
+          $userName = isset($userData['name']) ? $userData['name'] : 'User';
+          echo '<span class="user-name">' . htmlspecialchars($userName) . '</span>';
+          Button::start(['variant' => 'primary', 'onClick' => "window.location.href='/actions/logout_action.php'"]);
+          echo '<span>Logout</span>';
+          Button::end();
+        } else {
+          Button::start(['variant' => 'primary', 'onClick' => "window.location.href='/pages/login.php'"]);
+          echo '<span>Login</span>';
+          Button::end();
+        }
         ?>
       </div>
     </header>
-    <?php
+<?php
   }
 }
 ?>
