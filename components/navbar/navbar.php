@@ -47,9 +47,9 @@ class Navbar
       </div>
       <div class="nav-right">
         <?php
-        if (Auth::getInstance()->getUser()) {
-          $userData = Auth::getInstance()->getUser();
-          $userName = isset($userData['name']) ? $userData['name'] : 'User';
+        $user = Auth::getInstance()->getUser();
+        if ($user) {
+          $userName = isset($user['name']) ? $user['name'] : 'User';
           echo '<span class="user-name">' . htmlspecialchars($userName) . '</span>';
           Button::start(['variant' => 'primary', 'onClick' => "window.location.href='/actions/logout_action.php'"]);
           echo '<span>Logout</span>';
