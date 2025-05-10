@@ -24,7 +24,7 @@ class User
         $this->bio = $bio;
     }
 
-    public static function createUser($name, $email, $password, $role = 'user', $profilePic = 'database/assets/userProfilePic.jpg', $bio = '')
+    public static function createUser(string $name, string $email, string $password, string $role = 'user', string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
     {
         try {
             $db = Database::getInstance();
