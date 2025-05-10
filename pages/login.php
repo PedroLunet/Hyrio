@@ -31,7 +31,12 @@ drawHeader();
         <?php endif; ?>
 
         <input class="form-item" type="email" name="email" placeholder="Email" value="<?php echo isset($_SESSION['login_form_data']['email']) ? htmlspecialchars($_SESSION['login_form_data']['email']) : ''; ?>" required>
-        <input class="form-item" type="password" name="password" placeholder="Password" required>
+
+        <div class="password-container">
+            <input class="form-item" type="password" name="password" placeholder="Password" required>
+            <button type="button" class="password-toggle" title="Show password">👁️‍🗨️</button>
+        </div>
+
         <input class="form-item" type="submit" value="Login">
         <p>Don't have an account? <a href="/pages/register.php">Register</a></p>
     </form>
@@ -44,5 +49,6 @@ drawFooter();
 if (isset($_SESSION['login_form_data'])) {
     unset($_SESSION['login_form_data']);
 }
-
 ?>
+
+<script src="/js/password-toggle.js"></script>

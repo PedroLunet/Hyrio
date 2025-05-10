@@ -47,6 +47,36 @@ p a {
     outline: 1px solid var(--primary);
 }
 
+.password-container {
+    position: relative;
+    margin: 1%;
+}
+
+.password-container input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    color: #666;
+    background: none;
+    border: none;
+    padding: 2px 0 0 0;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: var(--primary);
+}
+
 .error-message {
     background-color: transparent;
     color: #cc0000;
