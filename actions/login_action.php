@@ -28,6 +28,9 @@ if (empty($email) || empty($password)) {
 
 if ($error) {
     $_SESSION['login_error'] = $error;
+    $_SESSION['login_form_data'] = [
+        'email' => $email
+    ];
     header('Location: /pages/login.php');
     exit;
 }

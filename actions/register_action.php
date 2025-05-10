@@ -30,6 +30,10 @@ if (empty($name) || empty($email) || empty($password)) {
 
 if ($error) {
     $_SESSION['register_error'] = $error;
+    $_SESSION['register_form_data'] = [
+        'name' => $name,
+        'email' => $email
+    ];
     header('Location: /pages/register.php');
     exit;
 }

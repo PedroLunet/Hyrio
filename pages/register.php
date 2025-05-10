@@ -34,8 +34,8 @@ drawHeader();
             </div>
         <?php endif; ?>
 
-        <input class="form-item" type="text" name="name" placeholder="Name" required>
-        <input class="form-item" type="email" name="email" placeholder="Email" required>
+        <input class="form-item" type="text" name="name" placeholder="Name" value="<?php echo isset($_SESSION['register_form_data']['name']) ? htmlspecialchars($_SESSION['register_form_data']['name']) : ''; ?>" required>
+        <input class="form-item" type="email" name="email" placeholder="Email" value="<?php echo isset($_SESSION['register_form_data']['email']) ? htmlspecialchars($_SESSION['register_form_data']['email']) : ''; ?>" required>
         <input class="form-item" type="password" name="password" placeholder="Password" required>
         <input class="form-item" type="password" name="confirm_password" placeholder="Confirm Password" required>
         <input class="form-item" type="submit" value="Register">
@@ -46,5 +46,9 @@ drawHeader();
 <?php
 
 drawFooter();
+
+if (isset($_SESSION['register_form_data'])) {
+    unset($_SESSION['register_form_data']);
+}
 
 ?>

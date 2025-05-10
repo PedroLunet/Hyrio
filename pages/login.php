@@ -1,6 +1,6 @@
 <?php
 
-declare( strict_types=1 );
+declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../includes/auth.php');
@@ -30,7 +30,7 @@ drawHeader();
             </div>
         <?php endif; ?>
 
-        <input class="form-item" type="email" name="email" placeholder="Email" required>
+        <input class="form-item" type="email" name="email" placeholder="Email" value="<?php echo isset($_SESSION['login_form_data']['email']) ? htmlspecialchars($_SESSION['login_form_data']['email']) : ''; ?>" required>
         <input class="form-item" type="password" name="password" placeholder="Password" required>
         <input class="form-item" type="submit" value="Login">
         <p>Don't have an account? <a href="/pages/register.php">Register</a></p>
@@ -40,5 +40,9 @@ drawHeader();
 <?php
 
 drawFooter();
+
+if (isset($_SESSION['login_form_data'])) {
+    unset($_SESSION['login_form_data']);
+}
 
 ?>
