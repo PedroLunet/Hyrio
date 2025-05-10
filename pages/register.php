@@ -7,18 +7,20 @@ require_once(__DIR__ . '/../includes/auth.php');
 
 $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['name'] ?? '';
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     
-    if (empty($email) || empty($password)) {
+    if (empty($name) || empty($email) || empty($password)) {
         $error = "All fields are required";
     } else {
-        $success = attemptLogin($email, $password);
+        $success = registerUser($name, $email, $password);
         if ($success) {
             header('Location: /');
+            attemptLogin($email, $password);
             exit;
         } else {
-            $error = "Invalid email or password";
+            $error = "Email already registered";
         }
     }
 }
@@ -31,17 +33,17 @@ drawHeader();
 ?>
 
 <main>
-    <form class="login-form" action="" method="POST">
-        <h1>Welcome back!</h1>
+    <form class="register-form" action="" method="POST">
+        <h1>Welcome!</h1>
 
         <?php if ($error): ?>
             <div class="error-message"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
-
+        <input class="form-item" type="text" name="name" placeholder="Name" required>
         <input class="form-item" type="email" name="email" placeholder="Email" required>
         <input class="form-item" type="password" name="password" placeholder="Password" required>
-        <input class="form-item" type="submit" value="Login">
-        <p>Don't have an account? <a href="/pages/register.php">Register</a></p>
+        <input class="form-item" type="submit" value="Register">
+        <p>Already have an account? <a href="/pages/login.php">Login</a></p>
     </form>
 </main>
 
