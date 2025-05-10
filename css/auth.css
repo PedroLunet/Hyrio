@@ -58,6 +58,10 @@ p a {
     margin: 0;
 }
 
+.password-container input:focus {
+    outline: 1px solid var(--primary);
+}
+
 .password-toggle {
     position: absolute;
     right: 10px;
