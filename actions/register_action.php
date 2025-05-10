@@ -11,10 +11,13 @@ if (session_status() == PHP_SESSION_NONE) {
 $name = $_POST['name'] ?? '';
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
+$confirm_password = $_POST['confirm_password'] ?? '';
 $error = null;
 
 if (empty($name) || empty($email) || empty($password)) {
     $error = "All fields are required";
+} else if ($password !== $confirm_password) {
+    $error = "Passwords don't match";
 } else {
     $user = User::createUser($name, $email, $password);
     if ($user) {

@@ -37,6 +37,7 @@ drawHeader();
         <input class="form-item" type="text" name="name" placeholder="Name" required>
         <input class="form-item" type="email" name="email" placeholder="Email" required>
         <input class="form-item" type="password" name="password" placeholder="Password" required>
+        <input class="form-item" type="password" name="confirm_password" placeholder="Confirm Password" required>
         <input class="form-item" type="submit" value="Register">
         <p>Already have an account? <a href="/pages/login.php">Login</a></p>
     </form>
