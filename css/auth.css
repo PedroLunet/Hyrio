@@ -4,14 +4,46 @@
     padding: 16px;
     border-radius: 16px;
     box-shadow: 0 1px 8px 0 var(--shadow);
-    width: 300px;
-    margin: auto;
+    width: 30%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease-in-out;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    margin-top: 8px;
+}
+
+p {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+p a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .form-item {
     margin: 1%;
+    padding: 8px;
+    border: 1px solid silver;
+    border-radius: 8px;
+    outline: none;
+}
+
+.form-item:focus:not(:last-of-type) {
+    outline: 1px solid var(--primary);
 }
 
 .error-message {
@@ -22,4 +54,11 @@
     margin-bottom: 15px;
     text-align: center;
     font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .login-form,
+    .register-form {
+        width: 85%;
+    }
 }
