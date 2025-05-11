@@ -9,27 +9,29 @@ class User
 {
     private int $id;
     private string $name;
+    private string $username;
     private string $email;
     private string $role;
     private string $profilePic;
     private string $bio;
 
-    public function __construct(int $id, string $name, string $email, string $role, string $profilePic, string $bio)
+    public function __construct(int $id, string $name, string $username, string $email, string $role, string $profilePic, string $bio)
     {
         $this->id = $id;
         $this->name = $name;
+        $this->username = $username;
         $this->email = $email;
         $this->role = $role;
         $this->profilePic = $profilePic;
         $this->bio = $bio;
     }
 
-    public static function createUser(string $name, string $email, string $password, string $role = 'user', string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
+    public static function createUser(string $name, string $username, string $email, string $password, string $role = 'user', string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('INSERT INTO users (name, email, password, role, profile_pic, bio) VALUES (?, ?, ?, ?, ?, ?)');
-            $stmt->execute([$name, $email, password_hash($password, PASSWORD_DEFAULT), $role, $profilePic, $bio]);
+            $stmt = $db->prepare('INSERT INTO users (name, username, email, password, role, profile_pic, bio) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([$name, $username, $email, password_hash($password, PASSWORD_DEFAULT), $role, $profilePic, $bio]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -62,6 +64,11 @@ class User
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
     }
 
     public function getEmail(): string
