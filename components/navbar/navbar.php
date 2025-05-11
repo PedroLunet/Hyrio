@@ -51,6 +51,7 @@ class Navbar
         if ($user) {
           $userName = isset($user['name']) ? $user['name'] : 'User';
           echo '<span class="user-name">' . htmlspecialchars($userName) . '</span>';
+          echo '<img class="user-profile-pic" src="' . htmlspecialchars($user['profile_pic']) . '" alt="Profile Picture">';
           Button::start(['variant' => 'primary', 'onClick' => "window.location.href='/actions/logout_action.php'"]);
           echo '<span>Logout</span>';
           Button::end();

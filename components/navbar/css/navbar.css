@@ -58,6 +58,10 @@
 	/* Space between dropdown and login button */
 }
 
+.user-profile-pic {
+	border-radius: 50%;
+}
+
 /* Categories dropdown styling */
 .categories-dropdown {
 	position: relative;
