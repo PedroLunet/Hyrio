@@ -4,6 +4,7 @@ INSERT
     OR IGNORE INTO users (
         id,
         name,
+        username,
         password,
         email,
         role,
@@ -14,6 +15,7 @@ VALUES (
         1,
         'Admin',
         'admin',
+        'admin',
         'admin@example.com',
         'admin',
         'database/assets/adminProfilePic.jpg',
@@ -22,6 +24,7 @@ VALUES (
     (
         2,
         'John Doe',
+        'john_doe',
         'hashed_password2',
         'john@example.com',
         'user',
@@ -31,6 +34,7 @@ VALUES (
     (
         3,
         'Jane Smith',
+        'jane_smith',
         'hashed_password3',
         'jane@example.com',
         'freelancer',
@@ -40,6 +44,7 @@ VALUES (
     (
         4,
         'Alice Johnson',
+        'alice_johnson',
         'hashed_password4',
         'alice@example.com',
         'freelancer',
@@ -49,6 +54,7 @@ VALUES (
     (
         5,
         'Bob Brown',
+        'bob_brown',
         'hashed_password5',
         'bob@example.com',
         'freelancer',
@@ -58,6 +64,7 @@ VALUES (
     (
         6,
         'Charlie Davis',
+        'charlie_davis',
         'hashed_password6',
         'charlie@example.com',
         'freelancer',
@@ -67,6 +74,7 @@ VALUES (
     (
         7,
         'Diana Evans',
+        'diana_evans',
         'hashed_password7',
         'diana@example.com',
         'freelancer',
@@ -76,6 +84,7 @@ VALUES (
     (
         8,
         'Ethan Foster',
+        'ethan_foster',
         'hashed_password8',
         'ethan@example.com',
         'freelancer',
@@ -85,6 +94,7 @@ VALUES (
     (
         9,
         'Fiona Green',
+        'fiona_green',
         'hashed_password9',
         'fiona@example.com',
         'freelancer',
@@ -94,6 +104,7 @@ VALUES (
     (
         10,
         'George Harris',
+        'george_harris',
         'hashed_password10',
         'george@example.com',
         'freelancer',
@@ -103,6 +114,7 @@ VALUES (
     (
         11,
         'Hannah White',
+        'hannah_white',
         'hashed_password11',
         'hannah@example.com',
         'freelancer',
@@ -112,6 +124,7 @@ VALUES (
     (
         12,
         'Ian King',
+        'ian_king',
         'hashed_password12',
         'ian@example.com',
         'freelancer',
@@ -121,6 +134,7 @@ VALUES (
     (
         13,
         'Julia Lee',
+        'julia_lee',
         'hashed_password13',
         'julia@example.com',
         'freelancer',

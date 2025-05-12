@@ -35,6 +35,7 @@ drawHeader();
         <?php endif; ?>
 
         <input class="form-item" type="text" name="name" placeholder="Name" value="<?php echo isset($_SESSION['register_form_data']['name']) ? htmlspecialchars($_SESSION['register_form_data']['name']) : ''; ?>" required>
+        <input class="form-item" type="text" name="username" placeholder="Username" value="<?php echo isset($_SESSION['register_form_data']['username']) ? htmlspecialchars($_SESSION['register_form_data']['username']) : ''; ?>" required>
         <input class="form-item" type="email" name="email" placeholder="Email" value="<?php echo isset($_SESSION['register_form_data']['email']) ? htmlspecialchars($_SESSION['register_form_data']['email']) : ''; ?>" required>
 
         <div class="password-container">
