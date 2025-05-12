@@ -32,25 +32,30 @@ class Card
     // Include the button component for price button
     require_once(__DIR__ . '/../button/button.php');
 
+    // Generate service ID for the link
+    $serviceId = isset($service['id']) ? (int)$service['id'] : 0;
+    
     ?>
-    <div class="card" id="container">
-      <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/placeholder.png' ?>"
-        alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
-      <div id="label">
-        <div id="titles">
-          <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
-          <p><?= isset($service['seller_name']) ? htmlspecialchars($service['seller_name']) : 'bald man' ?></p>
-        </div>
-        <?php
-        Button::start(['variant' => 'primary', 'class' => 'price-button']);
-        if (isset($service['price'])) {
-          ButtonIcon::render('ph-bold ph-currency-eur');
-        }
-        echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
-        Button::end();
-        ?>
+    <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
+      <div class="card" id="container">
+        <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/placeholder.png' ?>"
+          alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
+        <div id="label">
+          <div id="titles">
+            <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
+            <p><?= isset($service['seller_name']) ? htmlspecialchars($service['seller_name']) : 'bald man' ?></p>
+          </div>
+          <?php
+          Button::start(['variant' => 'primary', 'class' => 'price-button']);
+          if (isset($service['price'])) {
+            ButtonIcon::render('ph-bold ph-currency-eur');
+          }
+          echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
+          Button::end();
+          ?>
       </div>
     </div>
+    </a>
     <?php
   }
 

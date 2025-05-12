@@ -96,6 +96,23 @@
 	}
 }
 
+/* Card link styles */
+.card-link {
+	text-decoration: none;
+	color: inherit;
+	display: block;
+	transition: transform 0.2s ease;
+}
+
+.card-link:hover {
+	transform: translateY(-4px);
+}
+
+.card-link:focus {
+	outline: 2px solid var(--primary);
+	border-radius: 24px;
+}
+
 .card img {
 	display: block;
 	border-radius: 24px;
