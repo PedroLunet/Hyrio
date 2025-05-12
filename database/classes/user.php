@@ -56,6 +56,24 @@ class User
         }
     }
 
+    public static function getUserByUsername(string $username): ?User
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT * FROM users WHERE username = ?');
+            $stmt->execute([$username]);
+            $user = $stmt->fetch();
+
+            if ($user) {
+                return new User($user['id'], $user['name'], $user['username'], $user['email'], $user['role'], $user['profile_pic'], $user['bio']);
+            }
+
+            return null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
     public function getId(): int
     {
         return $this->id;
