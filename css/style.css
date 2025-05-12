@@ -125,7 +125,7 @@ main {
 	width: 90%;
 	max-width: 1200px;
 	margin: 20px auto;
-	padding: 15px 24px;
+	padding: 16px 16px;
 	box-sizing: border-box;
 	overflow-x: hidden;
 	flex: 1 0 auto;
