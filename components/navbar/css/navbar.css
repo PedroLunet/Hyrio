@@ -3,7 +3,8 @@
 	width: 90%;
 	background-color: #e6e6e6;
 	color: var(--text);
-	padding: 15px 24px; /* Horizontal padding only */
+	padding: 15px 24px;
+	/* Horizontal padding only */
 	margin: 20px auto;
 	border-radius: 16px;
 	display: flex;
@@ -11,9 +12,12 @@
 	align-items: center;
 	box-shadow: 0 1px 8px 0 var(--shadow);
 	transition: all 0.3s ease-in-out;
-	overflow: visible; /* Allow dropdowns to be visible outside */
-	height: 70px; /* Increased height */
-	box-sizing: border-box; /* Include padding in height calculation */
+	overflow: visible;
+	/* Allow dropdowns to be visible outside */
+	height: 70px;
+	/* Increased height */
+	box-sizing: border-box;
+	/* Include padding in height calculation */
 }
 
 #menu-header h1 {
@@ -22,9 +26,18 @@
 	font-weight: 600;
 }
 
+/* Style for the logo link */
+#menu-header .nav-left a {
+	display: flex;
+	height: 100%;
+	align-items: center;
+}
+
 #menu-header img {
-	height: 100%; /* Increased logo size to match taller navbar */
-	width: auto; /* Maintain aspect ratio */
+	height: 100%;
+	/* Increased logo size to match taller navbar */
+	width: auto;
+	/* Maintain aspect ratio */
 }
 
 .nav-left,
@@ -36,11 +49,37 @@
 
 .nav-left {
 	gap: 20px;
-	flex-shrink: 0; /* Prevent the nav-left from shrinking too much */
+	flex-shrink: 0;
+	/* Prevent the nav-left from shrinking too much */
 }
 
 .nav-right {
-	gap: 15px; /* Space between dropdown and login button */
+	gap: 15px;
+	/* Space between dropdown and login button */
+}
+
+/* User profile styling */
+.user-profile {
+	height: 100%;
+	max-height: 40px;
+	display: flex;
+	align-items: center;
+	margin-right: 5px;
+}
+
+.profile-pic {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid var(--primary);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s ease;
+}
+
+.profile-pic:hover {
+	transform: scale(1.05);
+	cursor: pointer;
 }
 
 /* Categories dropdown styling */
@@ -52,7 +91,8 @@
 .dropdown-btn {
 	background-color: #fff;
 	color: #333;
-	padding: 6px 12px; /* Smaller padding */
+	padding: 6px 12px;
+	/* Smaller padding */
 	border: 1px solid #e0e0e0;
 	border-radius: 8px;
 	cursor: pointer;
@@ -61,7 +101,8 @@
 	gap: 8px;
 	font-size: 0.9rem;
 	transition: all 0.2s ease;
-	max-width: 180px; /* Increased maximum width */
+	max-width: 180px;
+	/* Increased maximum width */
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -74,7 +115,8 @@
 .dropdown-icon {
 	font-size: 0.7rem;
 	transition: transform 0.2s ease;
-	flex-shrink: 0; /* Don't let the icon shrink */
+	flex-shrink: 0;
+	/* Don't let the icon shrink */
 }
 
 .categories-dropdown:hover .dropdown-icon {
@@ -89,13 +131,17 @@
 	background-color: white;
 	border-radius: 8px;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	z-index: 100; /* Ensure dropdown appears above other elements */
+	z-index: 100;
+	/* Ensure dropdown appears above other elements */
 	overflow: hidden;
 	max-height: 300px;
 	overflow-y: auto;
-	right: 0; /* Align to the right side of the dropdown button */
-	top: calc(100% - 3px); /* Position closer to the button */
-	margin-top: 0; /* Remove margin gap */
+	right: 0;
+	/* Align to the right side of the dropdown button */
+	top: calc(100% - 3px);
+	/* Position closer to the button */
+	margin-top: 0;
+	/* Remove margin gap */
 	transition: opacity 0.2s, visibility 0.2s;
 	opacity: 0;
 	visibility: hidden;
@@ -119,11 +165,13 @@
 .categories-dropdown::after {
 	content: '';
 	position: absolute;
-	height: 5px; /* Minimal hover area height */
+	height: 5px;
+	/* Minimal hover area height */
 	width: 100%;
 	bottom: -5px;
 	left: 0;
-	pointer-events: none; /* Disable pointer events for a cleaner approach */
+	pointer-events: none;
+	/* Disable pointer events for a cleaner approach */
 }
 
 /* Use a better approach for dropdown visibility */
@@ -152,49 +200,172 @@
 	border-color: var(--primary);
 }
 
+/* Profile dropdown styling */
+.profile-dropdown {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	height: 100%;
+}
+
+/* Hide the checkbox */
+.profile-dropdown-toggle {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+/* Profile dropdown button styling */
+.profile-dropdown-btn {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	cursor: pointer;
+	user-select: none;
+}
+
+/* Profile dropdown menu */
+.profile-dropdown-menu {
+	display: none;
+	position: absolute;
+	top: calc(100% + 8px);
+	right: 0;
+	width: 200px;
+	background-color: white;
+	border-radius: 12px;
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+	padding: 10px;
+	z-index: 1050;
+	box-sizing: border-box;
+}
+
+/* The CSS-only magic: when checkbox is checked, show the dropdown */
+.profile-dropdown-toggle:checked ~ .profile-dropdown-menu {
+	display: block;
+}
+
+/* User name in dropdown */
+.profile-dropdown-menu .user-name {
+	padding: 12px 16px;
+	font-weight: 600;
+	color: #2c3e50;
+	border-bottom: 1px solid #f0f0f0;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+/* Dropdown items */
+.profile-dropdown-menu .dropdown-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 16px;
+	margin-bottom: 5px;
+	border-radius: 8px;
+	color: #2c3e50;
+	text-decoration: none;
+	font-size: 0.95rem;
+	transition: all 0.2s ease;
+	background-color: #f8f9fa;
+}
+
+.profile-dropdown-menu .dropdown-item:last-child {
+	margin-bottom: 0;
+}
+
+.profile-dropdown-menu .dropdown-item:hover {
+	background-color: #fff0e0;
+	transform: translateX(3px);
+}
+
+/* Logout item special styling */
+.profile-dropdown-menu .dropdown-item:nth-child(3) {
+	background-color: #ffeeee;
+	color: #e74c3c;
+}
+
+.profile-dropdown-menu .dropdown-item:nth-child(3) i {
+	color: #e74c3c;
+}
+
+.profile-dropdown-menu .dropdown-item:nth-child(3):hover {
+	background-color: #ffd8d8;
+}
+
 /* Responsive navbar */
 @media (max-width: 768px) {
 	#menu-header {
 		width: 95%;
-		padding: 15px 16px; /* Adjust padding to keep consistent height */
-		height: 70px; /* Consistent height on mobile */
-		flex-direction: row; /* Keep in single row */
+		padding: 15px 16px;
+		/* Adjust padding to keep consistent height */
+		height: 70px;
+		/* Consistent height on mobile */
+		flex-direction: row;
+		/* Keep in single row */
 		gap: 10px;
 	}
 
 	.nav-left,
 	.nav-right {
-		width: auto; /* Let the content determine width */
+		width: auto;
+		/* Let the content determine width */
 		justify-content: space-between;
 	}
 
 	.nav-right {
-		justify-content: flex-end; /* Align items to the right */
-		flex-grow: 1; /* Take up available space */
+		justify-content: flex-end;
+		/* Align items to the right */
+		flex-grow: 1;
+		/* Take up available space */
 	}
 
 	.categories-dropdown {
 		margin-right: 10px;
-		max-width: fit-content; /* Adjust width based on content */
+		max-width: fit-content;
+		/* Adjust width based on content */
 	}
 
 	.dropdown-btn {
-		width: auto; /* Let it size based on content */
-		max-width: 120px; /* Reduced maximum width on mobile to fit in one line */
-		font-size: 0.8rem; /* Slightly smaller font on mobile */
-		padding: 5px 8px; /* Smaller padding on mobile */
+		width: auto;
+		/* Let it size based on content */
+		max-width: 120px;
+		/* Reduced maximum width on mobile to fit in one line */
+		font-size: 0.8rem;
+		/* Slightly smaller font on mobile */
+		padding: 5px 8px;
+		/* Smaller padding on mobile */
 	}
 
 	.dropdown-content {
-		width: 200px; /* Fixed width for dropdown menu */
-		right: 0; /* Keep aligned to the right */
+		width: 200px;
+		/* Fixed width for dropdown menu */
+		right: 0;
+		/* Keep aligned to the right */
 	}
 
+	.profile-dropdown-menu {
+		width: 180px;
+	}
+
+	.profile-dropdown-menu .dropdown-item {
+		font-size: 0.9rem;
+		padding: 10px 12px;
+	}
+
+	.profile-pic {
+		width: 28px;
+		height: 28px;
+	}
+
+	.user-profile {
+		max-height: 36px;
+	}
 }
 
 /* Navbar-specific button override */
 #menu-header .btn {
 	border-radius: 12px;
-	font-size: 0.9rem; /* Slightly smaller font */
-
+	font-size: 0.9rem;
+	/* Slightly smaller font */
 }

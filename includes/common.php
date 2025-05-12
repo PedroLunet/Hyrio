@@ -2,20 +2,13 @@
 
 declare(strict_types=1);
 
-// Database connection function
-function getDatabaseConnection(): PDO
-{
-    $db = new PDO('sqlite:' . __DIR__ . '/../db/site.db');
-    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $db;
-}
+require_once(__DIR__ . '/../includes/database.php');
 
 // Function to get all services from the database
 function getServices(?int $categoryId = null): array
 {
     try {
-        $db = getDatabaseConnection();
+        $db = Database::getInstance();
 
         // Base query
         $query = '
@@ -54,7 +47,7 @@ function getServices(?int $categoryId = null): array
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="/css/style.css">
         <title>Hyrio</title>
         <link rel="stylesheet" type="text/css"
             href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />

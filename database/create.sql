@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL UNIQUE,
   password TEXT NOT NULL,  -- Use bcrypt for hashing
   email VARCHAR(255) NOT NULL UNIQUE,
   role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'freelancer', 'admin')),

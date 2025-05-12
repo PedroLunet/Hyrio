@@ -1,0 +1,99 @@
+.login-form,
+.register-form {
+    background-color: #e6e6e6;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 1px 8px 0 var(--shadow);
+    width: 30%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease-in-out;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    margin-top: 8px;
+}
+
+p {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+p a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-item {
+    margin: 1%;
+    padding: 8px;
+    border: 1px solid silver;
+    border-radius: 8px;
+    outline: none;
+}
+
+.form-item:focus:not(:last-of-type) {
+    outline: 1px solid var(--primary);
+}
+
+.password-container {
+    position: relative;
+    margin: 1%;
+}
+
+.password-container input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.password-container input:focus {
+    outline: 1px solid var(--primary);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    color: #666;
+    background: none;
+    border: none;
+    padding: 2px 0 0 0;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: var(--primary);
+}
+
+.error-message {
+    background-color: transparent;
+    color: #cc0000;
+    padding: 0 0 8px 0;  
+    border-radius: 8px;
+    margin: 1%;
+    text-align: center;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .login-form,
+    .register-form {
+        width: 85%;
+    }
+}
