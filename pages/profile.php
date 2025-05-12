@@ -8,6 +8,9 @@ require_once(__DIR__ . '/../database/classes/user.php');
 $user = User::getUserByUsername((string)$_GET['username']);
 
 head();
+
+echo '<link rel="stylesheet" href="/css/profile.css">';
+
 drawHeader();
 
 ?>
@@ -18,12 +21,9 @@ drawHeader();
             <?php
             echo '<img src="/' . htmlspecialchars($user->getProfilePic()) . '" alt="Profile Picture" class="profile-picture">';
             echo '<h1>' . htmlspecialchars($user->getName()) . '</h1>';
+            echo '<p class="profile-username">@' . htmlspecialchars($user->getUsername()) . '</p>';
             ?>
         </header>
-
-        <section class="profile-info">
-
-        </section>
 
         <section class="profile-bio">
             <?php
