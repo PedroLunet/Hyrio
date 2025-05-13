@@ -10,6 +10,8 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9999;
     overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .overlay-content {
@@ -22,6 +24,9 @@
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .overlay-header {
@@ -72,4 +77,15 @@
     .overlay-body {
         padding: 15px;
     }
+}
+
+/* Added transition classes */
+.overlay.active {
+    opacity: 1;
+    display: block;
+}
+
+.overlay-content.active {
+    transform: translateY(0);
+    opacity: 1;
 }

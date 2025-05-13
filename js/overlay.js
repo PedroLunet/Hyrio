@@ -4,14 +4,26 @@ const OverlaySystem = {
         if (overlay) {
             overlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
+
+            overlay.offsetHeight;
+
+            overlay.classList.add('active');
+            const content = overlay.querySelector('.overlay-content');
+            if (content) content.classList.add('active');
         }
     },
 
     close: function (overlayId) {
         const overlay = document.getElementById(overlayId);
         if (overlay) {
-            overlay.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            overlay.classList.remove('active');
+            const content = overlay.querySelector('.overlay-content');
+            if (content) content.classList.remove('active');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
         }
     },
 
@@ -28,11 +40,11 @@ const OverlaySystem = {
 
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
-            overlays.forEach(overlay => {
-                if (overlay.style.display === 'block') {
-                OverlaySystem.close(overlay.id);
-                }
-            });
+                overlays.forEach(overlay => {
+                    if (overlay.style.display === 'block') {
+                        OverlaySystem.close(overlay.id);
+                    }
+                });
             }
         });
 
