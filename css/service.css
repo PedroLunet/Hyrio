@@ -7,57 +7,213 @@
   box-shadow: 0 2px 15px 0 var(--shadow);
   padding: 2rem;
   margin: 2rem auto;
-  max-width: 1600px;
+  max-width: 1200px;
+  position: relative;
 }
-.service-image img {
+
+.service-image {
   width: 320px;
   max-width: 100%;
+}
+
+.service-image img {
+  width: 100%;
   border-radius: 20px;
   object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  height: 320px;
 }
+
 .service-info {
   flex: 1;
-  min-width: 250px;
+  min-width: 300px;
 }
+
 .service-info h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
+  margin-right: 6rem; /* Add margin to prevent collision with the price */
   font-size: 2.2rem;
+  color: var(--text);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+  max-width: calc(100% - 6rem); /* Ensure it doesn't extend beyond the right margin */
 }
+
+.service-meta-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0 1.5rem;
+  margin-right: 6rem; /* Add margin to prevent collision with the price */
+  flex-wrap: wrap;
+}
+
 .service-info h2 {
-  margin: 0.5rem 0 1rem 0;
+  margin: 0;
   font-size: 1.2rem;
   color: var(--secondary);
 }
+
 .service-category {
-  font-weight: bold;
-  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+  background-color: #f0f4f8;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #e1e8ed;
 }
+
+.service-category i {
+  font-size: 1rem;
+}
+
 .service-description {
   margin: 1.5rem 0;
   font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 10px;
+  border-left: 4px solid var(--primary);
 }
-.service-meta {
-  margin-bottom: 1.5rem;
-  font-size: 1.1rem;
+/* Service header for price and rating */
+.service-header {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 10; /* Increased z-index to ensure it stays on top */
+  max-width: 180px; /* Limit width to prevent overlapping with content */
 }
-.service-price {
-    
+
+.service-pricing-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.8rem;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+}
+
+.service-price-button {
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: var(--primary);
-  margin-right: 1.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.service-price-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.service-price-button i {
+  font-size: 1.2rem;
+}
+
+.rating-section {
+  display: flex;
+  align-items: center;
+}
+
 .service-rating {
-  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 50px;
+  border: 1px solid #eee;
 }
+
+.service-rating i {
+  color: gold;
+  font-size: 1.2rem;
+}
+
 .seller-profile {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-top: 2rem;
-  background: #f7f7f7;
+  background: #f9f9f9;
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-right: 4rem; /* Add margin to prevent collision with the price */
+}
+
+.seller-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.seller-bio {
+  flex: 1;
+}
+
+.seller-bio strong {
+  font-size: 1.1rem;
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.service-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.contact-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contact-button i {
+  font-size: 1.2rem;
+}
+
+.service-not-found {
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 2px 15px 0 var(--shadow);
+  margin: 2rem auto;
+  max-width: 600px;
 }
 .seller-pic {
   width: 64px;
@@ -69,13 +225,88 @@
   flex: 1;
   font-size: 1rem;
 }
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
+  .service-info h1,
+  .service-meta-info,
+  .seller-profile {
+    margin-right: 0; /* Remove side margin on smaller screens */
+  }
+  
+  .service-info h1 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
   .service-details-container {
     flex-direction: column;
-    padding: 1rem;
+    padding: 1.5rem;
+    padding-top: 5rem; /* Space for price and rating at top */
   }
-  .service-image img {
+
+  .service-header {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    max-width: none; /* Allow full width on mobile */
+  }
+
+  .service-pricing-block {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
     width: 100%;
+    gap: 0.5rem;
+  }
+
+  .service-image {
+    width: 100%;
+    max-width: 100%;
     margin-bottom: 1rem;
   }
+
+  .service-image img {
+    width: 100%;
+    height: auto; 
+    max-height: 300px;
+  }
+
+  .service-info h1 {
+    font-size: 1.8rem;
+  }
+
+  .seller-profile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .seller-pic {
+    margin-bottom: 1rem;
+  }
+}
+
+.service-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.service-not-found i {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.service-not-found h2 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.service-not-found p {
+  color: #777;
+  margin-bottom: 1.5rem;
 }
