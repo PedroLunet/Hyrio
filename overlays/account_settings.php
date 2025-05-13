@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-// Include both the base overlay CSS and the account settings specific CSS
 echo '<link rel="stylesheet" href="/css/overlay.css">';
 echo '<link rel="stylesheet" href="/css/account_settings.css">';
 

@@ -1,12 +1,3 @@
-/* Specific styles for the account settings overlay */
-
-/* Account Settings specific overlay customizations */
-.account-settings-overlay .overlay-header {
-    background-color: var(--primary);
-    /* This could be different for different overlays */
-}
-
-/* Form styles */
 .settings-form fieldset {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -46,7 +37,6 @@
     box-shadow: 0 0 0 2px rgba(254, 136, 86, 0.2);
 }
 
-/* Form actions section */
 .form-actions {
     display: flex;
     justify-content: space-between;
@@ -62,7 +52,6 @@
     transition: all 0.2s ease;
 }
 
-/* Button variants for form actions */
 .primary-btn {
     background-color: var(--primary);
     color: white;
@@ -81,7 +70,6 @@
     background-color: #d0d0d0;
 }
 
-/* Responsive adjustments for the account settings form */
 @media (max-width: 768px) {
     .form-actions {
         flex-direction: column;
