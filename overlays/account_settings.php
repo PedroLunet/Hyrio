@@ -93,6 +93,24 @@ if (!$user) {
                     </div>
                 </fieldset>
 
+                <fieldset>
+                    <legend>Freelancer Settings</legend>
+
+                    <div class="form-group">
+                        <p>Do you want to sell on our website? Click here to convert your account!</p>
+                </fieldset>
+
+                <fieldset class="delete-account-fieldset">
+                    <legend>Delete Account</legend>
+
+                    <div class="form-group">
+                        <div class="warning-container">
+                            <p class="warning-text">This action is irreversible. All your data, including profile information and associated content, will be permanently deleted.</p>
+                            <button type="button" class="btn primary-btn" data-action="delete-account">Delete My Account</button>
+                        </div>
+                    </div>
+                </fieldset>
+
                 <div class="form-actions">
                     <button type="submit" class="btn primary-btn">Save Changes</button>
                     <button type="button" class="btn secondary-btn" data-action="close">Cancel</button>

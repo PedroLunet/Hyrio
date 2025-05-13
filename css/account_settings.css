@@ -41,6 +41,19 @@
     box-sizing: border-box;
 }
 
+.delete-account-fieldset {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.warning-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
 .account-settings-overlay .form-actions {
     grid-column: 1 / -1;
     margin-top: 20px;
@@ -58,14 +71,42 @@
 }
 
 .account-settings-overlay fieldset:nth-of-type(3) {
+    grid-column: 1;
+}
+
+.account-settings-overlay fieldset:nth-of-type(4) {
+    grid-column: 2;
+}
+
+.account-settings-overlay fieldset:nth-of-type(5) {
     grid-column: 1 / -1;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.account-settings-overlay .warning-text {
+    color: #721c24;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.account-settings-overlay [data-action="delete-account"] {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.account-settings-overlay [data-action="delete-account"]:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
 }
 
 @media (max-width: 768px) {
 
     .account-settings-overlay fieldset:nth-of-type(1),
     .account-settings-overlay fieldset:nth-of-type(2),
-    .account-settings-overlay fieldset:nth-of-type(3) {
+    .account-settings-overlay fieldset:nth-of-type(3),
+    .account-settings-overlay fieldset:nth-of-type(4) {
         grid-column: 1;
     }
 }
