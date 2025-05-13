@@ -1,5 +1,6 @@
 .settings-form {
     width: 100%;
+    display: contents;
 }
 
 .account-settings-overlay .overlay-header {
@@ -21,4 +22,50 @@
 
 .account-settings-overlay .close-btn:hover {
     color: #333;
+}
+
+.account-settings-overlay fieldset {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: 0 0 15px 0;
+}
+
+.account-settings-overlay .form-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.account-settings-overlay .form-group input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.account-settings-overlay .form-actions {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.account-settings-overlay fieldset:nth-of-type(1) {
+    grid-column: 1;
+}
+
+.account-settings-overlay fieldset:nth-of-type(2) {
+    grid-column: 2;
+}
+
+.account-settings-overlay fieldset:nth-of-type(3) {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+
+    .account-settings-overlay fieldset:nth-of-type(1),
+    .account-settings-overlay fieldset:nth-of-type(2),
+    .account-settings-overlay fieldset:nth-of-type(3) {
+        grid-column: 1;
+    }
 }
