@@ -13,8 +13,15 @@ $loggedInUser = Auth::getInstance()->getUser();
 head();
 
 echo '<link rel="stylesheet" href="/css/profile.css">';
+// Add the overlay JavaScript
+echo '<script src="/js/overlay.js"></script>';
 
 drawHeader();
+
+// Include the account settings overlay
+if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
+    require_once(__DIR__ . '/../overlays/account_settings.php');
+}
 
 ?>
 
@@ -28,7 +35,7 @@ drawHeader();
 
             if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 echo '<div class="profile-actions">';
-                Button::start(['variant' => 'primary', 'onClick' => "window.location.href='/pages/account_settings.php'"]);
+                Button::start(['variant' => 'primary', 'onClick' => 'OverlaySystem.open("account-settings-overlay")']);
                 echo '<span>Account Settings</span>';
                 Button::end();
                 echo '</div>';
@@ -58,7 +65,5 @@ drawHeader();
 </main>
 
 <?php
-
 drawFooter();
-
 ?>

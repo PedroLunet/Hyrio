@@ -1,0 +1,83 @@
+/* Base overlay system - reusable for any type of overlay */
+
+/* Base overlay container */
+.overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+/* Generic overlay content container */
+.overlay-content {
+    position: relative;
+    background-color: white;
+    margin: 50px auto;
+    padding: 0;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+/* Generic overlay header */
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--primary);
+    color: white;
+}
+
+.overlay-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Close button for all overlays */
+.close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Generic overlay body */
+.overlay-body {
+    padding: 20px;
+}
+
+/* Responsive adjustments for all overlays */
+@media (max-width: 768px) {
+    .overlay-content {
+        width: 90%;
+        margin: 30px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .overlay-content {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .overlay-header {
+        padding: 15px;
+    }
+
+    .overlay-body {
+        padding: 15px;
+    }
+}
