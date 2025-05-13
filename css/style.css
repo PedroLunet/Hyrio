@@ -156,7 +156,7 @@ footer {
 	/* Prevents the footer from shrinking */
 	position: relative;
 	/* Ensures it stays above content */
-	z-index: 5;
+	z-index: 2;
 	/* Lower z-index than dropdown which has 1000 */
 	background-color: var(--background);
 	/* Match page background */
