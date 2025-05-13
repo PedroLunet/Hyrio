@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 echo '<link rel="stylesheet" href="/css/overlay.css">';
+echo '<link rel="stylesheet" href="/css/forms.css">';
 echo '<link rel="stylesheet" href="/css/account_settings.css">';
 
 if (!$user) {
@@ -45,17 +46,26 @@ if (!$user) {
 
                     <div class="form-group">
                         <label for="current-password">Current Password</label>
-                        <input type="password" id="current-password" name="current_password">
+                        <div class="password-container">
+                            <input type="password" id="current-password" name="current_password">
+                            <button type="button" class="password-toggle" title="Show password"></button>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="new-password">New Password</label>
-                        <input type="password" id="new-password" name="new_password">
+                        <div class="password-container">
+                            <input type="password" id="new-password" name="new_password">
+                            <button type="button" class="password-toggle" title="Show password"></button>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="confirm-password">Confirm New Password</label>
-                        <input type="password" id="confirm-password" name="confirm_password">
+                        <div class="password-container">
+                            <input type="password" id="confirm-password" name="confirm_password">
+                            <button type="button" class="password-toggle" title="Show password"></button>
+                        </div>
                     </div>
                 </fieldset>
 
@@ -76,3 +86,5 @@ if (!$user) {
         </div>
     </div>
 </div>
+
+<script src="/js/password-toggle.js"></script>

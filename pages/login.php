@@ -30,11 +30,17 @@ drawHeader();
             </div>
         <?php endif; ?>
 
-        <input class="form-item" type="email" name="email" placeholder="Email" value="<?php echo isset($_SESSION['login_form_data']['email']) ? htmlspecialchars($_SESSION['login_form_data']['email']) : ''; ?>" required>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="<?php echo isset($_SESSION['login_form_data']['email']) ? htmlspecialchars($_SESSION['login_form_data']['email']) : ''; ?>" required>
+        </div>
 
-        <div class="password-container">
-            <input class="form-item" type="password" name="password" placeholder="Password" required>
-            <button type="button" class="password-toggle" title="Show password">👁️‍🗨️</button>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <button type="button" class="password-toggle" title="Show password"></button>
+            </div>
         </div>
 
         <input class="form-item" type="submit" value="Login">
