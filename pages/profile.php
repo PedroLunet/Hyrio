@@ -66,8 +66,8 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
         <?php
         if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<section>';
-            echo '<h2>Saved services</h2>';
-            echo '<p>You haven\'t saved any services yet. Try saving one by clicking on the favorite button in the service page.</p>';
+            echo '<h2>Favorites</h2>';
+            echo '<p>You haven\'t liked any services yet. Try saving one by clicking the favorite button in the service page.</p>';
             echo '</section>';
         }
         ?>
