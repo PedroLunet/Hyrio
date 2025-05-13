@@ -132,5 +132,25 @@ if (!$user) {
                 }
             });
         }
+
+        const deleteAccountBtn = document.querySelector('[data-action="delete-account"]');
+        if (deleteAccountBtn) {
+            deleteAccountBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/actions/delete_account_action.php';
+
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'delete_account';
+                    input.value = '1';
+                    form.appendChild(input);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
     });
 </script>

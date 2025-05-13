@@ -50,6 +50,18 @@ class User
         }
     }
 
+    public static function deleteUser(int $id)
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('DELETE FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public static function checkPassword(int $id, string $password): bool
     {
         try {
