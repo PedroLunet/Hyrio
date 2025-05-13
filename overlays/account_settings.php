@@ -26,6 +26,11 @@ if (!$user) {
                     <legend>Personal Information</legend>
 
                     <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user->getName()); ?>" required>
+                    </div>
+
+                    <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user->getUsername()); ?>" required>
                     </div>
