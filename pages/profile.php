@@ -21,6 +21,16 @@ drawHeader();
 // Include the account settings overlay
 if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
     require_once(__DIR__ . '/../overlays/account_settings.php');
+
+    if (isset($_SESSION['show_account_settings']) && $_SESSION['show_account_settings'] === true) {
+        unset($_SESSION['show_account_settings']);
+
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                OverlaySystem.open("account-settings-overlay");
+            });
+        </script>';
+    }
 }
 
 ?>

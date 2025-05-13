@@ -22,6 +22,16 @@ if (!$user) {
 
         <div class="overlay-body">
             <form action="/actions/update_account_action.php" method="post" class="settings-form" enctype="multipart/form-data">
+
+                <?php if (isset($_SESSION['update_account_settings_error'])): ?>
+                    <div class="error-message" id="account-settings-error">
+                        <?php
+                        echo htmlspecialchars($_SESSION['update_account_settings_error']);
+                        unset($_SESSION['update_account_settings_error']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+
                 <fieldset>
                     <legend>Personal Information</legend>
 
@@ -93,3 +103,16 @@ if (!$user) {
 </div>
 
 <script src="/js/password-toggle.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const accountSettingsBtn = document.querySelector('[onClick="OverlaySystem.open(\'account-settings-overlay\')"]');
+        if (accountSettingsBtn) {
+            accountSettingsBtn.addEventListener('click', function() {
+                const errorMessage = document.getElementById('account-settings-error');
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>

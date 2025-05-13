@@ -20,6 +20,12 @@ const OverlaySystem = {
             const content = overlay.querySelector('.overlay-content');
             if (content) content.classList.remove('active');
 
+            // Clear any error messages when the overlay is closed
+            const errorMessages = overlay.querySelectorAll('.error-message');
+            errorMessages.forEach(errorMsg => {
+                errorMsg.style.display = 'none';
+            });
+
             setTimeout(() => {
                 overlay.style.display = 'none';
                 document.body.style.overflow = 'auto';

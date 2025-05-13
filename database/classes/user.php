@@ -38,6 +38,48 @@ class User
         }
     }
 
+    public static function updateUser(int $id, string $name, string $username, string $email, string $bio, string $profilePic)
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET name = ?, username = ?, email = ?, bio = ?, profile_pic = ? WHERE id = ?');
+            $stmt->execute([$name, $username, $email, $bio, $profilePic, $id]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function checkPassword(int $id, string $password): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT password FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            $user = $stmt->fetch();
+
+            if ($user && password_verify($password, $user['password'])) {
+                return true;
+            }
+
+            return false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function updatePassword(int $id, string $newPassword)
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET password = ? WHERE id = ?');
+            $stmt->execute([password_hash($newPassword, PASSWORD_DEFAULT), $id]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public static function loginUser($email, $password)
     {
         try {
