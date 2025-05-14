@@ -120,8 +120,8 @@ body {
 
 /* Basic layout styles */
 main {
-	width: 100%;
-	max-width: 1200px;
+	width: 85%;
+
 	margin: 0 auto;
 	padding: 15px;
 	box-sizing: border-box;
