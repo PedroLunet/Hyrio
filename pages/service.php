@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../components/button/button.php');
 head();
 
 echo '<link rel="stylesheet" href="/css/service.css">';
+echo '<script src="/js/favorite.js" defer></script>';
 
 // Get service ID from query
 $serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -43,21 +44,37 @@ drawHeader();
         <div class="service-pricing-block">
           <?php if (isset($service['rating'])): ?>
             <div class="rating-section">
-              <span class="service-rating">
-                <i class="ph-bold ph-star-fill"></i>
-                <?= number_format($service['rating'], 1) ?>/5
-              </span>
+              <div class="stars-container">
+                <?php 
+                  $rating = floatval($service['rating']);
+                  for ($i = 1; $i <= 5; $i++) {
+                    if ($i <= $rating) {
+                      echo '<i class="ph-fill ph-star star-filled"></i>';
+                    } elseif ($i - 0.5 <= $rating) {
+                      echo '<i class="ph-fill ph-star-half star-half"></i>';
+                    } else {
+                      echo '<i class="ph-bold ph-star star-empty"></i>';
+                    }
+                  }
+                ?>
+                <span class="rating-value"><?= number_format($rating, 1) ?></span>
+              </div>
             </div>
           <?php endif; ?>
-          <div class="price-section">
-            <?php
-              Button::start(['variant' => 'primary', 'class' => 'service-price-button']);
-              if (isset($service['price'])) {
-                ButtonIcon::render('ph-bold ph-currency-eur');
-              }
-              echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
-              Button::end();
-            ?>
+          <div class="favorite-price-container">
+            <button class="favorite-button" id="favoriteBtn" aria-label="Add to favorites">
+              <i class="ph-bold ph-heart"></i>
+            </button>
+            <div class="price-section">
+              <?php
+                Button::start(['variant' => 'primary', 'class' => 'service-price-button']);
+                if (isset($service['price'])) {
+                  ButtonIcon::render('ph-bold ph-currency-eur');
+                }
+                echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
+                Button::end();
+              ?>
+            </div>
           </div>
         </div>
       </div>
