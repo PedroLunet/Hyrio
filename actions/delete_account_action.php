@@ -38,6 +38,7 @@ if (isset($_POST['delete_account'])) {
 
 if ($error) {
     $_SESSION['delete_account_error'] = $error;
+    $_SESSION['show_account_settings'] = true;
     header('Location: /pages/profile.php?username=' . urlencode($loggedInUser['username']));
     exit;
 }
