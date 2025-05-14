@@ -47,13 +47,12 @@ body {
 	font-weight: 600;
 	line-height: 90%; /* 64.8px */
 	letter-spacing: -3.24px;
-	background: linear-gradient(
-		90deg,
-		rgba(254, 136, 86, 0.35) 0%,
-		rgba(254, 136, 86, 0.9) 25%,
-		rgba(189, 86, 86, 0.9) 50%,
-		rgba(148, 76, 76, 0.9) 75%,
-		rgba(148, 76, 76, 0.35) 100%
+	background: radial-gradient(
+		circle at center,
+		#e2ca9b 0%,
+		#e8c094 40%,
+		#f8b080 75%,
+		#f9a070 100%
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
