@@ -115,6 +115,7 @@ if (!$user) {
 
                     <div class="form-group">
                         <p>Do you want to sell on our website? Click here to convert your account!</p>
+                    </div>
                 </fieldset>
 
                 <fieldset class="delete-account-fieldset">

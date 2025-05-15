@@ -10,7 +10,7 @@ class FileUploader
     private array $errors = [];
 
     public function __construct(
-        string $fileName,
+        string $fileName = '',
         string $uploadDir = 'database/assets/',
         array $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'],
         int $maxFileSize = 5242880,
@@ -53,7 +53,7 @@ class FileUploader
 
 
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        if ($this->fileName === null) {
+        if ($this->fileName === '') {
             $newFileName = uniqid('upload_') . '.' . $extension;
         } else {
             $newFileName = $this->fileName . '.' . $extension;
