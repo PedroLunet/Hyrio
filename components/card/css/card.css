@@ -98,7 +98,7 @@
 
 .card img {
 	display: block;
-	border-radius: 24px;
+	border-radius: 28px;
 	width: 100%;
 	object-fit: cover; /* Ensures images maintain aspect ratio */
 }
@@ -106,7 +106,7 @@
 .card#container {
 	background-color: whitesmoke;
 	margin: 0 auto;
-	padding: 6px;
+	padding: 4px;
 	width: 100%; /* Take full width of grid item */
 	max-width: 100%;
 	box-sizing: border-box;
@@ -125,8 +125,10 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	align-items: center; /* Changed from flex-start to center for vertical alignment */
+	align-items: center; /* Ensure vertical centering */
 	flex-wrap: nowrap; /* Prevent wrapping */
+	height: 100%; /* Use the full available height */
+	min-height: 80px; /* Minimum height to ensure consistent card heights */
 }
 
 .card #titles {
@@ -134,13 +136,21 @@
 	flex: 1; /* Allow titles to take available space */
 	min-width: 0; /* Allow text to truncate if needed */
 	margin-right: 10px; /* Add space between titles and button */
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* Center content vertically */
+	overflow-wrap: break-word; /* Break words that are too long to fit */
+	word-wrap: break-word; /* Legacy support */
+	word-break: break-word; /* More natural word breaks */
+	hyphens: auto; /* Add hyphens for better readability */
+	max-width: calc(100% - 80px); /* Ensure space for the button */
 }
 
 .card #titles h3 {
 	margin: 0 0 5px 0;
 	font-weight: 600;
 	color: var(--text);
-	font-size: 1.3em;
+	font-size: 1.2em; /* Reduced from 1.3em */
 	letter-spacing: -0.02em;
 	line-height: 1.2;
 	white-space: normal; /* Allow text to wrap naturally */
@@ -148,6 +158,8 @@
 	display: block; /* Remove line clamping */
 	max-height: none; /* Remove max height limitation */
 	text-overflow: initial; /* Remove ellipsis */
+	overflow-wrap: break-word; /* Break words that are too long to fit */
+	word-wrap: break-word; /* Legacy support */
 }
 
 .card #titles p {
@@ -174,6 +186,7 @@
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 10px;
+		min-height: auto; /* Remove minimum height on mobile */
 	}
 
 	/* Button styling within card */
@@ -184,6 +197,7 @@
 	/* Adjust button alignment for mobile */
 	.card .price-button {
 		align-self: flex-end;
+		margin-top: 5px; /* Add spacing when in column layout */
 	}
 }
 
@@ -195,6 +209,7 @@
 	min-width: 0; /* Remove fixed width constraint */
 	justify-content: center;
 	font-size: 0.9em; /* Slightly smaller font */
+	align-self: center; /* Center button vertically */
 }
 
 .card .btn i {
@@ -207,7 +222,7 @@
 	border-radius: 50px;
 	padding: 8px 12px;
 	white-space: nowrap;
-	min-width: 0; /* Remove min-width constraint */
+	min-width: 70px; /* Ensure a minimum width for the button */
 	width: auto; /* Let button size to content */
 	max-width: none; /* Remove max width limitation */
 	justify-content: center;
@@ -216,11 +231,7 @@
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 	display: inline-flex; /* Use inline-flex for natural width */
 	margin-top: 0; /* Ensure no top margin that might affect vertical centering */
-}
-
-.card .price-button i {
-	font-size: 1em;
-	margin-right: 2px; /* Smaller margin between icon and text */
+	align-self: center; /* Ensure vertical centering */
 }
 
 /* No services message styling */
