@@ -32,8 +32,16 @@ function getServiceById(int $id): ?array {
 }
 
 $service = $serviceId ? getServiceById($serviceId) : null;
-$service['image'] = '/assets/placeholder.png';
-$service['profile_pic'] = '/assets/default_profile_pic.png';
+// Ensure service exists before adding defaults
+if ($service) {
+    $service['image'] = '/assets/placeholder.png';
+    $service['profile_pic'] = '/assets/default_profile_pic.png';
+    
+    // Make sure we have a rating for testing (if not already set)
+    if (!isset($service['rating'])) {
+        $service['rating'] = 4.5; // Default rating for testing
+    }
+}
 
 drawHeader();
 ?>
@@ -46,16 +54,9 @@ drawHeader();
             <div class="rating-section">
               <div class="stars-container">
                 <?php 
-                  $rating = floatval($service['rating']);
-                  for ($i = 1; $i <= 5; $i++) {
-                    if ($i <= $rating) {
-                      echo '<i class="ph-fill ph-star star-filled"></i>';
-                    } elseif ($i - 0.5 <= $rating) {
-                      echo '<i class="ph-fill ph-star-half star-half"></i>';
-                    } else {
-                      echo '<i class="ph-bold ph-star star-empty"></i>';
-                    }
-                  }
+                    $rating = floatval($service['rating']);
+                    // Show only one yellow star
+                    echo '<i class="ph-fill ph-star star-filled"></i>'; // One filled star
                 ?>
                 <span class="rating-value"><?= number_format($rating, 1) ?></span>
               </div>
