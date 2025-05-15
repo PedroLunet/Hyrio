@@ -23,10 +23,13 @@ $bio = $_POST['bio'] ?? '';
 $currentPassword = $_POST['current_password'] ?? '';
 $newPassword = $_POST['new_password'] ?? '';
 $confirmPassword = $_POST['confirm_password'] ?? '';
+$removeProfilePicture = isset($_POST['remove_profile_picture']) && $_POST['remove_profile_picture'] === '1';
 $profilePicture = $loggedInUser['profile_pic'];
 $error = null;
 
-if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] !== UPLOAD_ERR_NO_FILE) {
+if ($removeProfilePicture) {
+    $profilePicture = 'database/assets/userProfilePic.jpg';
+} else if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] !== UPLOAD_ERR_NO_FILE) {
     $uploader = new FileUploader('profile_picture', 'database/assets/profiles/' . $loggedInUser['id'] . '/');
     if ($uploader->hasInitErrors()) {
         $error = implode(' ', $uploader->getErrors());

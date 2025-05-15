@@ -56,9 +56,19 @@ class User
             $db = Database::getInstance();
             $stmt = $db->prepare('DELETE FROM users WHERE id = ?');
             $stmt->execute([$id]);
+            self::removeUserFiles($id);
             return true;
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    public static function removeUserFiles(int $id)
+    {
+        $userDir = __DIR__ . '/../../database/assets/profiles/' . $id;
+        if (is_dir($userDir)) {
+            array_map('unlink', glob("$userDir/*.*"));
+            rmdir($userDir);
         }
     }
 
@@ -155,7 +165,7 @@ class User
 
     public function getProfilePic(): string
     {
-        return $this->profilePic;
+        return '/' . $this->profilePic;
     }
 
     public function getBio(): string

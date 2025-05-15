@@ -39,7 +39,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
     <article class="profile">
         <header class="profile-header">
             <?php
-            echo '<img src="/' . htmlspecialchars($user->getProfilePic()) . '" alt="Profile Picture" class="profile-picture">';
+            echo '<img src="' . htmlspecialchars($user->getProfilePic()) . '" alt="Profile Picture" class="profile-picture">';
             echo '<h1>' . htmlspecialchars($user->getName()) . '</h1>';
             echo '<p class="profile-username">@' . htmlspecialchars($user->getUsername()) . '</p>';
 

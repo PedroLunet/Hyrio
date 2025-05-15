@@ -64,7 +64,7 @@ const OverlaySystem = {
             });
         });
 
-        const cancelButtons = document.querySelectorAll('.overlay .secondary-btn[data-action="close"]');
+        const cancelButtons = document.querySelectorAll('.overlay [data-action="close"]');
         cancelButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const overlay = button.closest('.overlay');

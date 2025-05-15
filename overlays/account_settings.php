@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . '/../components/button/button.php');
+
 echo '<link rel="stylesheet" href="/css/overlay.css">';
 echo '<link rel="stylesheet" href="/css/forms.css">';
 echo '<link rel="stylesheet" href="/css/account_settings.css">';
@@ -87,9 +89,24 @@ if (!$user) {
                 <fieldset>
                     <legend>Profile Picture</legend>
 
-                    <div class="form-group">
-                        <label for="profile-picture">Upload New Picture</label>
-                        <input type="file" id="profile-picture" name="profile_picture" accept="image/*">
+                    <div class="form-group profile-picture-container">
+                        <div class="current-profile-picture">
+                            <img src="<?php echo $user->getProfilePic(); ?>" alt="Current profile picture" id="current-profile-pic">
+                        </div>
+                        <div class="profile-picture-controls">
+                            <?php
+                            Button::start(['variant' => 'primary', 'class' => 'custom-file-upload', 'onclick' => "document.getElementById('profile-picture').click(); event.preventDefault(); return false;"]);
+                            echo '<span>Choose New Picture</span>';
+                            Button::end();
+                            ?>
+                            <input type="file" id="profile-picture" name="profile_picture" accept="image/*" class="file-input">
+                            <?php
+                            Button::start(['variant' => 'secondary', 'class' => 'remove-profile-picture-btn', 'onclick' => "document.getElementById('current-profile-pic').src = '/database/assets/userProfilePic.jpg'; document.getElementById('profile-picture').value = ''; document.getElementById('remove-profile-picture-flag').value = '1'; event.preventDefault(); return false;"]);
+                            echo '<span>Remove Picture</span>';
+                            Button::end();
+                            ?>
+                            <input type="hidden" name="remove_profile_picture" id="remove-profile-picture-flag" value="0">
+                        </div>
                     </div>
                 </fieldset>
 
@@ -106,14 +123,24 @@ if (!$user) {
                     <div class="form-group">
                         <div class="warning-container">
                             <p class="warning-text">This action is irreversible. All your data, including profile information and associated content, will be permanently deleted.</p>
-                            <button type="button" class="btn primary-btn" data-action="delete-account">Delete My Account</button>
+                            <?php
+                            Button::start(['variant' => 'secondary', 'id' => 'delete-account-btn', 'data-action' => 'delete-account']);
+                            echo '<span>Delete My Account</span>';
+                            Button::end();
+                            ?>
                         </div>
                     </div>
                 </fieldset>
 
                 <div class="form-actions">
-                    <button type="submit" class="btn primary-btn">Save Changes</button>
-                    <button type="button" class="btn secondary-btn" data-action="close">Cancel</button>
+                    <?php
+                    Button::start(['variant' => 'text', 'type' => 'button', 'data-action' => 'close']);
+                    echo '<span>Cancel</span>';
+                    Button::end();
+                    Button::start(['variant' => 'primary', 'type' => 'submit']);
+                    echo '<span>Save Changes</span>';
+                    Button::end();
+                    ?>
                 </div>
             </form>
         </div>
@@ -133,13 +160,54 @@ if (!$user) {
             });
         }
 
+        const profilePicInput = document.getElementById('profile-picture');
+        const currentProfilePic = document.getElementById('current-profile-pic');
+        const removeProfilePicBtn = document.getElementById('remove-profile-picture');
+        const removeProfilePicFlag = document.getElementById('remove-profile-picture-flag');
+
+        if (profilePicInput) {
+            profilePicInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            const size = Math.min(img.width, img.height);
+
+                            const canvasSize = 300;
+                            canvas.width = canvasSize;
+                            canvas.height = canvasSize;
+
+                            const ctx = canvas.getContext('2d');
+
+                            ctx.clearRect(0, 0, canvasSize, canvasSize);
+
+
+                            const offsetX = (img.width - size) / 2;
+                            const offsetY = (img.height - size) / 2;
+
+                            ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, canvasSize, canvasSize);
+
+                            currentProfilePic.src = canvas.toDataURL('image/jpeg', 0.9);
+                            removeProfilePicFlag.value = '0';
+                        };
+                        img.src = e.target.result;
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+
         const deleteAccountBtn = document.querySelector('[data-action="delete-account"]');
         if (deleteAccountBtn) {
-            deleteAccountBtn.addEventListener('click', function() {
+            deleteAccountBtn.addEventListener('click', function(event) {
+                event.preventDefault();
                 if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = '/actions/delete_account_action.php';
+                    form.style.display = 'none';
 
                     const input = document.createElement('input');
                     input.type = 'hidden';

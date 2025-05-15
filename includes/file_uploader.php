@@ -51,11 +51,12 @@ class FileUploader
             return null;
         }
 
+
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
         if ($this->fileName === null) {
-            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
             $newFileName = uniqid('upload_') . '.' . $extension;
         } else {
-            $newFileName = $this->fileName;
+            $newFileName = $this->fileName . '.' . $extension;
         }
 
         $fullPath = $this->fullUploadPath . $newFileName;
