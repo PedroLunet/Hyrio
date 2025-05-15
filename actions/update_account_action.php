@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/auth.php');
 require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../includes/file_uploader.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -22,8 +23,22 @@ $bio = $_POST['bio'] ?? '';
 $currentPassword = $_POST['current_password'] ?? '';
 $newPassword = $_POST['new_password'] ?? '';
 $confirmPassword = $_POST['confirm_password'] ?? '';
-$profilePic = "database/assets/userProfilePic.jpg";
+$profilePicture = $loggedInUser['profile_pic'];
 $error = null;
+
+if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] !== UPLOAD_ERR_NO_FILE) {
+    $uploader = new FileUploader('profile_picture', 'database/assets/profiles/' . $loggedInUser['id'] . '/');
+    if ($uploader->hasInitErrors()) {
+        $error = implode(' ', $uploader->getErrors());
+    } else {
+        $uploadedFilePath = $uploader->uploadFile($_FILES['profile_picture']);
+        if ($uploadedFilePath) {
+            $profilePicture = $uploadedFilePath;
+        } else {
+            $error = implode(' ', $uploader->getErrors());
+        }
+    }
+}
 
 if (empty($name) || empty($username) || empty($email)) {
     $error = "All fields are required";
@@ -35,11 +50,11 @@ if (empty($name) || empty($username) || empty($email)) {
     } else if ($newPassword !== $confirmPassword) {
         $error = "New passwords don't match";
     } else {
-        User::updateUser($loggedInUser['id'], $name, $username, $email, $bio, $profilePic);
+        User::updateUser($loggedInUser['id'], $name, $username, $email, $bio, $profilePicture);
         User::updatePassword($loggedInUser['id'], $newPassword);
     }
 } else {
-    User::updateUser($loggedInUser['id'], $name, $username, $email, $bio, $profilePic);
+    User::updateUser($loggedInUser['id'], $name, $username, $email, $bio, $profilePicture);
 }
 
 if (!$error) {
@@ -49,7 +64,7 @@ if (!$error) {
         'username' => $username,
         'email' => $email,
         'bio' => $bio,
-        'profile_pic' => $profilePic,
+        'profile_pic' => $profilePicture,
     ];
 }
 
