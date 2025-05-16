@@ -2,6 +2,7 @@
 // Service Details Page
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../components/button/button.php');
+require_once(__DIR__ . '/../components/card/card.php');
 
 head();
 
@@ -31,6 +32,72 @@ function getServiceById(int $id): ?array {
     }
 }
 
+/**
+ * Get related services from the same category
+ */
+function getRelatedServicesByCategory(int $categoryId, int $currentServiceId, int $limit = 4): array {
+    try {
+        $db = Database::getInstance();
+        $stmt = $db->prepare('
+            SELECT services.*, users.name as seller_name, categories.name as category_name
+            FROM services 
+            JOIN users ON services.seller = users.id
+            JOIN categories ON services.category = categories.id
+            WHERE services.category = :categoryId
+            AND services.id != :currentId
+            ORDER BY RANDOM()
+            LIMIT :limit
+        ');
+        $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
+        $stmt->bindParam(':currentId', $currentServiceId, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $services = $stmt->fetchAll();
+        
+        // Add default image to each service
+        foreach ($services as &$service) {
+            $service['image'] = '/assets/placeholder.png';
+        }
+        
+        return $services;
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
+/**
+ * Get other services from the same seller
+ */
+function getRelatedServicesBySeller(int $sellerId, int $currentServiceId, int $limit = 4): array {
+    try {
+        $db = Database::getInstance();
+        $stmt = $db->prepare('
+            SELECT services.*, users.name as seller_name, categories.name as category_name
+            FROM services 
+            JOIN users ON services.seller = users.id
+            JOIN categories ON services.category = categories.id
+            WHERE services.seller = :sellerId
+            AND services.id != :currentId
+            ORDER BY RANDOM()
+            LIMIT :limit
+        ');
+        $stmt->bindParam(':sellerId', $sellerId, PDO::PARAM_INT);
+        $stmt->bindParam(':currentId', $currentServiceId, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $services = $stmt->fetchAll();
+        
+        // Add default image to each service
+        foreach ($services as &$service) {
+            $service['image'] = '/assets/placeholder.png';
+        }
+        
+        return $services;
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
 $service = $serviceId ? getServiceById($serviceId) : null;
 // Ensure service exists before adding defaults
 if ($service) {
@@ -53,12 +120,8 @@ drawHeader();
           <?php if (isset($service['rating'])): ?>
             <div class="rating-section">
               <div class="stars-container">
-                <?php 
-                    $rating = floatval($service['rating']);
-                    // Show only one yellow star
-                    echo '<i class="ph-fill ph-star star-filled"></i>'; // One filled star
-                ?>
-                <span class="rating-value"><?= number_format($rating, 1) ?></span>
+                <i class="ph-fill ph-star star-filled"></i>
+                <span class="rating-value"><?= number_format(floatval($service['rating']), 1) ?></span>
               </div>
             </div>
           <?php endif; ?>
@@ -108,6 +171,40 @@ drawHeader();
             Contact Seller
           </button>
         </div>
+      </div>
+    </div>
+    
+    <!-- Related services from the same category -->
+    <div class="related-services">
+      <h2>More services in <?= htmlspecialchars($service['category_name']) ?></h2>
+      <div class="services-row">
+        <?php
+        $categoryServices = getRelatedServicesByCategory($service['category'], $serviceId);
+        if (!empty($categoryServices)) {
+          foreach ($categoryServices as $relatedService) {
+            Card::render($relatedService);
+          }
+        } else {
+          echo '<p class="no-related">No related services found in this category.</p>';
+        }
+        ?>
+      </div>
+    </div>
+    
+    <!-- Other services from the same seller -->
+    <div class="related-services">
+      <h2>More from <?= htmlspecialchars($service['seller_name']) ?></h2>
+      <div class="services-row">
+        <?php
+        $sellerServices = getRelatedServicesBySeller($service['seller'], $serviceId);
+        if (!empty($sellerServices)) {
+          foreach ($sellerServices as $sellerService) {
+            Card::render($sellerService);
+          }
+        } else {
+          echo '<p class="no-related">No other services available from this seller.</p>';
+        }
+        ?>
       </div>
     </div>
   <?php else: ?>

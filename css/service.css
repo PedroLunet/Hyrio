@@ -169,11 +169,12 @@
 .stars-container {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
   background: #fff;
   padding: 6px 12px;
   border-radius: 50px;
   border: 1px solid #eee;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .stars-container i {
@@ -182,6 +183,7 @@
 
 .star-filled {
   color: #ffcc00;
+  text-shadow: 0 0 1px rgba(0,0,0,0.2);
 }
 
 .star-half {
@@ -193,10 +195,9 @@
 }
 
 .rating-value {
-  margin-left: 5px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
-  color: #555;
+  color: #333;
 }
 
 .seller-profile {
@@ -213,16 +214,15 @@
 }
 
 .seller-pic {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .seller-bio {
   flex: 1;
+  font-size: 1rem;
 }
 
 .seller-bio strong {
@@ -263,16 +263,7 @@
   margin: 2rem auto;
   max-width: 600px;
 }
-.seller-pic {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.seller-bio {
-  flex: 1;
-  font-size: 1rem;
-}
+
 @media (max-width: 1024px) {
   .service-info h1,
   .service-meta-info,
@@ -376,4 +367,129 @@
 .service-not-found p {
   color: #777;
   margin-bottom: 1.5rem;
+}
+
+/* Related services sections */
+.related-services {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 2px 15px 0 var(--shadow);
+}
+
+.related-services h2 {
+  font-size: 1.8rem;
+  color: var(--text);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.services-row {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.services-row .card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.no-related {
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 10px;
+  text-align: center;
+  font-style: italic;
+  color: #666;
+}
+
+/* Make the cards smaller in the related services section */
+.services-row .card {
+  max-width: 100%;
+}
+
+.services-row .card img {
+  height: 160px;
+}
+
+/* Horizontal scrolling row for related services */
+.services-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding: 1rem 0.5rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) #f0f0f0;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.services-row::-webkit-scrollbar {
+  height: 6px;
+}
+
+.services-row::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.services-row::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+/* Related services cards - smaller version */
+.services-row .card-link {
+  min-width: 280px;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.services-row .card {
+  height: 280px;
+}
+
+.services-row .card img {
+  height: 160px;
+}
+
+.services-row #label h3 {
+  font-size: 1rem;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.services-row #label p {
+  font-size: 0.9rem;
+}
+
+.services-row .price-button {
+  font-size: 0.9rem;
+  padding: 6px 12px;
+}
+
+.no-related {
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .services-row {
+    justify-content: center;
+  }
 }
