@@ -1,7 +1,7 @@
 /* Navbar Component Styles */
 #menu-header {
 	width: 90%;
-	background-color: #e6e6e6;
+	background-color: white;
 	color: var(--text);
 	padding: 15px 24px;
 	/* Horizontal padding only */
