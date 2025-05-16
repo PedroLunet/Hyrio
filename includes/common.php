@@ -3,37 +3,15 @@
 declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/database.php');
+require_once(__DIR__ . '/../database/classes/service.php');
 
 // Function to get all services from the database
 function getServices(?int $categoryId = null): array
 {
-    try {
-        $db = Database::getInstance();
-
-        // Base query
-        $query = '
-            SELECT services.*, users.name as seller_name, categories.name as category_name
-            FROM services 
-            JOIN users ON services.seller = users.id
-            JOIN categories ON services.category = categories.id
-        ';
-
-        // Add category filter if requested
-        if ($categoryId !== null) {
-            $query .= ' WHERE services.category = :categoryId';
-        }
-
-        $stmt = $db->prepare($query);
-
-        // Bind category parameter if needed
-        if ($categoryId !== null) {
-            $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll();
-    } catch (PDOException $e) {
-        return [];
+    if ($categoryId !== null) {
+        return Service::getServicesByCategory($categoryId);
+    } else {
+        return Service::getAllServices();
     }
 }
 

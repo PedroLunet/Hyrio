@@ -3,6 +3,7 @@
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
+require_once(__DIR__ . '/../database/classes/service.php');
 
 head();
 
@@ -12,111 +13,19 @@ echo '<script src="/js/favorite.js" defer></script>';
 // Get service ID from query
 $serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// Fetch service from database
-function getServiceById(int $id): ?array {
-    try {
-        $db = Database::getInstance();
-        $stmt = $db->prepare('
-            SELECT services.*, users.name as seller_name, users.profile_pic, users.bio, categories.name as category_name
-            FROM services 
-            JOIN users ON services.seller = users.id
-            JOIN categories ON services.category = categories.id
-            WHERE services.id = :id
-        ');
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        $service = $stmt->fetch();
-        return $service ?: null;
-    } catch (PDOException $e) {
-        return null;
-    }
-}
+// Using the Service class from /database/classes/service.php
+$service = $serviceId ? Service::getServiceDetailsById($serviceId) : null;
 
-/**
- * Get related services from the same category
- */
-function getRelatedServicesByCategory(int $categoryId, int $currentServiceId, int $limit = 4): array {
-    try {
-        $db = Database::getInstance();
-        $stmt = $db->prepare('
-            SELECT services.*, users.name as seller_name, categories.name as category_name
-            FROM services 
-            JOIN users ON services.seller = users.id
-            JOIN categories ON services.category = categories.id
-            WHERE services.category = :categoryId
-            AND services.id != :currentId
-            ORDER BY RANDOM()
-            LIMIT :limit
-        ');
-        $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
-        $stmt->bindParam(':currentId', $currentServiceId, PDO::PARAM_INT);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stmt->execute();
-        $services = $stmt->fetchAll();
-        
-        // Add default image and rating to each service
-        foreach ($services as &$service) {
-            $service['image'] = '/assets/placeholder.png';
-            // Add a default rating if not set
-            if (!isset($service['rating'])) {
-                $service['rating'] = 4.5;
-            }
-        }
-        
-        return $services;
-    } catch (PDOException $e) {
-        return [];
-    }
-}
-
-/**
- * Get other services from the same seller
- */
-function getRelatedServicesBySeller(int $sellerId, int $currentServiceId, int $limit = 4): array {
-    try {
-        $db = Database::getInstance();
-        $stmt = $db->prepare('
-            SELECT services.*, users.name as seller_name, categories.name as category_name
-            FROM services 
-            JOIN users ON services.seller = users.id
-            JOIN categories ON services.category = categories.id
-            WHERE services.seller = :sellerId
-            AND services.id != :currentId
-            ORDER BY RANDOM()
-            LIMIT :limit
-        ');
-        $stmt->bindParam(':sellerId', $sellerId, PDO::PARAM_INT);
-        $stmt->bindParam(':currentId', $currentServiceId, PDO::PARAM_INT);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stmt->execute();
-        $services = $stmt->fetchAll();
-        
-        // Add default image and rating to each service
-        foreach ($services as &$service) {
-            $service['image'] = '/assets/placeholder.png';
-            // Add a default rating if not set
-            if (!isset($service['rating'])) {
-                $service['rating'] = 4.5;
-            }
-        }
-        
-        return $services;
-    } catch (PDOException $e) {
-        return [];
-    }
-}
-
-$service = $serviceId ? getServiceById($serviceId) : null;
 // Ensure service exists before adding defaults
-if ($service) {
-    $service['image'] = '/assets/placeholder.png';
-    $service['profile_pic'] = '/assets/default_profile_pic.png';
-    
-    // Make sure we have a rating for testing (if not already set)
-    if (!isset($service['rating'])) {
-        $service['rating'] = 4.5; // Default rating for testing
-    }
-}
+  if ($service) {
+      $service['image'] = '/assets/placeholder.png';
+      $service['profile_pic'] = '/assets/default_profile_pic.png';
+      
+      // Make sure we have a rating for testing (if not already set)
+      if (!isset($service['rating'])) {
+          $service['rating'] = 4.5; // Default rating for testing
+      }
+  }
 
 drawHeader();
 ?>
@@ -187,7 +96,7 @@ drawHeader();
       <h2>More services in <?= htmlspecialchars($service['category_name']) ?></h2>
       <div class="services-row">
         <?php
-        $categoryServices = getRelatedServicesByCategory($service['category'], $serviceId);
+        $categoryServices = Service::getRelatedServicesByCategory($service['category'], $serviceId);
         if (!empty($categoryServices)) {
           foreach ($categoryServices as $relatedService) {
             Card::render($relatedService);
@@ -204,7 +113,7 @@ drawHeader();
       <h2>More from <?= htmlspecialchars($service['seller_name']) ?></h2>
       <div class="services-row">
         <?php
-        $sellerServices = getRelatedServicesBySeller($service['seller'], $serviceId);
+        $sellerServices = Service::getRelatedServicesBySeller($service['seller'], $serviceId);
         if (!empty($sellerServices)) {
           foreach ($sellerServices as $sellerService) {
             Card::render($sellerService);
