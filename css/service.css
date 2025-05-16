@@ -6,14 +6,17 @@
   border-radius: 24px;
   box-shadow: 0 2px 15px 0 var(--shadow);
   padding: 2rem;
-  margin: 2rem auto;
+  margin: 1rem auto;
   max-width: 1200px;
   position: relative;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
 }
 
 .service-image {
   width: 320px;
   max-width: 100%;
+  flex-shrink: 0;
 }
 
 .service-image img {
@@ -27,6 +30,13 @@
 .service-info {
   flex: 1;
   min-width: 300px;
+  width: calc(100% - 320px - 2rem);
+}
+
+@media (max-width: 768px) {
+  .service-info {
+    width: 100%;
+  }
 }
 
 .service-info h1 {
@@ -39,6 +49,7 @@
   padding-bottom: 0.5rem;
   display: inline-block;
   max-width: calc(100% - 6rem); /* Ensure it doesn't extend beyond the right margin */
+  word-break: break-word;
 }
 
 .service-meta-info {
@@ -90,6 +101,7 @@
   right: 2rem;
   z-index: 10; /* Increased z-index to ensure it stays on top */
   max-width: 180px; /* Limit width to prevent overlapping with content */
+  width: auto;
 }
 
 .service-pricing-block {
@@ -210,7 +222,8 @@
   padding: 1.5rem;
   border: 1px solid #eee;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  margin-right: 4rem; /* Add margin to prevent collision with the price */
+  margin-right: 0; /* Changed from 4rem to prevent issues on small screens */
+  flex-wrap: wrap;
 }
 
 .seller-pic {
@@ -218,6 +231,7 @@
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .seller-bio {
@@ -247,11 +261,15 @@
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
+  background-color: var(--secondary);
+  color: white;
   transition: all 0.2s ease;
 }
 
-.contact-button i {
-  font-size: 1.2rem;
+.contact-button:hover {
+  background-color: var(--secondary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .service-not-found {
@@ -262,42 +280,85 @@
   box-shadow: 0 2px 15px 0 var(--shadow);
   margin: 2rem auto;
   max-width: 600px;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .service-info h1,
-  .service-meta-info,
-  .seller-profile {
-    margin-right: 0; /* Remove side margin on smaller screens */
+  .service-meta-info {
+    margin-right: 0;
   }
   
   .service-info h1 {
     max-width: 100%;
+    font-size: 2rem;
+  }
+
+  .service-meta-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .service-description {
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .service-details-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .service-info {
+    width: 100%;
+  }
+
+  .service-image {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .service-header {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .service-details-container {
-    flex-direction: column;
     padding: 1.5rem;
-    padding-top: 5rem; /* Space for price and rating at top */
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto;
   }
 
   .service-header {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    left: 1rem;
+    position: relative;
+    top: 0;
+    right: 0;
+    left: 0;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    width: 100%;
     max-width: none; /* Allow full width on mobile */
+    margin-bottom: 1.5rem;
   }
 
   .service-pricing-block {
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     gap: 0.5rem;
+    align-items: center;
   }
   
   .stars-container {
@@ -329,20 +390,30 @@
     width: 100%;
     height: auto; 
     max-height: 300px;
+    object-position: center;
   }
 
   .service-info h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    margin-right: 0;
   }
 
   .seller-profile {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .seller-pic {
     margin-bottom: 1rem;
+  }
+  
+  .service-price-button {
+    font-size: 1rem;
+    padding: 8px 16px;
   }
 }
 
@@ -372,11 +443,13 @@
 /* Related services sections */
 .related-services {
   max-width: 1200px;
-  margin: 2rem auto;
+  width: calc(100% - 2rem);
+  margin: 1rem auto;
   padding: 1.5rem;
   background: #fff;
   border-radius: 24px;
   box-shadow: 0 2px 15px 0 var(--shadow);
+  box-sizing: border-box;
 }
 
 .related-services h2 {
@@ -386,6 +459,19 @@
   padding-bottom: 0.5rem;
   display: inline-block;
   margin-bottom: 1.5rem;
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .related-services {
+    width: calc(100% - 1rem);
+    padding: 1rem;
+    margin: 0.5rem auto;
+  }
+  
+  .related-services h2 {
+    font-size: 1.4rem;
+  }
 }
 
 .services-row {
@@ -429,6 +515,8 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--primary) #f0f0f0;
+  padding-bottom: 20px; /* Add padding to prevent content being covered by scrollbar */
+  margin-bottom: -15px; /* Offset padding to maintain consistent spacing */
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -450,7 +538,20 @@
 .services-row .card-link {
   min-width: 280px;
   width: 280px;
+  max-width: 90%;
   flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .services-row {
+    gap: 1rem;
+    padding: 0.5rem 0.2rem;
+  }
+  
+  .services-row .card-link {
+    min-width: 220px;
+    width: 220px;
+  }
 }
 
 .services-row .card {
@@ -499,6 +600,51 @@
 
 @media (max-width: 768px) {
   .services-row {
-    justify-content: center;
+    justify-content: flex-start;
+    padding-left: 0.2rem;
+  }
+  
+  .no-related {
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+  
+  .service-not-found {
+    margin: 1rem;
+    padding: 2rem 1rem;
+  }
+  
+  .service-not-found i {
+    font-size: 2.5rem;
+  }
+  
+  .service-not-found h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 8px;
+  }
+  
+  .service-details-container {
+    padding: 1rem;
+  }
+  
+  .service-info h1 {
+    font-size: 1.4rem;
+  }
+  
+  .service-meta-info h2 {
+    font-size: 1rem;
+  }
+  
+  .service-description {
+    font-size: 0.95rem;
+  }
+  
+  .related-services {
+    padding: 0.8rem;
   }
 }
