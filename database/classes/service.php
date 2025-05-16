@@ -397,40 +397,4 @@ class Service
     {
         return $this->rating;
     }
-
-    // Setters
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    public function setPrice(float $price): void
-    {
-        $this->price = $price;
-    }
-
-    public function setSeller(int $seller): void
-    {
-        $this->seller = $seller;
-    }
-
-    public function setCategory(int $category): void
-    {
-        $this->category = $category;
-    }
-
-    public function setImage(string $image): void
-    {
-        $this->image = $image;
-    }
-
-    public function setRating(?float $rating): void
-    {
-        $this->rating = $rating;
-    }
 }
