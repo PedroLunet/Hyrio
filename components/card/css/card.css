@@ -96,11 +96,62 @@
 	}
 }
 
+/* Card link styles */
+.card-link {
+	text-decoration: none;
+	color: inherit;
+	display: block;
+	transition: transform 0.2s ease;
+}
+
+.card-link:hover {
+	transform: translateY(-4px);
+}
+
+.card-link:focus {
+	outline: 2px solid var(--primary);
+	border-radius: 24px;
+}
+
+.card-image-container {
+	position: relative;
+	overflow: hidden;
+	border-radius: 24px;
+}
+
 .card img {
 	display: block;
 	border-radius: 28px;
 	width: 100%;
 	object-fit: cover; /* Ensures images maintain aspect ratio */
+}
+
+.card-rating {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: rgba(0, 0, 0, 0.25); /* Reduced opacity for transparency */
+	color: white;
+	border-radius: 20px;
+	padding: 4px 10px;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+	transition: background-color 0.2s ease;
+}
+
+.card-rating:hover {
+	background-color: rgba(0, 0, 0, 0.5); /* Darker on hover for better visibility */
+}
+
+.card-rating i {
+	color: #ffffff; /* Changed to white for better visibility */
+	font-size: 1rem;
 }
 
 .card#container {

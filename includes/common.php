@@ -3,37 +3,15 @@
 declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/database.php');
+require_once(__DIR__ . '/../database/classes/service.php');
 
 // Function to get all services from the database
 function getServices(?int $categoryId = null): array
 {
-    try {
-        $db = Database::getInstance();
-
-        // Base query
-        $query = '
-            SELECT services.*, users.name as seller_name, categories.name as category_name
-            FROM services 
-            JOIN users ON services.seller = users.id
-            JOIN categories ON services.category = categories.id
-        ';
-
-        // Add category filter if requested
-        if ($categoryId !== null) {
-            $query .= ' WHERE services.category = :categoryId';
-        }
-
-        $stmt = $db->prepare($query);
-
-        // Bind category parameter if needed
-        if ($categoryId !== null) {
-            $stmt->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll();
-    } catch (PDOException $e) {
-        return [];
+    if ($categoryId !== null) {
+        return Service::getServicesByCategory($categoryId);
+    } else {
+        return Service::getAllServices();
     }
 }
 
@@ -54,6 +32,8 @@ function getServices(?int $categoryId = null): array
             href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
         <link rel="stylesheet" type="text/css"
             href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+        <link rel="stylesheet" type="text/css"
+            href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     </head>
 
