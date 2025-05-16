@@ -38,6 +38,70 @@ class User
         }
     }
 
+    public static function updateUser(int $id, string $name, string $username, string $email, string $bio, string $profilePic)
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET name = ?, username = ?, email = ?, bio = ?, profile_pic = ? WHERE id = ?');
+            $stmt->execute([$name, $username, $email, $bio, $profilePic, $id]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function deleteUser(int $id)
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('DELETE FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            self::removeUserFiles($id);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function removeUserFiles(int $id)
+    {
+        $userDir = __DIR__ . '/../../database/assets/profiles/' . $id;
+        if (is_dir($userDir)) {
+            array_map('unlink', glob("$userDir/*.*"));
+            rmdir($userDir);
+        }
+    }
+
+    public static function checkPassword(int $id, string $password): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT password FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            $user = $stmt->fetch();
+
+            if ($user && password_verify($password, $user['password'])) {
+                return true;
+            }
+
+            return false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function updatePassword(int $id, string $newPassword)
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET password = ? WHERE id = ?');
+            $stmt->execute([password_hash($newPassword, PASSWORD_DEFAULT), $id]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public static function loginUser($email, $password)
     {
         try {
@@ -48,6 +112,24 @@ class User
 
             if ($user && password_verify($password, $user['password'])) {
                 return $user;
+            }
+
+            return null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function getUserByUsername(string $username): ?User
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT * FROM users WHERE username = ?');
+            $stmt->execute([$username]);
+            $user = $stmt->fetch();
+
+            if ($user) {
+                return new User($user['id'], $user['name'], $user['username'], $user['email'], $user['role'], $user['profile_pic'], $user['bio']);
             }
 
             return null;
@@ -83,7 +165,7 @@ class User
 
     public function getProfilePic(): string
     {
-        return $this->profilePic;
+        return '/' . $this->profilePic;
     }
 
     public function getBio(): string

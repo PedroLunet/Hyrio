@@ -34,18 +34,33 @@ drawHeader();
             </div>
         <?php endif; ?>
 
-        <input class="form-item" type="text" name="name" placeholder="Name" value="<?php echo isset($_SESSION['register_form_data']['name']) ? htmlspecialchars($_SESSION['register_form_data']['name']) : ''; ?>" required>
-        <input class="form-item" type="text" name="username" placeholder="Username" value="<?php echo isset($_SESSION['register_form_data']['username']) ? htmlspecialchars($_SESSION['register_form_data']['username']) : ''; ?>" required>
-        <input class="form-item" type="email" name="email" placeholder="Email" value="<?php echo isset($_SESSION['register_form_data']['email']) ? htmlspecialchars($_SESSION['register_form_data']['email']) : ''; ?>" required>
-
-        <div class="password-container">
-            <input class="form-item" type="password" name="password" placeholder="Password" required>
-            <button type="button" class="password-toggle" title="Show password">👁️‍🗨️</button>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="<?php echo isset($_SESSION['register_form_data']['name']) ? htmlspecialchars($_SESSION['register_form_data']['name']) : ''; ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="<?php echo isset($_SESSION['register_form_data']['username']) ? htmlspecialchars($_SESSION['register_form_data']['username']) : ''; ?>" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="<?php echo isset($_SESSION['register_form_data']['email']) ? htmlspecialchars($_SESSION['register_form_data']['email']) : ''; ?>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <button type="button" class="password-toggle" title="Show password"></button>
+            </div>
         </div>
 
-        <div class="password-container">
-            <input class="form-item" type="password" name="confirm_password" placeholder="Confirm Password" required>
-            <button type="button" class="password-toggle" title="Show password">👁️‍🗨️</button>
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <div class="password-container">
+                <input type="password" id="confirm-password" name="confirm_password" required>
+                <button type="button" class="password-toggle" title="Show password"></button>
+            </div>
         </div>
 
         <input class="form-item" type="submit" value="Register">
