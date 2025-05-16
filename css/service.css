@@ -457,8 +457,17 @@
   height: 280px;
 }
 
-.services-row .card img {
+.services-row .card-image-container img {
   height: 160px;
+}
+
+.services-row .card-rating {
+  padding: 2px 8px;
+  font-size: 0.8rem;
+}
+
+.services-row .card-rating i {
+  font-size: 0.9rem;
 }
 
 .services-row #label h3 {

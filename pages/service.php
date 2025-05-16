@@ -54,9 +54,13 @@ function getRelatedServicesByCategory(int $categoryId, int $currentServiceId, in
         $stmt->execute();
         $services = $stmt->fetchAll();
         
-        // Add default image to each service
+        // Add default image and rating to each service
         foreach ($services as &$service) {
             $service['image'] = '/assets/placeholder.png';
+            // Add a default rating if not set
+            if (!isset($service['rating'])) {
+                $service['rating'] = 4.5;
+            }
         }
         
         return $services;
@@ -87,9 +91,13 @@ function getRelatedServicesBySeller(int $sellerId, int $currentServiceId, int $l
         $stmt->execute();
         $services = $stmt->fetchAll();
         
-        // Add default image to each service
+        // Add default image and rating to each service
         foreach ($services as &$service) {
             $service['image'] = '/assets/placeholder.png';
+            // Add a default rating if not set
+            if (!isset($service['rating'])) {
+                $service['rating'] = 4.5;
+            }
         }
         
         return $services;

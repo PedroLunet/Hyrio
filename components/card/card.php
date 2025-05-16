@@ -38,8 +38,14 @@ class Card
     ?>
     <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
       <div class="card" id="container">
-        <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/placeholder.png' ?>"
-          alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
+        <div class="card-image-container">
+          <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/placeholder.png' ?>"
+            alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
+          <div class="card-rating">
+            <i class="ph-fill ph-star"></i>
+            <span><?= isset($service['rating']) ? htmlspecialchars(number_format($service['rating'], 1)) : '4.5' ?></span>
+          </div>
+        </div>
         <div id="label">
           <div id="titles">
             <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
