@@ -66,7 +66,7 @@ class Navbar
           // Dropdown menu content
           echo '<div class="profile-dropdown-menu">';
           echo '<div class="user-name">' . htmlspecialchars($user['name']) . '</div>';
-          echo '<a href="/profile.php" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>';
+          echo '<a href="/pages/profile.php?username=' . htmlspecialchars($user['username']) . '" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>';
           echo '<a href="/actions/logout_action.php" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>';
           echo '</div>'; // End dropdown menu
           echo '</div>'; // End profile dropdown

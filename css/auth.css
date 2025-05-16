@@ -35,63 +35,8 @@ p a {
     font-weight: bold;
 }
 
-.form-item {
-    margin: 1%;
-    padding: 8px;
-    border: 1px solid silver;
-    border-radius: 8px;
-    outline: none;
-}
-
-.form-item:focus:not(:last-of-type) {
-    outline: 1px solid var(--primary);
-}
-
-.password-container {
-    position: relative;
-    margin: 1%;
-}
-
-.password-container input {
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-}
-
-.password-container input:focus {
-    outline: 1px solid var(--primary);
-}
-
-.password-toggle {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    user-select: none;
-    font-size: 14px;
-    color: #666;
-    background: none;
-    border: none;
-    padding: 2px 0 0 0;
-    transition: color 0.2s ease;
-}
-
-.password-toggle:hover {
-    color: var(--primary);
-}
-
-.error-message {
-    background-color: transparent;
-    color: #cc0000;
-    padding: 0 0 8px 0;  
-    border-radius: 8px;
-    margin: 1%;
-    text-align: center;
-    font-size: 14px;
-}
-
 @media (max-width: 768px) {
+
     .login-form,
     .register-form {
         width: 85%;

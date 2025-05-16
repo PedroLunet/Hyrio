@@ -21,7 +21,8 @@ body {
 body {
 	display: flex;
 	flex-direction: column;
-	min-height: 100vh; /* Full viewport height */
+	min-height: 100vh;
+	/* Full viewport height */
 }
 
 /* Categories with gradient text wrapper */
@@ -35,8 +36,10 @@ body {
 	box-sizing: border-box;
 	padding: 0;
 	width: 100%;
-	overflow: visible; /* Changed from hidden to visible to prevent dropdown from being cut off */
-	position: relative; /* Added to ensure proper stacking context */
+	overflow: visible;
+	/* Changed from hidden to visible to prevent dropdown from being cut off */
+	position: relative;
+	/* Added to ensure proper stacking context */
 }
 
 .gradient-text {
@@ -45,15 +48,15 @@ body {
 	font-size: 72px;
 	font-style: normal;
 	font-weight: 600;
-	line-height: 90%; /* 64.8px */
+	line-height: 90%;
+	/* 64.8px */
 	letter-spacing: -3.24px;
-	background: radial-gradient(
-		circle at center,
-		#e2ca9b 0%,
-		#e8c094 40%,
-		#f8b080 75%,
-		#f9a070 100%
-	);
+	background: linear-gradient(90deg,
+			rgba(254, 136, 86, 0.35) 0%,
+			rgba(254, 136, 86, 0.9) 25%,
+			rgba(189, 86, 86, 0.9) 50%,
+			rgba(148, 76, 76, 0.9) 75%,
+			rgba(148, 76, 76, 0.35) 100%);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
@@ -119,34 +122,42 @@ body {
 
 /* Basic layout styles */
 main {
-	width: 85%;
-
-	margin: 0 auto;
-	padding: 15px;
+	width: 90%;
+  max-width: 1200px;
+	margin: 20px auto;
+	padding: 16px 16px;
 	box-sizing: border-box;
 	overflow-x: hidden;
-	flex: 1 0 auto; /* This allows main to grow and push footer down */
+	flex: 1 0 auto;
+	/* This allows main to grow and push footer down */
+	transition: all 0.3s ease-in-out;
 }
 
-/* @media (max-width: 768px) {
+@media (max-width: 768px) {
 	main {
-		padding: 12px;
+		width: 95%;
+		padding: 15px 16px;
 	}
 }
 
 @media (max-width: 480px) {
 	main {
-		padding: 10px;
+		width: 95%;
+		padding: 15px 16px;
 	}
-} */
+}
 
 footer {
 	text-align: center;
 	padding: 20px 0;
 	margin-top: 40px;
 	color: var(--text);
-	flex-shrink: 0; /* Prevents the footer from shrinking */
-	position: relative; /* Ensures it stays above content */
-	z-index: 5; /* Lower z-index than dropdown which has 1000 */
-	background-color: var(--background); /* Match page background */
+	flex-shrink: 0;
+	/* Prevents the footer from shrinking */
+	position: relative;
+	/* Ensures it stays above content */
+	z-index: 2;
+	/* Lower z-index than dropdown which has 1000 */
+	background-color: var(--background);
+	/* Match page background */
 }
