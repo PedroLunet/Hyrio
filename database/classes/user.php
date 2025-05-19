@@ -138,6 +138,31 @@ class User
         }
     }
 
+    public static function getTotalUsers(): int
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->query('SELECT COUNT(*) FROM users');
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public static function getAllUsers(int $offset, int $limit): array
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT * FROM users LIMIT ?, ?');
+            $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+            $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
     public function getId(): int
     {
         return $this->id;

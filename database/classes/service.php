@@ -357,6 +357,17 @@ class Service
         }
     }
 
+    public static function getTotalServices(): int
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->query('SELECT COUNT(*) FROM services');
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
     // Getters
     public function getId(): int
     {
