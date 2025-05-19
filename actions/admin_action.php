@@ -80,17 +80,32 @@ try {
 
             break;
         case 'category':
-            if (Category::delete($id)) {
-                $_SESSION['success_message'] = 'Category successfully deleted';
+            $action = isset($_POST['action']) ? $_POST['action'] : 'delete';
+
+            if ($action === 'edit') {
+                // This is an update action
+                $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+
+                if (empty($name)) {
+                    $_SESSION['error_message'] = 'Category name cannot be empty';
+                    break;
+                }
+
+                if (Category::update($id, $name)) {
+                    $_SESSION['success_message'] = 'Category successfully updated';
+                } else {
+                    $_SESSION['error_message'] = 'Failed to update category';
+                }
+            } elseif ($action === 'delete') {
+                // This is a delete action
+                if (Category::delete($id)) {
+                    $_SESSION['success_message'] = 'Category successfully deleted';
+                } else {
+                    $_SESSION['error_message'] = 'Failed to delete category';
+                }
             } else {
-                $_SESSION['error_message'] = 'Failed to delete category';
+                $_SESSION['error_message'] = 'Invalid action specified for category';
             }
-            break;
-        case 'ticket':
-            $_SESSION['error_message'] = 'Ticket deletion not implemented';
-            break;
-        case 'comment':
-            $_SESSION['error_message'] = 'Comment deletion not implemented';
             break;
         default:
             $_SESSION['error_message'] = 'Invalid type specified';

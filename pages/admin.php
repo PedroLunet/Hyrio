@@ -20,8 +20,14 @@ drawHeader();
 
 echo '<link rel="stylesheet" href="../css/forms.css">';
 echo '<link rel="stylesheet" href="../css/admin.css">';
+echo '<script src="/js/overlay.js"></script>';
 
-?><main class="admin-panel">
+?><?php
+    // Include the edit category overlay
+    if ($loggedInUser && $loggedInUser['role'] === 'admin') {
+        require_once(__DIR__ . '/../overlays/edit_category.php');
+    }
+    ?><main class="admin-panel">
     <h1>Admin Panel</h1>
 
     <?php if (isset($_SESSION['success_message'])): ?>
@@ -41,6 +47,7 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
             ?>
         </div>
     <?php endif; ?>
+
     <section class="admin-dashboard">
         <h2>Dashboard</h2>
         <div class="dashboard-stats">
@@ -195,7 +202,7 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
                         echo '<td>' . htmlspecialchars(strval($category['id'])) . '</td>';
                         echo '<td>' . htmlspecialchars($category['name']) . '</td>';
                         echo '<td>
-                            <button class="action-btn edit-btn" onclick="window.location.href=\'/pages/edit_category.php?id=' . $category['id'] . '\'">Edit</button>
+                            <button class="action-btn edit-btn" data-category-id="' . $category['id'] . '">Edit</button>
                             <button class="action-btn delete-btn" data-id="' . $category['id'] . '">Delete</button>
                         </td>';
                         echo '</tr>';
@@ -356,5 +363,13 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
             }
         }
     });
-</script><?php drawFooter();
-            ?>
+
+    // Initialize any admin panel functionality here
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialization code if needed
+    });
+
+    // No need for the edit button click handler here as it's now in the edit_category.php overlay
+</script>
+
+<?php drawFooter(); ?>

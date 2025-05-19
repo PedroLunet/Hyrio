@@ -85,4 +85,17 @@ class Category
             return 0;
         }
     }
+
+    public static function getCategoryById(int $id): ?array
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT * FROM categories WHERE id = ?');
+            $stmt->execute([$id]);
+            $category = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $category ?: null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
 }
