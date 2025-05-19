@@ -33,19 +33,21 @@ class Card
     require_once(__DIR__ . '/../button/button.php');
 
     // Generate service ID for the link
-    $serviceId = isset($service['id']) ? (int)$service['id'] : 0;
-    
+    $serviceId = isset($service['id']) ? (int) $service['id'] : 0;
+
     ?>
     <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
       <div class="card" id="container">
-        <div class="card-image-container">
+        <div class="card-rating">
+          <i class="ph-fill ph-star"></i>
+          <span><?= isset($service['rating']) ? htmlspecialchars(number_format($service['rating'], 1)) : '4.5' ?></span>
+        </div>
+
+        <div class="image-container">
           <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/placeholder.png' ?>"
             alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
-          <div class="card-rating">
-            <i class="ph-fill ph-star"></i>
-            <span><?= isset($service['rating']) ? htmlspecialchars(number_format($service['rating'], 1)) : '4.5' ?></span>
-          </div>
         </div>
+
         <div id="label">
           <div id="titles">
             <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
@@ -59,8 +61,8 @@ class Card
           echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
           Button::end();
           ?>
+        </div>
       </div>
-    </div>
     </a>
     <?php
   }
