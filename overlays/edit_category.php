@@ -29,6 +29,10 @@ if (!$user || $user['role'] !== 'admin') {
                 <input type="hidden" name="type" value="category">
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="id" id="category-id">
+                <?php
+                $section = isset($_GET['section']) ? $_GET['section'] : 'categories';
+                echo '<input type="hidden" name="section" value="' . $section . '">';
+                ?>
                 <div class="form-group">
                     <label for="name">Category Name:</label>
                     <input type="text" id="category-name" name="name" required>

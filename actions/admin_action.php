@@ -128,5 +128,25 @@ try {
     $_SESSION['error_message'] = 'Error: ' . $e->getMessage();
 }
 
-header('Location: /pages/admin.php');
+$section = 'users';
+
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $refererParams = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
+    if ($refererParams) {
+        parse_str($refererParams, $queryParams);
+        if (isset($queryParams['section'])) {
+            $section = $queryParams['section'];
+        }
+    }
+}
+
+if ($type === 'category' && ($action === 'add' || $action === 'edit')) {
+    $section = 'categories';
+} elseif ($type === 'user') {
+    $section = 'users';
+} elseif ($type === 'service') {
+    $section = 'services';
+}
+
+header('Location: /pages/admin.php?section=' . $section);
 exit();

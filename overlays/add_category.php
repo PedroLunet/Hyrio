@@ -28,6 +28,10 @@ if (!$user || $user['role'] !== 'admin') {
             <form id="add-category-form" method="POST" action="/actions/admin_action.php">
                 <input type="hidden" name="type" value="category">
                 <input type="hidden" name="action" value="add">
+                <?php
+                $section = isset($_GET['section']) ? $_GET['section'] : 'categories';
+                echo '<input type="hidden" name="section" value="' . $section . '">';
+                ?>
 
                 <div class="form-group">
                     <label for="new-category-name">Category Name:</label>

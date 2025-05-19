@@ -69,12 +69,19 @@ echo '<script src="/js/overlay.js"></script>';
             </div>
         </div>
     </section>
+    <?php
+    $section = isset($_GET['section']) ? $_GET['section'] : 'users';
+    ?>
     <section class="admin-actions">
         <h2>Management</h2>
-        <div class="action-buttons"><button class="admin-button active" data-target="users-section">Manage Users</button><button class="admin-button" data-target="services-section">Manage Services</button><button class="admin-button" data-target="categories-section">Manage Categories</button></div>
+        <div class="action-buttons">
+            <button class="admin-button <?php echo $section === 'users' ? 'active' : ''; ?>" data-target="users-section">Manage Users</button>
+            <button class="admin-button <?php echo $section === 'services' ? 'active' : ''; ?>" data-target="services-section">Manage Services</button>
+            <button class="admin-button <?php echo $section === 'categories' ? 'active' : ''; ?>" data-target="categories-section">Manage Categories</button>
+        </div>
     </section>
 
-    <section id="users-section" class="admin-content-section active">
+    <section id="users-section" class="admin-content-section <?php echo $section === 'users' ? 'active' : ''; ?>">
         <h2>Users Management</h2>
         <div class="section-content">
             <table class="admin-table">
@@ -124,11 +131,11 @@ echo '<script src="/js/overlay.js"></script>';
 
             <?php
             require_once(__DIR__ . '/../components/pagination/pagination.php');
-            Pagination::render($page, intval($totalPages), 'user_page');
+            Pagination::render($page, intval($totalPages), 'user_page', ['section' => $section]);
             ?>
         </div>
     </section>
-    <section id="services-section" class="admin-content-section">
+    <section id="services-section" class="admin-content-section <?php echo $section === 'services' ? 'active' : ''; ?>">
         <h2>Services Management</h2>
         <div class="section-content">
             <table class="admin-table">
@@ -172,11 +179,11 @@ echo '<script src="/js/overlay.js"></script>';
 
             <?php
             require_once(__DIR__ . '/../components/pagination/pagination.php');
-            Pagination::render($page, intval($totalPages), 'service_page');
+            Pagination::render($page, intval($totalPages), 'service_page', ['section' => $section]);
             ?>
         </div>
     </section>
-    <section id="categories-section" class="admin-content-section">
+    <section id="categories-section" class="admin-content-section <?php echo $section === 'categories' ? 'active' : ''; ?>">
         <div class="category-header">
             <h2>Categories Management</h2>
             <button class="admin-button" id="add-category-btn">Add Category</button>
@@ -216,7 +223,7 @@ echo '<script src="/js/overlay.js"></script>';
 
             <?php
             require_once(__DIR__ . '/../components/pagination/pagination.php');
-            Pagination::render($page, intval($totalPages), 'category_page');
+            Pagination::render($page, intval($totalPages), 'category_page', ['section' => $section]);
             ?>
         </div>
     </section>
@@ -227,20 +234,44 @@ echo '<script src="/js/overlay.js"></script>';
             const sections = document.querySelectorAll('.admin-content-section');
 
             buttons.forEach(button => {
-                    button.addEventListener('click', function() {
-                            buttons.forEach(btn => btn.classList.remove('active'));
-                            sections.forEach(section => section.classList.remove('active'));
+                button.addEventListener('click', function() {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
 
-                            this.classList.add('active');
+                    this.classList.add('active');
 
-                            const targetId = this.dataset.target;
-                            document.getElementById(targetId).classList.add('active');
-                        }
+                    const targetId = this.dataset.target;
+                    document.getElementById(targetId).classList.add('active');
 
-                    );
+                    const sectionName = targetId.replace('-section', '');
+
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('section', sectionName);
+
+                    window.history.pushState({
+                        section: sectionName
+                    }, '', url);
+                });
+            });
+
+            window.addEventListener('popstate', function(event) {
+                if (event.state && event.state.section) {
+                    const sectionName = event.state.section;
+                    const targetId = sectionName + '-section';
+
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    const button = document.querySelector(`.admin-button[data-target="${targetId}"]`);
+                    if (button) button.classList.add('active');
+
+                    const section = document.getElementById(targetId);
+                    if (section) section.classList.add('active');
                 }
-
-            );
+            });
+            window.history.replaceState({
+                section: '<?php echo $section; ?>'
+            }, '', window.location.href);
         }
 
     );
@@ -282,6 +313,12 @@ echo '<script src="/js/overlay.js"></script>';
                 actionInput.value = 'delete';
                 form.appendChild(actionInput);
 
+                const sectionInput = document.createElement('input');
+                sectionInput.type = 'hidden';
+                sectionInput.name = 'section';
+                sectionInput.value = '<?php echo $section; ?>';
+                form.appendChild(sectionInput);
+
                 document.body.appendChild(form);
                 form.submit();
             }
@@ -319,6 +356,12 @@ echo '<script src="/js/overlay.js"></script>';
                 actionInput.value = 'promote';
                 form.appendChild(actionInput);
 
+                const sectionInput = document.createElement('input');
+                sectionInput.type = 'hidden';
+                sectionInput.name = 'section';
+                sectionInput.value = '<?php echo $section; ?>';
+                form.appendChild(sectionInput);
+
                 document.body.appendChild(form);
                 form.submit();
             }
@@ -355,6 +398,12 @@ echo '<script src="/js/overlay.js"></script>';
                 actionInput.name = 'action';
                 actionInput.value = 'demote';
                 form.appendChild(actionInput);
+
+                const sectionInput = document.createElement('input');
+                sectionInput.type = 'hidden';
+                sectionInput.name = 'section';
+                sectionInput.value = '<?php echo $section; ?>';
+                form.appendChild(sectionInput);
 
                 document.body.appendChild(form);
                 form.submit();
