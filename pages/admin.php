@@ -63,10 +63,10 @@ echo '<script src="/js/overlay.js"></script>';
                 echo '<p class="stat-number">' . Service::getTotalServices() . '</p>';
                 ?>
             </div>
-            <div class="stat-card">
+            <!-- <div class="stat-card">
                 <h3>Total Revenue</h3>
                 <p class="stat-number">2000€ </p>
-            </div>
+            </div> -->
         </div>
     </section>
     <?php
