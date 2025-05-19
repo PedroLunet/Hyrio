@@ -163,6 +163,30 @@ class User
         }
     }
 
+    public static function addAdminPrivileges(int $id): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET role = ? WHERE id = ?');
+            $stmt->execute(['admin', $id]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function removeAdminPrivileges(int $id): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET role = ? WHERE id = ?');
+            $stmt->execute(['user', $id]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
     public function getId(): int
     {
         return $this->id;

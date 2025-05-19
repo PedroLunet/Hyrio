@@ -22,6 +22,24 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
 
 ?><main class="admin-panel">
     <h1>Admin Panel</h1>
+
+    <?php if (isset($_SESSION['success_message'])): ?>
+        <div class="message success-message">
+            <?php
+            echo htmlspecialchars($_SESSION['success_message']);
+            unset($_SESSION['success_message']);
+            ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['error_message'])): ?>
+        <div class="message error-message">
+            <?php
+            echo htmlspecialchars($_SESSION['error_message']);
+            unset($_SESSION['error_message']);
+            ?>
+        </div>
+    <?php endif; ?>
     <section class="admin-dashboard">
         <h2>Dashboard</h2>
         <div class="dashboard-stats">
@@ -77,10 +95,17 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
                         echo '<td>' . htmlspecialchars(strval($user['username'])) . '</td>';
                         echo '<td>' . htmlspecialchars(strval($user['email'])) . '</td>';
                         echo '<td>' . htmlspecialchars(strval($user['role'])) . '</td>';
-                        echo '<td>
-                                <button class="action-btn edit-btn" data-id="' . $user['id'] . '">Edit</button>
-                                <button class="action-btn delete-btn" data-id="' . $user['id'] . '">Delete</button>
-                              </td>';
+                        if ($user['role'] === 'admin') {
+                            echo '<td>
+                        <button class="action-btn delete-btn" data-id="' . $user['id'] . '">Delete</button>
+                        <button class="action-btn demote-btn" data-id="' . $user['id'] . '">Demote</button>
+                                  </td>';
+                        } else {
+                            echo '<td>
+                        <button class="action-btn delete-btn" data-id="' . $user['id'] . '">Delete</button>
+                        <button class="action-btn promote-btn" data-id="' . $user['id'] . '">Promote</button>
+                                  </td>';
+                        }
                         echo '</tr>';
                     }
                     ?>
@@ -188,5 +213,122 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
         }
 
     );
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-btn')) {
+            event.preventDefault();
+
+            const id = event.target.dataset.id;
+            const row = event.target.closest('tr');
+
+            let type = document.querySelector('.admin-button.active').dataset.target.replace('-section', '');
+
+            if (type === 'users') type = 'user';
+            else if (type === 'tickets') type = 'service';
+            else if (type === 'departments') type = 'category';
+
+            if (confirm(`Are you sure you want to delete this ${type}? This action cannot be undone.`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/actions/admin_action.php`;
+                form.style.display = 'none';
+
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id';
+                idInput.value = id;
+                form.appendChild(idInput);
+
+                const typeInput = document.createElement('input');
+                typeInput.type = 'hidden';
+                typeInput.name = 'type';
+                typeInput.value = type;
+                form.appendChild(typeInput);
+
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'delete';
+                form.appendChild(actionInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('promote-btn')) {
+            event.preventDefault();
+
+            const id = event.target.dataset.id;
+            const row = event.target.closest('tr');
+
+            if (confirm(`Are you sure you want to promote this user to admin?`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/actions/admin_action.php`;
+                form.style.display = 'none';
+
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id';
+                idInput.value = id;
+                form.appendChild(idInput);
+
+                const typeInput = document.createElement('input');
+                typeInput.type = 'hidden';
+                typeInput.name = 'type';
+                typeInput.value = 'user';
+                form.appendChild(typeInput);
+
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'promote';
+                form.appendChild(actionInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('demote-btn')) {
+            event.preventDefault();
+
+            const id = event.target.dataset.id;
+            const row = event.target.closest('tr');
+
+            if (confirm(`Are you sure you want to demote this user?`)) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/actions/admin_action.php`;
+                form.style.display = 'none';
+
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id';
+                idInput.value = id;
+                form.appendChild(idInput);
+
+                const typeInput = document.createElement('input');
+                typeInput.type = 'hidden';
+                typeInput.name = 'type';
+                typeInput.value = 'user';
+                form.appendChild(typeInput);
+
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'demote';
+                form.appendChild(actionInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    });
 </script><?php drawFooter();
             ?>
