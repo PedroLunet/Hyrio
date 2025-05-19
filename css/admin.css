@@ -1,0 +1,192 @@
+/* Admin Panel Styles */
+.admin-panel {
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.admin-panel h1 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.admin-dashboard,
+.admin-actions,
+.admin-content-section {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-stats {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 200px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card h3 {
+    margin-top: 0;
+    color: #555;
+    font-size: 1rem;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin: 10px 0 0;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Custom styling for tab buttons in admin panel */
+.admin-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.admin-button:hover {
+    background-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.admin-button.active {
+    background-color: var(--primary);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}
+
+.admin-content-section {
+    display: none;
+}
+
+.admin-content-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.admin-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Admin form - just specifying width constraints, using global form styles */
+.admin-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Action buttons - extending from base button styles */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.edit-btn {
+    background-color: #28a745;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .dashboard-stats {
+        flex-direction: column;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .admin-button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .admin-table {
+        font-size: 0.9em;
+    }
+    
+    .admin-table th, 
+    .admin-table td {
+        padding: 8px 10px;
+    }
+    
+    .action-btn {
+        padding: 4px 8px;
+        font-size: 0.8em;
+    }
+}
