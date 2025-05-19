@@ -46,30 +46,29 @@ if (!$user || $user['role'] !== 'admin') {
 </div>
 
 <script>
-    document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('edit-btn') && event.target.dataset.categoryId) {
-            event.preventDefault();
-            const categoryId = event.target.dataset.categoryId;
-            const categoryName = event.target.closest('tr').querySelector('td:nth-child(2)').textContent.trim();
+    (function() {
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('edit-btn') && event.target.dataset.categoryId) {
+                event.preventDefault();
+                const categoryId = event.target.dataset.categoryId;
+                const categoryName = event.target.closest('tr').querySelector('td:nth-child(2)').textContent.trim();
 
-            // Set form values
-            document.getElementById('category-id').value = categoryId;
-            document.getElementById('category-name').value = categoryName;
+                document.getElementById('category-id').value = categoryId;
+                document.getElementById('category-name').value = categoryName;
 
-            // Open overlay
-            OverlaySystem.open('edit-category-overlay');
-        }
-    });
-
-    // Form validation
-    const form = document.getElementById('edit-category-form');
-    if (form) {
-        form.addEventListener('submit', function(formEvent) {
-            const nameInput = document.getElementById('category-name');
-            if (!nameInput.value.trim()) {
-                formEvent.preventDefault();
-                alert('Category name cannot be empty');
+                OverlaySystem.open('edit-category-overlay');
             }
         });
-    }
+
+        const form = document.getElementById('edit-category-form');
+        if (form) {
+            form.addEventListener('submit', function(formEvent) {
+                const nameInput = document.getElementById('category-name');
+                if (!nameInput.value.trim()) {
+                    formEvent.preventDefault();
+                    alert('Category name cannot be empty');
+                }
+            });
+        }
+    })();
 </script>

@@ -26,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $type = isset($_POST['type']) ? $_POST['type'] : '';
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+$action = isset($_POST['action']) ? $_POST['action'] : 'delete';
 
-
-if (empty($type) || $id <= 0) {
+if (!($type === 'category' && $action === 'add') && (empty($type) || $id <= 0)) {
     $_SESSION['error_message'] = 'Invalid parameters provided';
     header('Location: /pages/admin.php');
     exit();
@@ -82,8 +82,20 @@ try {
         case 'category':
             $action = isset($_POST['action']) ? $_POST['action'] : 'delete';
 
-            if ($action === 'edit') {
-                // This is an update action
+            if ($action === 'add') {
+                $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+
+                if (empty($name)) {
+                    $_SESSION['error_message'] = 'Category name cannot be empty';
+                    break;
+                }
+
+                if (Category::create($name)) {
+                    $_SESSION['success_message'] = 'Category successfully created';
+                } else {
+                    $_SESSION['error_message'] = 'Failed to create category';
+                }
+            } elseif ($action === 'edit') {
                 $name = isset($_POST['name']) ? trim($_POST['name']) : '';
 
                 if (empty($name)) {
@@ -97,7 +109,6 @@ try {
                     $_SESSION['error_message'] = 'Failed to update category';
                 }
             } elseif ($action === 'delete') {
-                // This is a delete action
                 if (Category::delete($id)) {
                     $_SESSION['success_message'] = 'Category successfully deleted';
                 } else {

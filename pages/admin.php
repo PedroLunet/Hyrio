@@ -23,9 +23,9 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
 echo '<script src="/js/overlay.js"></script>';
 
 ?><?php
-    // Include the edit category overlay
     if ($loggedInUser && $loggedInUser['role'] === 'admin') {
         require_once(__DIR__ . '/../overlays/edit_category.php');
+        require_once(__DIR__ . '/../overlays/add_category.php');
     }
     ?><main class="admin-panel">
     <h1>Admin Panel</h1>
@@ -177,7 +177,10 @@ echo '<script src="/js/overlay.js"></script>';
         </div>
     </section>
     <section id="categories-section" class="admin-content-section">
-        <h2>Categories Management</h2>
+        <div class="category-header">
+            <h2>Categories Management</h2>
+            <button class="admin-button" id="add-category-btn">Add Category</button>
+        </div>
         <div class="section-content">
             <table class="admin-table">
                 <thead>
@@ -220,21 +223,16 @@ echo '<script src="/js/overlay.js"></script>';
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-            // Get all buttons and content sections
             const buttons = document.querySelectorAll('.admin-button[data-target]');
             const sections = document.querySelectorAll('.admin-content-section');
 
-            // Add click event to each button
             buttons.forEach(button => {
                     button.addEventListener('click', function() {
-                            // Remove active class from all buttons and sections
                             buttons.forEach(btn => btn.classList.remove('active'));
                             sections.forEach(section => section.classList.remove('active'));
 
-                            // Add active class to clicked button
                             this.classList.add('active');
 
-                            // Get target section and activate it
                             const targetId = this.dataset.target;
                             document.getElementById(targetId).classList.add('active');
                         }
@@ -364,12 +362,18 @@ echo '<script src="/js/overlay.js"></script>';
         }
     });
 
-    // Initialize any admin panel functionality here
     document.addEventListener("DOMContentLoaded", function() {
-        // Initialization code if needed
-    });
+        if (typeof OverlaySystem !== 'undefined' && OverlaySystem.init) {
+            OverlaySystem.init();
+        }
 
-    // No need for the edit button click handler here as it's now in the edit_category.php overlay
+        const addCategoryBtn = document.getElementById('add-category-btn');
+        if (addCategoryBtn) {
+            addCategoryBtn.addEventListener('click', function() {
+                OverlaySystem.open('add-category-overlay');
+            });
+        }
+    });
 </script>
 
 <?php drawFooter(); ?>
