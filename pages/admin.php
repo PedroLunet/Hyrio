@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../includes/auth.php');
 require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../database/classes/category.php');
 
 $loggedInUser = Auth::getInstance()->getUser();
 
@@ -63,7 +64,7 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
     </section>
     <section class="admin-actions">
         <h2>Management</h2>
-        <div class="action-buttons"><button class="admin-button active" data-target="users-section">Manage Users</button><button class="admin-button" data-target="tickets-section">Manage Services</button><button class="admin-button" data-target="departments-section">Manage Categories</button></div>
+        <div class="action-buttons"><button class="admin-button active" data-target="users-section">Manage Users</button><button class="admin-button" data-target="services-section">Manage Services</button><button class="admin-button" data-target="categories-section">Manage Categories</button></div>
     </section>
 
     <section id="users-section" class="admin-content-section active">
@@ -97,11 +98,13 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
                         echo '<td>' . htmlspecialchars(strval($user['role'])) . '</td>';
                         if ($user['role'] === 'admin') {
                             echo '<td>
+                        <button class="action-btn view-btn" onclick="window.location.href=\'/pages/profile.php?username=' . $user['username'] . '\'">View</button>
                         <button class="action-btn delete-btn" data-id="' . $user['id'] . '">Delete</button>
                         <button class="action-btn demote-btn" data-id="' . $user['id'] . '">Demote</button>
                                   </td>';
                         } else {
                             echo '<td>
+                        <button class="action-btn view-btn" onclick="window.location.href=\'/pages/profile.php?username=' . $user['username'] . '\'">View</button>
                         <button class="action-btn delete-btn" data-id="' . $user['id'] . '">Delete</button>
                         <button class="action-btn promote-btn" data-id="' . $user['id'] . '">Promote</button>
                                   </td>';
@@ -118,7 +121,7 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
             ?>
         </div>
     </section>
-    <section id="tickets-section" class="admin-content-section">
+    <section id="services-section" class="admin-content-section">
         <h2>Services Management</h2>
         <div class="section-content">
             <table class="admin-table">
@@ -166,34 +169,45 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
             ?>
         </div>
     </section>
-    <!-- Departments Section -->
-    <section id="departments-section" class="admin-content-section">
-        <h2>Departments Management</h2>
+    <section id="categories-section" class="admin-content-section">
+        <h2>Categories Management</h2>
         <div class="section-content">
             <table class="admin-table">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Technical Support</td>
-                        <td>Handle technical issues and bug reports</td>
-                        <td><button class="action-btn edit-btn">Edit</button><button class="action-btn delete-btn">Delete</button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Customer Service</td>
-                        <td>Handle customer inquiries and concerns</td>
-                        <td><button class="action-btn edit-btn">Edit</button><button class="action-btn delete-btn">Delete</button></td>
-                    </tr>
+                    <?php
+                    $page = isset($_GET['category_page']) ? (int)$_GET['category_page'] : 1;
+                    $perPage = 50;
+                    $offset = ($page - 1) * $perPage;
+
+                    $categories = Category::getAllCategories($offset, $perPage);
+                    $totalCategories = Category::getTotalCategories();
+                    $totalPages = ceil($totalCategories / $perPage);
+
+                    foreach ($categories as $category) {
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars(strval($category['id'])) . '</td>';
+                        echo '<td>' . htmlspecialchars($category['name']) . '</td>';
+                        echo '<td>
+                            <button class="action-btn edit-btn" onclick="window.location.href=\'/pages/edit_category.php?id=' . $category['id'] . '\'">Edit</button>
+                            <button class="action-btn delete-btn" data-id="' . $category['id'] . '">Delete</button>
+                        </td>';
+                        echo '</tr>';
+                    }
+                    ?>
                 </tbody>
             </table>
+
+            <?php
+            require_once(__DIR__ . '/../components/pagination/pagination.php');
+            Pagination::render($page, intval($totalPages), 'category_page');
+            ?>
         </div>
     </section>
 </main>
@@ -236,8 +250,8 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
             let type = document.querySelector('.admin-button.active').dataset.target.replace('-section', '');
 
             if (type === 'users') type = 'user';
-            else if (type === 'tickets') type = 'service';
-            else if (type === 'departments') type = 'category';
+            else if (type === 'services') type = 'service';
+            else if (type === 'categories') type = 'category';
 
             if (confirm(`Are you sure you want to delete this ${type}? This action cannot be undone.`)) {
                 const form = document.createElement('form');

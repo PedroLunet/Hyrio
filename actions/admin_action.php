@@ -6,7 +6,7 @@ require_once(__DIR__ . '/../includes/auth.php');
 require_once(__DIR__ . '/../includes/database.php');
 require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../database/classes/service.php');
-require_once(__DIR__ . '/../components/categories/categories.php');
+require_once(__DIR__ . '/../database/classes/category.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -59,7 +59,7 @@ try {
                     $_SESSION['error_message'] = 'Failed to demote user';
                 }
             } elseif ($action === 'delete') {
-                if (User::deleteUser($id)) {
+                if (User::delete($id)) {
                     $_SESSION['success_message'] = 'User successfully deleted';
                 } else {
                     $_SESSION['error_message'] = 'Failed to delete user';
@@ -80,8 +80,11 @@ try {
 
             break;
         case 'category':
-            $_SESSION['error_message'] = 'Category deletion not implemented';
-
+            if (Category::delete($id)) {
+                $_SESSION['success_message'] = 'Category successfully deleted';
+            } else {
+                $_SESSION['error_message'] = 'Failed to delete category';
+            }
             break;
         case 'ticket':
             $_SESSION['error_message'] = 'Ticket deletion not implemented';

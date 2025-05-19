@@ -53,11 +53,11 @@ if (empty($name) || empty($username) || empty($email)) {
     } else if ($newPassword !== $confirmPassword) {
         $error = "New passwords don't match";
     } else {
-        User::updateUser($loggedInUser['id'], $name, $username, $email, $bio, $profilePicture);
+        User::update($loggedInUser['id'], $name, $username, $email, $bio, $profilePicture);
         User::updatePassword($loggedInUser['id'], $newPassword);
     }
 } else {
-    User::updateUser($loggedInUser['id'], $name, $username, $email, $bio, $profilePicture);
+    User::update($loggedInUser['id'], $name, $username, $email, $bio, $profilePicture);
 }
 
 if (!$error) {

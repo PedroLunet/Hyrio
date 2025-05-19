@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 require_once(__DIR__ . '/../../includes/database.php');
 
 class User
@@ -26,7 +25,7 @@ class User
         $this->bio = $bio;
     }
 
-    public static function createUser(string $name, string $username, string $email, string $password, string $role = 'user', string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
+    public static function create(string $name, string $username, string $email, string $password, string $role = 'user', string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
     {
         try {
             $db = Database::getInstance();
@@ -38,7 +37,7 @@ class User
         }
     }
 
-    public static function updateUser(int $id, string $name, string $username, string $email, string $bio, string $profilePic)
+    public static function update(int $id, string $name, string $username, string $email, string $bio, string $profilePic)
     {
         try {
             $db = Database::getInstance();
@@ -50,7 +49,7 @@ class User
         }
     }
 
-    public static function deleteUser(int $id)
+    public static function delete(int $id)
     {
         try {
             $db = Database::getInstance();
@@ -172,8 +171,8 @@ class User
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('SELECT * FROM users LIMIT ?, ?');
-            $stmt->bindParam(1, $offset, PDO::PARAM_INT);
-            $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+                $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+                $stmt->bindParam(2, $limit, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
