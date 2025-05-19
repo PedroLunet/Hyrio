@@ -146,6 +146,6 @@ footer {
 	color: var(--text);
 	flex-shrink: 0; 
 	position: relative; 
-	z-index: 5; 
+	z-index: 2; 
 	background-color: var(--background); 
 }
