@@ -118,40 +118,52 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
             ?>
         </div>
     </section>
-    <!-- Tickets Section -->
     <section id="tickets-section" class="admin-content-section">
-        <h2>Tickets Management</h2>
+        <h2>Services Management</h2>
         <div class="section-content">
             <table class="admin-table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Subject</th>
-                        <th>User</th>
-                        <th>Status</th>
-                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Seller</th>
+                        <th>Category</th>
+                        <th>Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Payment Issue</td>
-                        <td>johndoe</td>
-                        <td>Open</td>
-                        <td>2023-05-10</td>
-                        <td><button class="action-btn edit-btn">View</button><button class="action-btn delete-btn">Close</button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Account Access</td>
-                        <td>janesmith</td>
-                        <td>Resolved</td>
-                        <td>2023-05-09</td>
-                        <td><button class="action-btn edit-btn">View</button><button class="action-btn delete-btn">Close</button></td>
-                    </tr>
+                    <?php
+                    $page = isset($_GET['service_page']) ? (int)$_GET['service_page'] : 1;
+                    $perPage = 50;
+                    $offset = ($page - 1) * $perPage;
+
+                    $services = Service::getAllServices($offset, $perPage);
+                    $totalServices = Service::getTotalServices();
+                    $totalPages = ceil($totalServices / $perPage);
+
+                    foreach ($services as $service) {
+                        $user = User::getUserById($service['seller']);
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars(strval($service['id'])) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($service['name'])) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($user->getName())) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($service['category'])) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($service['price'])) . '</td>';
+                        echo '<td>
+                            <button class="action-btn view-btn" onclick="window.location.href=\'/pages/service.php?id=' . $service['id'] . '\'">View</button>
+                            <button class="action-btn delete-btn" data-id="' . $service['id'] . '">Delete</button>
+                        </td>';
+                        echo '</tr>';
+                    }
+                    ?>
                 </tbody>
             </table>
+
+            <?php
+            require_once(__DIR__ . '/../components/pagination/pagination.php');
+            Pagination::render($page, intval($totalPages), 'service_page');
+            ?>
         </div>
     </section>
     <!-- Departments Section -->
