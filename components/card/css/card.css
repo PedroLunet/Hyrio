@@ -113,16 +113,15 @@
 	border-radius: 24px;
 }
 
-.card-image-container {
+.image-container {
 	position: relative;
-	overflow: hidden;
-	border-radius: 24px;
+	width: 100%;
 }
 
 .card img {
 	display: block;
-	border-radius: 28px;
 	width: 100%;
+	border-radius: 28px;
 	object-fit: cover; /* Ensures images maintain aspect ratio */
 }
 
@@ -130,6 +129,7 @@
 	position: absolute;
 	top: 10px;
 	right: 10px;
+	z-index: 5; /* Ensure it appears above the image */
 	background-color: rgba(0, 0, 0, 0.25); /* Reduced opacity for transparency */
 	color: white;
 	border-radius: 20px;
@@ -146,7 +146,12 @@
 }
 
 .card-rating:hover {
-	background-color: rgba(0, 0, 0, 0.5); /* Darker on hover for better visibility */
+	background-color: rgba(
+		0,
+		0,
+		0,
+		0.5
+	); /* Darker on hover for better visibility */
 }
 
 .card-rating i {
@@ -155,6 +160,7 @@
 }
 
 .card#container {
+	position: relative; /* Add this for proper positioning of rating */
 	background-color: whitesmoke;
 	margin: 0 auto;
 	padding: 4px;
