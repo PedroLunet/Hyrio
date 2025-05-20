@@ -44,7 +44,7 @@ class Card
         </div>
 
         <div class="image-container">
-          <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/placeholder.png' ?>"
+          <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/logo.png' ?>"
             alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
         </div>
 

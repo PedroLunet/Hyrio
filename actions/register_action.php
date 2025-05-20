@@ -20,7 +20,7 @@ if (empty($name) || empty($username) || empty($email) || empty($password)) {
 } else if ($password !== $confirm_password) {
     $error = "Passwords don't match";
 } else {
-    $user = User::createUser($name, $username, $email, $password);
+    $user = User::create($name, $username, $email, $password);
     if ($user) {
         header('Location: /pages/login.php');
         exit;

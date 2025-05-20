@@ -280,16 +280,16 @@
 }
 
 /* Logout item special styling */
-.profile-dropdown-menu .dropdown-item:nth-child(3) {
+.profile-dropdown-menu .dropdown-item:last-of-type {
 	background-color: #ffeeee;
 	color: #e74c3c;
 }
 
-.profile-dropdown-menu .dropdown-item:nth-child(3) i {
+.profile-dropdown-menu .dropdown-item:last-of-type i {
 	color: #e74c3c;
 }
 
-.profile-dropdown-menu .dropdown-item:nth-child(3):hover {
+.profile-dropdown-menu .dropdown-item:last-of-type:hover {
 	background-color: #ffd8d8;
 }
 
