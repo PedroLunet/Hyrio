@@ -5,9 +5,20 @@ declare(strict_types=1);
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../components/button/button.php');
+require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
-$user = User::getUserByUsername((string)$_GET['username']);
+// Get the username from the URL
+$username = isset($_GET['username']) ? (string)$_GET['username'] : '';
+$user = User::getUserByUsername($username);
+
+// Check if user exists
+if (!$user) {
+    // Redirect to home page if user doesn't exist
+    header('Location: /');
+    exit;
+}
+
 $loggedInUser = Auth::getInstance()->getUser();
 
 head();
@@ -65,9 +76,27 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
         </section>
         <?php
         if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
-            echo '<section>';
+            echo '<section class="profile-favorites">';
             echo '<h2>Favorites</h2>';
-            echo '<p>You haven\'t liked any services yet. Try saving one by clicking the favorite button in the service page.</p>';
+            
+            // Get user favorites using User class
+            $favorites = $user->getUserFavorites(userId: $user->getId());
+            
+            if (empty($favorites)) {
+                echo '<p>You haven\'t liked any services yet. Try saving one by clicking the heart button in the service page.</p>';
+            } else {
+                echo '<div class="favorites-grid">';
+                foreach ($favorites as $favorite) {
+                    // Set default image if not available
+                    if (!isset($favorite['image']) || empty($favorite['image'])) {
+                        $favorite['image'] = '/assets/placeholder.png';
+                    }
+                    
+                    Card::render($favorite);
+                }
+                echo '</div>';
+            }
+            
             echo '</section>';
         }
         ?>

@@ -48,4 +48,26 @@ class Auth
         }
         session_destroy();
     }
+    
+}
+
+// Global helper functions for auth
+function isLoggedIn(): bool {
+    return Auth::getInstance()->getUser() !== null;
+}
+
+function getCurrentUser() {
+    $userData = Auth::getInstance()->getUser();
+    if ($userData) {
+        return new User(
+            $userData['id'],
+            $userData['name'],
+            $userData['username'],
+            $userData['email'],
+            $userData['role'],
+            $userData['profile_pic'],
+            $userData['bio'] ?? ''
+        );
+    }
+    return null;
 }

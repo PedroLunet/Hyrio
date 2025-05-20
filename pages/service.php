@@ -4,6 +4,8 @@ require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../includes/auth.php');
 
 head();
 
@@ -15,6 +17,16 @@ $serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 // Using the Service class from /database/classes/service.php
 $service = $serviceId ? Service::getServiceDetailsById($serviceId) : null;
+
+// Check if the service is favorited by the current user
+$isFavorite = false;
+$currentUser = null;
+if (isLoggedIn()) {
+    $currentUser = getCurrentUser();
+    if ($currentUser && $serviceId) {
+        $isFavorite = User::isFavorite($currentUser->getId(), $serviceId);
+    }
+}
 
 // Ensure service exists before adding defaults
   if ($service) {
@@ -43,7 +55,7 @@ drawHeader();
             </div>
           <?php endif; ?>
           <div class="favorite-price-container">
-            <button class="favorite-button" id="favoriteBtn" aria-label="Add to favorites">
+            <button class="favorite-button <?php echo $isFavorite ? 'active' : ''; ?>" id="favoriteBtn" aria-label="<?php echo $isFavorite ? 'Remove from favorites' : 'Add to favorites'; ?>">
               <i class="ph-bold ph-heart"></i>
             </button>
             <div class="price-section">
