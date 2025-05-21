@@ -148,7 +148,7 @@ VALUES (
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'pedroafmonteiro10@gmail.com',
         'admin',
-        'database/profiles/14/profile_picture.jpg',
+        'database/assets/profiles/14/profile_picture.jpg',
         'Administrator of the platform'
     ),
     (
