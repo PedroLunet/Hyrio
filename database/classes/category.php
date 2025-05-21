@@ -61,14 +61,20 @@ class Category
         }
     }
 
-    public static function getAllCategories(int $offset, int $limit): array
+    public static function getAllCategories(int $offset = 0, int $limit = 0): array
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('SELECT * FROM categories LIMIT ?, ?');
-            $stmt->bindParam(1, $offset, PDO::PARAM_INT);
-            $stmt->bindParam(2, $limit, PDO::PARAM_INT);
-            $stmt->execute();
+            
+            if ($limit === 0) {
+                $stmt = $db->query('SELECT * FROM categories');
+            } else {
+                $stmt = $db->prepare('SELECT * FROM categories LIMIT ?, ?');
+                $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+                $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+            
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return [];

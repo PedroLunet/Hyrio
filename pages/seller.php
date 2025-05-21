@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../includes/auth.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../overlays/add_service.php');
 
 $loggedInUser = Auth::getInstance()->getUser();
 
@@ -19,6 +20,7 @@ drawHeader();
 
 echo '<link rel="stylesheet" href="../css/panel.css">';
 echo '<link rel="stylesheet" href="../css/service.css">';
+echo '<script src="/js/overlay.js"></script>';
 
 ?>
 
@@ -26,7 +28,6 @@ echo '<link rel="stylesheet" href="../css/service.css">';
     <h1>Welcome, <?php echo htmlspecialchars($loggedInUser['name']); ?></h1>
 
     <section>
-        <!-- <h2>Welcome, <?php echo htmlspecialchars($loggedInUser['name']); ?></h2> -->
         <div class="dashboard-stats">
             <div class="stat-card">
                 <h3>Total Earnings</h3>
@@ -45,7 +46,7 @@ echo '<link rel="stylesheet" href="../css/service.css">';
     <section class="">
         <div class="section-header">
             <h2>Your Listing</h2>
-            <button href="/pages/create-service.php" class="section-header-button">Create New Listing</button>
+            <button class="section-header-button" id="add-listing-btn">Create New Listing</button>
         </div>
         <div class="services-row">
             <?php
@@ -66,3 +67,18 @@ echo '<link rel="stylesheet" href="../css/service.css">';
 <?php
 drawFooter();
 ?>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof OverlaySystem !== 'undefined' && OverlaySystem.init) {
+            OverlaySystem.init();
+        }
+
+        const addCategoryBtn = document.getElementById('add-listing-btn');
+        if (addCategoryBtn) {
+            addCategoryBtn.addEventListener('click', function() {
+                OverlaySystem.open('add-service-overlay');
+            });
+        }
+    });
+</script>

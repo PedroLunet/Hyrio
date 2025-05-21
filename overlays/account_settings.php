@@ -22,7 +22,7 @@ if (!$user) {
             <button class="close-btn" aria-label="Close">x</button>
         </div>
 
-        <div class="overlay-body">
+        <div class="overlay-body account-settings-body">
             <form action="/actions/update_account_action.php" method="post" class="settings-form" enctype="multipart/form-data">
 
                 <?php if (isset($_SESSION['update_account_settings_error'])): ?>
