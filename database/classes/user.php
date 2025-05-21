@@ -10,27 +10,29 @@ class User
     private string $name;
     private string $username;
     private string $email;
-    private string $role;
+    private bool $isSeller;
+    private bool $isAdmin;
     private string $profilePic;
     private string $bio;
 
-    public function __construct(int $id, string $name, string $username, string $email, string $role, string $profilePic, string $bio)
+    public function __construct(int $id, string $name, string $username, string $email, bool $isSeller, bool $isAdmin, string $profilePic, string $bio)
     {
         $this->id = $id;
         $this->name = $name;
         $this->username = $username;
         $this->email = $email;
-        $this->role = $role;
+        $this->isSeller = $isSeller;
+        $this->isAdmin = $isAdmin;
         $this->profilePic = $profilePic;
         $this->bio = $bio;
     }
 
-    public static function create(string $name, string $username, string $email, string $password, string $role = 'user', string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
+    public static function create(string $name, string $username, string $email, string $password, bool $isSeller = false, bool $isAdmin = false, string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('INSERT INTO users (name, username, email, password, role, profile_pic, bio) VALUES (?, ?, ?, ?, ?, ?, ?)');
-            $stmt->execute([$name, $username, $email, password_hash($password, PASSWORD_DEFAULT), $role, $profilePic, $bio]);
+            $stmt = $db->prepare('INSERT INTO users (name, username, email, password, is_seller, is_admin, profile_pic, bio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([$name, $username, $email, password_hash($password, PASSWORD_DEFAULT), $isSeller, $isAdmin, $profilePic, $bio]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -128,7 +130,7 @@ class User
             $user = $stmt->fetch();
 
             if ($user) {
-                return new User($user['id'], $user['name'], $user['username'], $user['email'], $user['role'], $user['profile_pic'], $user['bio']);
+                return new User($user['id'], $user['name'], $user['username'], $user['email'], (bool)$user['is_seller'], (bool)$user['is_admin'], $user['profile_pic'], $user['bio']);
             }
 
             return null;
@@ -146,7 +148,7 @@ class User
             $user = $stmt->fetch();
 
             if ($user) {
-                return new User($user['id'], $user['name'], $user['username'], $user['email'], $user['role'], $user['profile_pic'], $user['bio']);
+                return new User($user['id'], $user['name'], $user['username'], $user['email'], (bool)$user['is_seller'], (bool)$user['is_admin'], $user['profile_pic'], $user['bio']);
             }
 
             return null;
@@ -171,8 +173,8 @@ class User
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('SELECT * FROM users LIMIT ?, ?');
-                $stmt->bindParam(1, $offset, PDO::PARAM_INT);
-                $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+            $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+            $stmt->bindParam(2, $limit, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -184,8 +186,8 @@ class User
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('UPDATE users SET role = ? WHERE id = ?');
-            $stmt->execute(['admin', $id]);
+            $stmt = $db->prepare('UPDATE users SET is_admin = ? WHERE id = ?');
+            $stmt->execute([1, $id]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
@@ -196,8 +198,32 @@ class User
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('UPDATE users SET role = ? WHERE id = ?');
-            $stmt->execute(['user', $id]);
+            $stmt = $db->prepare('UPDATE users SET is_admin = ? WHERE id = ?');
+            $stmt->execute([0, $id]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function addFreelancerStatus(int $id): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET is_seller = ? WHERE id = ?');
+            $stmt->execute([1, $id]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public static function removeFreelancerStatus(int $id): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('UPDATE users SET is_seller = ? WHERE id = ?');
+            $stmt->execute([0, $id]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return false;
@@ -224,9 +250,21 @@ class User
         return $this->email;
     }
 
+    public function isSeller(): bool
+    {
+        return $this->isSeller;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
+
     public function getRole(): string
     {
-        return $this->role;
+        if ($this->isAdmin) return 'admin';
+        if ($this->isSeller) return 'freelancer';
+        return 'user';
     }
 
     public function getProfilePic(): string

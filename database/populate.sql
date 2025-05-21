@@ -7,7 +7,8 @@ INSERT
         username,
         password,
         email,
-        role,
+        is_seller,
+        is_admin,
         profile_pic,
         bio
     )
@@ -17,7 +18,8 @@ VALUES (
         'arestivo',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'arestivo@fe.up.pt',
-        'admin',
+        0,
+        1,
         'database/assets/adminProfilePic.jpg',
         'Administrator of the platform'
     ),
@@ -27,7 +29,8 @@ VALUES (
         'john_doe',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'john@example.com',
-        'user',
+        0,
+        0,
         'database/assets/userProfilePic.jpg',
         'Regular user'
     ),
@@ -37,7 +40,8 @@ VALUES (
         'jane_smith',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'jane@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in design'
     ),
@@ -47,7 +51,8 @@ VALUES (
         'alice_johnson',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'alice@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in illustration'
     ),
@@ -57,7 +62,8 @@ VALUES (
         'bob_brown',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'bob@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in backend development'
     ),
@@ -67,7 +73,8 @@ VALUES (
         'charlie_davis',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'charlie@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in video editing'
     ),
@@ -77,7 +84,8 @@ VALUES (
         'diana_evans',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'diana@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in photography'
     ),
@@ -87,7 +95,8 @@ VALUES (
         'ethan_foster',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'ethan@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in mobile app development'
     ),
@@ -97,7 +106,8 @@ VALUES (
         'fiona_green',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'fiona@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in content marketing'
     ),
@@ -107,7 +117,8 @@ VALUES (
         'george_harris',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'george@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in SEO optimization'
     ),
@@ -117,7 +128,8 @@ VALUES (
         'hannah_white',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'hannah@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in social media management'
     ),
@@ -127,7 +139,8 @@ VALUES (
         'ian_king',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'ian@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in game development'
     ),
@@ -137,7 +150,8 @@ VALUES (
         'julia_lee',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'julia@example.com',
-        'freelancer',
+        1,
+        0,
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in UX/UI design'
     ),
@@ -147,7 +161,8 @@ VALUES (
         'pedroafmonteiro',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'pedroafmonteiro10@gmail.com',
-        'admin',
+        0,
+        1,
         'database/assets/profiles/14/profile_picture.jpg',
         'Administrator of the platform'
     ),
@@ -157,7 +172,8 @@ VALUES (
         'pedrolunet',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'pedrolunet@gmail.com',
-        'admin',
+        0,
+        1,
         'database/assets/adminProfilePic.jpg',
         'Administrator of the platform'
     ),
@@ -167,7 +183,8 @@ VALUES (
         'joaolopes',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'joaomlopes20059@gmail.com',
-        'admin',
+        0,
+        1,
         'database/assets/adminProfilePic.jpg',
         'Administrator of the platform'
     );

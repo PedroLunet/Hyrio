@@ -67,7 +67,7 @@ class Navbar
           echo '<div class="profile-dropdown-menu">';
           echo '<div class="user-name">' . htmlspecialchars($user['name']) . '</div>';
           echo '<a href="/pages/profile.php?username=' . htmlspecialchars($user['username']) . '" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>';
-          if ($user['role'] === 'admin') {
+          if ($user['is_admin']) {
             echo '<a href="/pages/admin.php" class="dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>';
           }
           echo '<a href="/actions/logout_action.php" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>';

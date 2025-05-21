@@ -68,6 +68,8 @@ if (!$error) {
         'email' => $email,
         'bio' => $bio,
         'profile_pic' => $profilePicture,
+        'is_seller' => $loggedInUser['is_seller'],
+        'is_admin' => $loggedInUser['is_admin']
     ];
 }
 

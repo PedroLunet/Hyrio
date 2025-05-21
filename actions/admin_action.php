@@ -14,7 +14,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 $user = Auth::getInstance()->getUser();
 
-if (!$user || $user['role'] !== 'admin') {
+if (!$user || !$user['is_admin']) {
     header('Location: /pages/login.php');
     exit();
 }
@@ -51,7 +51,7 @@ try {
                 if (User::removeAdminPrivileges($id)) {
                     $_SESSION['success_message'] = 'User successfully demoted to user';
                     if ($id === $user['id']) {
-                        $_SESSION['user']['role'] = 'user';
+                        $_SESSION['user']['is_admin'] = false;
                         header('Location: /');
                         exit();
                     }

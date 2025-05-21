@@ -10,7 +10,7 @@ require_once(__DIR__ . '/../database/classes/category.php');
 
 $loggedInUser = Auth::getInstance()->getUser();
 
-if (!$loggedInUser || $loggedInUser['role'] !== 'admin') {
+if (!$loggedInUser || !$loggedInUser['is_admin']) {
     header('Location: /');
     exit();
 }
@@ -23,7 +23,7 @@ echo '<link rel="stylesheet" href="../css/admin.css">';
 echo '<script src="/js/overlay.js"></script>';
 
 ?><?php
-    if ($loggedInUser && $loggedInUser['role'] === 'admin') {
+    if ($loggedInUser && $loggedInUser['is_admin']) {
         require_once(__DIR__ . '/../overlays/edit_category.php');
         require_once(__DIR__ . '/../overlays/add_category.php');
     }
@@ -105,12 +105,21 @@ echo '<script src="/js/overlay.js"></script>';
                     $totalPages = ceil($totalUsers / $perPage);
 
                     foreach ($users as $user) {
+                        if ($user['is_admin'] && $user['is_seller']) {
+                            $role = 'seller, admin';
+                        } elseif ($user['is_admin']) {
+                            $role = 'admin';
+                        } elseif ($user['is_seller']) {
+                            $role = 'seller';
+                        } else {
+                            $role = 'user';
+                        }
                         echo '<tr>';
                         echo '<td>' . htmlspecialchars(strval($user['id'])) . '</td>';
                         echo '<td>' . htmlspecialchars(strval($user['username'])) . '</td>';
                         echo '<td>' . htmlspecialchars(strval($user['email'])) . '</td>';
-                        echo '<td>' . htmlspecialchars(strval($user['role'])) . '</td>';
-                        if ($user['role'] === 'admin') {
+                        echo '<td>' . htmlspecialchars(strval($role)) . '</td>';
+                        if ($user['is_admin']) {
                             echo '<td>
                         <button class="action-btn view-btn" onclick="window.location.href=\'/pages/profile.php?username=' . $user['username'] . '\'">View</button>
                         <button class="action-btn delete-btn" data-id="' . $user['id'] . '">Delete</button>
