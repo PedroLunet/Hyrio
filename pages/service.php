@@ -102,7 +102,7 @@ drawHeader();
             Card::render($relatedService);
           }
         } else {
-          echo '<p class="no-related">No related services found in this category.</p>';
+          echo '<p class="none">No related services found in this category.</p>';
         }
         ?>
       </div>
@@ -119,7 +119,7 @@ drawHeader();
             Card::render($sellerService);
           }
         } else {
-          echo '<p class="no-related">No other services available from this seller.</p>';
+          echo '<p class="none">No other services available from this seller.</p>';
         }
         ?>
       </div>

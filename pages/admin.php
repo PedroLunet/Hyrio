@@ -19,7 +19,7 @@ head();
 drawHeader();
 
 echo '<link rel="stylesheet" href="../css/forms.css">';
-echo '<link rel="stylesheet" href="../css/admin.css">';
+echo '<link rel="stylesheet" href="../css/panel.css">';
 echo '<script src="/js/overlay.js"></script>';
 
 ?><?php
@@ -75,9 +75,9 @@ echo '<script src="/js/overlay.js"></script>';
     <section class="admin-actions">
         <h2>Management</h2>
         <div class="action-buttons">
-            <button class="admin-button <?php echo $section === 'users' ? 'active' : ''; ?>" data-target="users-section">Manage Users</button>
-            <button class="admin-button <?php echo $section === 'services' ? 'active' : ''; ?>" data-target="services-section">Manage Services</button>
-            <button class="admin-button <?php echo $section === 'categories' ? 'active' : ''; ?>" data-target="categories-section">Manage Categories</button>
+            <button class="section-header-button <?php echo $section === 'users' ? 'active' : ''; ?>" data-target="users-section">Manage Users</button>
+            <button class="section-header-button <?php echo $section === 'services' ? 'active' : ''; ?>" data-target="services-section">Manage Services</button>
+            <button class="section-header-button <?php echo $section === 'categories' ? 'active' : ''; ?>" data-target="categories-section">Manage Categories</button>
         </div>
     </section>
 
@@ -193,9 +193,9 @@ echo '<script src="/js/overlay.js"></script>';
         </div>
     </section>
     <section id="categories-section" class="admin-content-section <?php echo $section === 'categories' ? 'active' : ''; ?>">
-        <div class="category-header">
+        <div class="section-header">
             <h2>Categories Management</h2>
-            <button class="admin-button" id="add-category-btn">Add Category</button>
+            <button class="section-header-button" id="add-category-btn">Add Category</button>
         </div>
         <div class="section-content">
             <table class="admin-table">
@@ -239,7 +239,7 @@ echo '<script src="/js/overlay.js"></script>';
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.admin-button[data-target]');
+            const buttons = document.querySelectorAll('.section-header-button[data-target]');
             const sections = document.querySelectorAll('.admin-content-section');
 
             buttons.forEach(button => {
@@ -271,7 +271,7 @@ echo '<script src="/js/overlay.js"></script>';
                     buttons.forEach(btn => btn.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
 
-                    const button = document.querySelector(`.admin-button[data-target="${targetId}"]`);
+                    const button = document.querySelector(`.section-header-button[data-target="${targetId}"]`);
                     if (button) button.classList.add('active');
 
                     const section = document.getElementById(targetId);
@@ -292,7 +292,7 @@ echo '<script src="/js/overlay.js"></script>';
             const id = event.target.dataset.id;
             const row = event.target.closest('tr');
 
-            let type = document.querySelector('.admin-button.active').dataset.target.replace('-section', '');
+            let type = document.querySelector('.section-header-button.active').dataset.target.replace('-section', '');
 
             if (type === 'users') type = 'user';
             else if (type === 'services') type = 'service';
