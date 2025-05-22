@@ -2,7 +2,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (id INTEGER PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   username VARCHAR(255) NOT NULL UNIQUE,
-  password TEXT NOT NULL, -- Use bcrypt for hashing email VARCHAR(255) NOT NULL UNIQUE,
+  password TEXT NOT NULL, -- Use bcrypt for hashing
+  email VARCHAR(255) NOT NULL UNIQUE,
   role VARCHAR(50) NOT NULL CHECK (role IN ('user', 'freelancer', 'admin')),
   profile_pic TEXT NOT NULL,
   bio TEXT);
@@ -27,3 +28,12 @@ CREATE TABLE favorites (id INTEGER PRIMARY KEY,
   service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(user_id, service_id));
+
+DROP TABLE IF EXISTS purchases;
+CREATE TABLE purchases (
+  id INTEGER PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE,
+  price DECIMAL(10,2) NOT NULL,
+  purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

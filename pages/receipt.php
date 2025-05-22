@@ -5,33 +5,37 @@ declare(strict_types=1);
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../database/classes/service.php');
 require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../database/classes/purchase.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
 head();
 echo '<link rel="stylesheet" href="/css/service.css">';
 
-$service = Service::getServiceById((int) ($_POST['id'] ?? 0));
-$seller = $service ? User::getUserById($service->getSeller()) : null;
-$loggedInUser = Auth::getInstance()->getUser();
-
-// For demo, generate a fake receipt number and date
-$receiptNumber = 'R' . str_pad((string) rand(1, 999999), 6, '0', STR_PAD_LEFT);
-$date = date('Y-m-d H:i:s');
+$purchase = null;
+if (isset($_GET['purchase_id'])) {
+  $purchase = Purchase::getById((int) $_GET['purchase_id']);
+  if ($purchase) {
+    $service = Service::getServiceById((int) $purchase['service_id']);
+    $seller = $service ? User::getUserById($service->getSeller()) : null;
+    $buyer = User::getUserById((int) $purchase['user_id']);
+  }
+}
 
 drawHeader();
 ?>
 <main>
-  <?php if ($service && $seller): ?>
+  <?php if ($purchase && $service && $seller && $buyer): ?>
     <div class="receipt-container">
       <h1>Payment Receipt</h1>
       <div class="receipt-details">
-        <p><strong>Receipt #:</strong> <?= htmlspecialchars($receiptNumber) ?></p>
-        <p><strong>Date:</strong> <?= htmlspecialchars($date) ?></p>
+        <p><strong>Receipt #:</strong> <?= (int) $purchase['id'] ?></p>
+        <p><strong>Date:</strong> <?= htmlspecialchars($purchase['purchased_at']) ?></p>
         <hr>
         <h2><?= htmlspecialchars($service->getName()) ?></h2>
         <p>by <?= htmlspecialchars($seller->getName()) ?></p>
+        <p>Purchased by: <?= htmlspecialchars($buyer->getName()) ?></p>
         <p><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
-        <p><strong>Price Paid:</strong> <?= htmlspecialchars(number_format($service->getPrice(), 2)) ?>€</p>
+        <p><strong>Price Paid:</strong> <?= htmlspecialchars(number_format($purchase['price'], 2)) ?>€</p>
         <hr>
         <p>Thank you for your purchase!</p>
         <a href="/" class="btn btn-primary">Back to Home</a>

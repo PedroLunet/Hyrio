@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../database/classes/service.php');
 require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../database/classes/purchase.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
 head();
@@ -14,6 +15,14 @@ echo '<link rel="stylesheet" href="/css/service.css">';
 $service = Service::getServiceById((int) $_GET['id']);
 $seller = $service ? User::getUserById($service->getSeller()) : null;
 $loggedInUser = Auth::getInstance()->getUser();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $loggedInUser && $service) {
+  // Store purchase in DB
+  $purchaseId = Purchase::create($loggedInUser['id'], $service->getId(), $service->getPrice());
+  // Redirect to receipt with purchase id
+  header('Location: /pages/receipt.php?purchase_id=' . $purchaseId);
+  exit();
+}
 
 drawHeader();
 ?>
@@ -31,7 +40,7 @@ drawHeader();
           <p><strong>Price:</strong> <?= htmlspecialchars(number_format($service->getPrice(), 2)) ?>€</p>
         </div>
       </div>
-      <form id="pay-form" action="/pages/receipt.php" method="post">
+      <form id="pay-form" action="/pages/checkout.php?id=<?= $service->getId() ?>" method="post">
         <input type="hidden" name="id" value="<?= $service->getId() ?>">
         <button type="button" id="pay-button" class="btn btn-primary">Pay</button>
       </form>
