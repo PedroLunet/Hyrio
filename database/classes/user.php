@@ -224,7 +224,15 @@ class User
                 ORDER BY f.created_at DESC
             ');
             $stmt->execute([$userId]);
-            return $stmt->fetchAll();
+            $services = $stmt->fetchAll();
+            
+            foreach ($services as &$service) {
+                if (isset($service['image']) && $service['image'] && substr($service['image'], 0, 1) !== '/') {
+                    $service['image'] = '/' . $service['image'];
+                }
+            }
+            
+            return $services;
         } catch (PDOException $e) {
             return [];
         }

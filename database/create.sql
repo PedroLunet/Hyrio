@@ -28,11 +28,3 @@ CREATE TABLE services (
   rating DECIMAL(2, 1) CHECK (rating >= 0 AND rating <= 5)
 );
 
-DROP TABLE IF EXISTS favorites;
-CREATE TABLE favorites (
-  id INTEGER PRIMARY KEY,
-  user_id INTEGER NOT NULL REFERENCES users(id),
-  service_id INTEGER NOT NULL REFERENCES services(id),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE(user_id, service_id)
-);

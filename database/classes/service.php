@@ -96,22 +96,33 @@ class Service
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('
-                SELECT * FROM services WHERE id = ?
+                SELECT services.*, users.name as seller_name, users.profile_pic, users.bio, categories.name as category_name
+                FROM services
+                JOIN users ON services.seller = users.id
+                JOIN categories ON services.category = categories.id
+                WHERE services.id = ?
             ');
             $stmt->execute([$id]);
             $serviceData = $stmt->fetch();
 
             if ($serviceData) {
-                return new Service(
+                $service = new Service(
                     (int)$serviceData['id'],
                     $serviceData['name'],
                     $serviceData['description'],
                     (float)$serviceData['price'],
                     (int)$serviceData['seller'],
                     (int)$serviceData['category'],
-                    $serviceData['image'] ?: '/assets/placeholder.png',
+                    $serviceData['image'],
                     isset($serviceData['rating']) ? (float)$serviceData['rating'] : null
                 );
+                // Add additional properties to the service object
+                $service->seller_name = $serviceData['seller_name'];
+                $service->profile_pic = $serviceData['profile_pic'];
+                $service->bio = $serviceData['bio'];
+                $service->category_name = $serviceData['category_name'];
+                
+                return $service;
             }
             return null;
         } catch (PDOException $e) {
@@ -119,45 +130,6 @@ class Service
         }
     }
 
-    /**
-     * Get service details with seller and category information
-     */
-    public static function getServiceDetailsById(int $id): ?array
-    {
-        try {
-            $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, users.profile_pic, users.bio, categories.name as category_name
-                FROM services 
-                JOIN users ON services.seller = users.id
-                JOIN categories ON services.category = categories.id
-                WHERE services.id = ?
-            ');
-            $stmt->execute([$id]);
-            $service = $stmt->fetch();
-            
-            if ($service) {
-                // Set default image if not available
-                if (!isset($service['image']) || empty($service['image'])) {
-                    $service['image'] = '/assets/placeholder.png';
-                }
-                
-                // Set default profile pic if not available
-                if (!isset($service['profile_pic']) || empty($service['profile_pic'])) {
-                    $service['profile_pic'] = '/assets/default_profile_pic.png';
-                }
-                
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5; // Default rating
-                }
-            }
-            
-            return $service ?: null;
-        } catch (PDOException $e) {
-            return null;
-        }
-    }
 
     /**
      * Get related services from the same category
@@ -178,13 +150,12 @@ class Service
             ');
             $stmt->execute([$categoryId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
-            
-            // Add default image and rating to each service
+
+            // Format image paths for all services
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
+                // Prepend slash to image paths if they don't have one
+                if (isset($service['image']) && $service['image'] && substr($service['image'], 0, 1) !== '/') {
+                    $service['image'] = '/' . $service['image'];
                 }
             }
             
@@ -214,12 +185,11 @@ class Service
             $stmt->execute([$sellerId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
             
-            // Add default image and rating to each service
+            // Format image paths for all services
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
+                // Prepend slash to image paths if they don't have one
+                if (isset($service['image']) && $service['image'] && substr($service['image'], 0, 1) !== '/') {
+                    $service['image'] = '/' . $service['image'];
                 }
             }
             
@@ -237,7 +207,7 @@ class Service
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, categories.name as category_name
+                SELECT services.*, users.name as seller_name, users.profile_pic, categories.name as category_name
                 FROM services 
                 JOIN users ON services.seller = users.id
                 JOIN categories ON services.category = categories.id
@@ -245,76 +215,11 @@ class Service
             $stmt->execute();
             $services = $stmt->fetchAll();
             
-            // Add default image and rating to each service
+            // Format image paths for all services
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
-            
-            return $services;
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
-
-    /**
-     * Get services by category ID
-     */
-    public static function getServicesByCategory(int $categoryId): array
-    {
-        try {
-            $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, categories.name as category_name
-                FROM services 
-                JOIN users ON services.seller = users.id
-                JOIN categories ON services.category = categories.id
-                WHERE services.category = ?
-            ');
-            $stmt->execute([$categoryId]);
-            $services = $stmt->fetchAll();
-            
-            // Add default image and rating to each service
-            foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
-            
-            return $services;
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
-
-    /**
-     * Get services by seller ID
-     */
-    public static function getServicesBySeller(int $sellerId): array
-    {
-        try {
-            $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, categories.name as category_name
-                FROM services 
-                JOIN users ON services.seller = users.id
-                JOIN categories ON services.category = categories.id
-                WHERE services.seller = ?
-            ');
-            $stmt->execute([$sellerId]);
-            $services = $stmt->fetchAll();
-            
-            // Add default image and rating to each service
-            foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
+                // Prepend slash to image paths if they don't have one
+                if (isset($service['image']) && $service['image'] && substr($service['image'], 0, 1) !== '/') {
+                    $service['image'] = '/' . $service['image'];
                 }
             }
             
@@ -341,15 +246,6 @@ class Service
             ');
             $stmt->execute([$searchQuery, $searchQuery]);
             $services = $stmt->fetchAll();
-            
-            // Add default image and rating to each service
-            foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
             
             return $services;
         } catch (PDOException $e) {
@@ -390,11 +286,32 @@ class Service
 
     public function getImage(): string
     {
-        return $this->image;
+        return '/' . $this->image;
     }
 
     public function getRating(): ?float
     {
         return $this->rating;
+    }
+
+    // Additional properties getters for joined data
+    public function getSeller_name(): string
+    {
+        return $this->seller_name ?? '';
+    }
+
+    public function getProfilePic(): string
+    {
+        return '/' . ($this->profile_pic);
+    }
+
+    public function getBio(): string
+    {
+        return $this->bio ?? '';
+    }
+
+    public function getCategory_name(): string
+    {
+        return $this->category_name ?? '';
     }
 }

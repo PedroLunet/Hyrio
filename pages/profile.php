@@ -87,11 +87,6 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             } else {
                 echo '<div class="favorites-grid">';
                 foreach ($favorites as $favorite) {
-                    // Set default image if not available
-                    if (!isset($favorite['image']) || empty($favorite['image'])) {
-                        $favorite['image'] = '/assets/placeholder.png';
-                    }
-                    
                     Card::render($favorite);
                 }
                 echo '</div>';
