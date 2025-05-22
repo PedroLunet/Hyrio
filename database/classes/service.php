@@ -27,9 +27,6 @@ class Service
         $this->rating = $rating;
     }
 
-    /**
-     * Create a new service in the database
-     */
     public static function createService(string $name, string $description, float $price, int $seller, int $category, string $image = '/assets/placeholder.png', ?float $rating = null): bool
     {
         try {
@@ -45,9 +42,6 @@ class Service
         }
     }
 
-    /**
-     * Update an existing service in the database
-     */
     public function update(): bool
     {
         try {
@@ -73,9 +67,6 @@ class Service
         }
     }
 
-    /**
-     * Delete a service from the database
-     */
     public function delete(): bool
     {
         try {
@@ -88,76 +79,33 @@ class Service
         }
     }
 
-    /**
-     * Get a service by its ID
-     */
     public static function getServiceById(int $id): ?Service
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT * FROM services WHERE id = ?
-            ');
-            $stmt->execute([$id]);
-            $serviceData = $stmt->fetch();
-
-            if ($serviceData) {
-                return new Service(
-                    (int)$serviceData['id'],
-                    $serviceData['name'],
-                    $serviceData['description'],
-                    (float)$serviceData['price'],
-                    (int)$serviceData['seller'],
-                    (int)$serviceData['category'],
-                    $serviceData['image'] ?: '/assets/placeholder.png',
-                    isset($serviceData['rating']) ? (float)$serviceData['rating'] : null
-                );
-            }
-            return null;
-        } catch (PDOException $e) {
-            return null;
-        }
-    }
-
-    /**
-     * Get service details with seller and category information
-     */
-    public static function getServiceDetailsById(int $id): ?array
-    {
-        try {
-            $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, users.profile_pic, users.bio, categories.name as category_name
-                FROM services 
-                JOIN users ON services.seller = users.id
-                JOIN categories ON services.category = categories.id
-                WHERE services.id = ?
-            ');
+            $stmt = $db->prepare('SELECT * FROM services WHERE id = ?');
             $stmt->execute([$id]);
             $service = $stmt->fetch();
-            
+
             if ($service) {
-                // Set default image if not available
-                if (!isset($service['image']) || empty($service['image'])) {
-                    $service['image'] = '/assets/placeholder.png';
-                }
-                
-                // Set default profile pic if not available
-                if (!isset($service['profile_pic']) || empty($service['profile_pic'])) {
-                    $service['profile_pic'] = '/assets/default_profile_pic.png';
-                }
-                
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5; // Default rating
-                }
+                return new Service(
+                    (int)$service['id'],
+                    $service['name'],
+                    $service['description'],
+                    (float)$service['price'],
+                    (int)$service['seller'],
+                    (int)$service['category'],
+                    $service['image'],
+                    isset($service['rating']) ? (float)$service['rating'] : null
+                );
             }
-            
-            return $service ?: null;
+
+            return null;
         } catch (PDOException $e) {
             return null;
         }
     }
+
 
     /**
      * Get related services from the same category
@@ -178,8 +126,8 @@ class Service
             ');
             $stmt->execute([$categoryId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
-            
-            // Add default image and rating to each service
+
+            // Format image paths for all services
             foreach ($services as &$service) {
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
@@ -213,7 +161,7 @@ class Service
             $stmt->execute([$sellerId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
             
-            // Add default image and rating to each service
+            // Format image paths for all services
             foreach ($services as &$service) {
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
@@ -235,7 +183,7 @@ class Service
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, categories.name as category_name
+                SELECT services.*, users.name as seller_name, users.profile_pic, categories.name as category_name
                 FROM services 
                 JOIN users ON services.seller = users.id
                 JOIN categories ON services.category = categories.id
@@ -243,7 +191,7 @@ class Service
             $stmt->execute();
             $services = $stmt->fetchAll();
             
-            // Add default image and rating to each service
+            // Format image paths for all services
             foreach ($services as &$service) {
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
@@ -337,15 +285,6 @@ class Service
             $stmt->execute([$searchQuery, $searchQuery]);
             $services = $stmt->fetchAll();
             
-            // Add default image and rating to each service
-            foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
-            
             return $services;
         } catch (PDOException $e) {
             return [];
@@ -396,7 +335,7 @@ class Service
 
     public function getImage(): string
     {
-        return $this->image;
+        return '/' . $this->image;
     }
 
     public function getRating(): ?float
