@@ -81,10 +81,10 @@ echo '<script src="/js/overlay.js"></script>';
         </div>
     </section>
 
-    <section id="users-section" class="admin-content-section <?php echo $section === 'users' ? 'active' : ''; ?>">
+    <section id="users-section" class="panel-content-section <?php echo $section === 'users' ? 'active' : ''; ?>">
         <h2>Users Management</h2>
         <div class="section-content">
-            <table class="admin-table">
+            <table class="panel-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -144,10 +144,10 @@ echo '<script src="/js/overlay.js"></script>';
             ?>
         </div>
     </section>
-    <section id="services-section" class="admin-content-section <?php echo $section === 'services' ? 'active' : ''; ?>">
+    <section id="services-section" class="panel-content-section <?php echo $section === 'services' ? 'active' : ''; ?>">
         <h2>Services Management</h2>
         <div class="section-content">
-            <table class="admin-table">
+            <table class="panel-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -192,13 +192,13 @@ echo '<script src="/js/overlay.js"></script>';
             ?>
         </div>
     </section>
-    <section id="categories-section" class="admin-content-section <?php echo $section === 'categories' ? 'active' : ''; ?>">
+    <section id="categories-section" class="panel-content-section <?php echo $section === 'categories' ? 'active' : ''; ?>">
         <div class="section-header">
             <h2>Categories Management</h2>
             <button class="section-header-button" id="add-category-btn">Add Category</button>
         </div>
         <div class="section-content">
-            <table class="admin-table">
+            <table class="panel-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -240,7 +240,7 @@ echo '<script src="/js/overlay.js"></script>';
 <script>
     document.addEventListener('DOMContentLoaded', function() {
             const buttons = document.querySelectorAll('.section-header-button[data-target]');
-            const sections = document.querySelectorAll('.admin-content-section');
+            const sections = document.querySelectorAll('.panel-content-section');
 
             buttons.forEach(button => {
                 button.addEventListener('click', function() {

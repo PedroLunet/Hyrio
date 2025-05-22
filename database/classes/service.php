@@ -42,25 +42,12 @@ class Service
         }
     }
 
-    public function update(): bool
+    public static function update(int $id, string $name, string $description, float $price, int $category, string $image): bool
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('
-                UPDATE services 
-                SET name = ?, description = ?, price = ?, seller = ?, category = ?, image = ?, rating = ?
-                WHERE id = ?
-            ');
-            $stmt->execute([
-                $this->name, 
-                $this->description, 
-                $this->price, 
-                $this->seller, 
-                $this->category, 
-                $this->image, 
-                $this->rating,
-                $this->id
-            ]);
+            $stmt = $db->prepare('UPDATE services SET name = ?, description = ?, price = ?, category = ?, image = ? WHERE id = ?');
+            $stmt->execute([$name, $description, $price, $category, $image, $id]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -126,7 +113,7 @@ class Service
             ');
             $stmt->execute([$categoryId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
-            
+
             return $services;
         } catch (PDOException $e) {
             return [];
@@ -152,7 +139,7 @@ class Service
             ');
             $stmt->execute([$sellerId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
-            
+
             return $services;
         } catch (PDOException $e) {
             return [];
@@ -162,20 +149,20 @@ class Service
     /**
      * Get all services
      */
-    public static function getAllServices(): array
+    public static function getAllServices(int $offset = 0, int $limit = 0): array
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, users.profile_pic, categories.name as category_name
-                FROM services 
-                JOIN users ON services.seller = users.id
-                JOIN categories ON services.category = categories.id
-            ');
-            $stmt->execute();
-            $services = $stmt->fetchAll();
-            
-            return $services;
+
+            if ($limit === 0) {
+                $stmt = $db->query('SELECT * FROM services');
+            } else {
+                $stmt = $db->prepare('SELECT * FROM services LIMIT ?, ?');
+                $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+                $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return [];
         }
@@ -197,7 +184,7 @@ class Service
             ');
             $stmt->execute([$categoryId]);
             $services = $stmt->fetchAll();
-            
+
             return $services;
         } catch (PDOException $e) {
             return [];
@@ -211,16 +198,10 @@ class Service
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, categories.name as category_name
-                FROM services 
-                JOIN users ON services.seller = users.id
-                JOIN categories ON services.category = categories.id
-                WHERE services.seller = ?
-            ');
+            $stmt = $db->prepare('SELECT * FROM services WHERE seller = ?');
             $stmt->execute([$sellerId]);
             $services = $stmt->fetchAll();
-            
+
             return $services;
         } catch (PDOException $e) {
             return [];
@@ -244,7 +225,7 @@ class Service
             ');
             $stmt->execute([$searchQuery, $searchQuery]);
             $services = $stmt->fetchAll();
-            
+
             return $services;
         } catch (PDOException $e) {
             return [];

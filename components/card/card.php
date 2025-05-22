@@ -33,9 +33,11 @@ class Card
 
     // Include the button component for price button
     require_once(__DIR__ . '/../button/button.php');
+    require_once(__DIR__ . '/../../database/classes/user.php');
 
     // Generate service ID for the link
     $serviceId = isset($service['id']) ? (int) $service['id'] : 0;
+    $seller = User::getUserById($service['seller']);
 
 ?>
     <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
@@ -53,7 +55,7 @@ class Card
         <div id="label">
           <div id="titles">
             <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
-            <p><?= isset($service['seller_name']) ? htmlspecialchars($service['seller_name']) : 'bald man' ?></p>
+            <p><?= htmlspecialchars($seller->getName())?></p>
           </div>
           <?php
           if ($showPrice) {

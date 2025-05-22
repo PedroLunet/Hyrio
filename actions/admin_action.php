@@ -72,7 +72,7 @@ try {
         case 'service':
             $service = Service::getServiceById($id);
 
-            if ($service && $service->delete()) {
+            if ($service && Service::delete($service->getId())) {
                 $_SESSION['success_message'] = 'Service successfully deleted';
             } else {
                 $_SESSION['error_message'] = 'Failed to delete service';

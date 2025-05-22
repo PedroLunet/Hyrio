@@ -92,14 +92,17 @@ class Category
         }
     }
 
-    public static function getCategoryById(int $id): ?array
+    public static function getCategoryById(int $id): ?Category
     {
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('SELECT * FROM categories WHERE id = ?');
             $stmt->execute([$id]);
             $category = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $category ?: null;
+            if ($category) {
+                return new Category((int)$category['id'], $category['name']);
+            }
+            return null;
         } catch (PDOException $e) {
             return null;
         }
