@@ -8,7 +8,7 @@ require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
-$user = User::getUserByUsername((string)$_GET['username']);
+$user = User::getUserByUsername((string) $_GET['username']);
 $loggedInUser = Auth::getInstance()->getUser();
 
 if (!$user) {
@@ -71,9 +71,9 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
         if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<section class="profile-favorites">';
             echo '<h2>Favorites</h2>';
-            
+
             $favorites = $user->getUserFavorites($user->getId());
-            
+
             if (empty($favorites)) {
                 echo '<p>You haven\'t liked any services yet. Try saving one by clicking the heart button in the service page.</p>';
             } else {
@@ -83,7 +83,35 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 }
                 echo '</div>';
             }
-            
+
+            echo '</section>';
+
+            // Purchased services section
+            require_once(__DIR__ . '/../database/classes/purchase.php');
+            $purchases = Purchase::getByUser($user->getId());
+            echo '<section class="profile-purchases">';
+            echo '<h2>Purchased Services</h2>';
+            if (empty($purchases)) {
+                echo '<p>You haven\'t purchased any services yet.</p>';
+            } else {
+                echo '<table class="purchases-table">';
+                echo '<thead><tr><th>Service</th><th>Price</th><th>Seller</th><th>Date</th></tr></thead>';
+                echo '<tbody>';
+                foreach ($purchases as $purchase) {
+                    $service = Service::getServiceById($purchase['service_id']);
+                    if ($service) {
+                        $sellerObj = User::getUserById($service->getSeller());
+                        echo '<tr>';
+                        echo '<td><a href="/pages/service.php?id=' . $service->getId() . '">' . htmlspecialchars($service->getName()) . '</a></td>';
+                        echo '<td class="price">' . htmlspecialchars(number_format($service->getPrice(), 2)) . '€</td>';
+                        echo '<td class="seller">' . htmlspecialchars($sellerObj ? $sellerObj->getName() : 'Unknown') . '</td>';
+                        echo '<td class="date">' . htmlspecialchars(date('M d, Y', strtotime($purchase['purchased_at']))) . '</td>';
+                        echo '</tr>';
+                    }
+                }
+                echo '</tbody>';
+                echo '</table>';
+            }
             echo '</section>';
         }
         ?>
