@@ -3,6 +3,7 @@
     grid-template-columns: auto 1fr auto;
     grid-template-rows: 1fr 1fr;
     column-gap: 1%;
+    margin-bottom: 30px;
 }
 
 .profile-picture {
@@ -41,34 +42,43 @@
 }
 
 section {
-    border: 2px solid var(--secondary);
+    background-color: #fff;
     border-radius: 16px;
-    margin: 24px 0;
-    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    padding: 20px;
 }
 
 section h2 {
-    margin: 0 0 8px 0;
+    margin: 0;
 }
 
 section p {
     margin: 0;
 }
 
-.favorites-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+.section-header {
+    margin-bottom: 20px;
 }
 
-.profile-favorites .card {
-    width: 100%;
-    height: 100%;
+.services-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding: 1rem 0.5rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) #f0f0f0;
+  padding-bottom: 20px;
+  margin-bottom: -15px;
 }
 
-.profile-favorites h2 {
-    margin-bottom: 16px;
+.services-row .card-link {
+  min-width: 280px;
+  width: 280px;
+  max-width: 90%;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
