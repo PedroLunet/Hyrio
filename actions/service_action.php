@@ -24,8 +24,9 @@ $categoryId = $_POST['category_id'] ?? '';
 $image = $_FILES['image'] ?? null;
 $error = null;
 
-if (empty($name) || empty($description) || empty($price) || empty($categoryId) || empty($image)) {
-    $error = "All fields are required";
+// Changed validation to not require image
+if (empty($name) || empty($description) || empty($price) || empty($categoryId)) {
+    $error = "Name, description, price and category are required";
 } else if (!is_numeric($price) || $price <= 0) {
     $error = "Price must be a positive number";
 } else {
@@ -42,30 +43,32 @@ if (empty($name) || empty($description) || empty($price) || empty($categoryId) |
         $error = "Failed to create service";
     } else {
         $serviceId = (int)$db->lastInsertId();
+        $imageUploaded = false;
 
+        // Upload image only if provided and valid
         if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
             $uploadDir = '/database/assets/services/' . $serviceId . '/';
-            $uploader = new FileUploader('image', $uploadDir, ['image/jpeg', 'image/png'], 5242880, ImageCropper::ASPECT_RATIO_WIDESCREEN);
+            $uploader = new FileUploader('image', $uploadDir, ['image/jpeg', 'image/png'], 5242880, '2:1');
             $imagePath = $uploader->uploadFile($image);
 
             if ($imagePath !== null) {
                 $stmt = $db->prepare('UPDATE services SET image = ? WHERE id = ?');
                 $stmt->execute([$imagePath, $serviceId]);
-
-                $_SESSION['success_message'] = "Service created successfully";
-                header('Location: /pages/seller.php');
-                exit();
+                $imageUploaded = true;
             } else {
                 $error = "Image upload failed: " . implode(', ', $uploader->getErrors());
-
-                $stmt = $db->prepare('DELETE FROM services WHERE id = ?');
-                $stmt->execute([$serviceId]);
+                // Don't delete the service, just notify about image issue
             }
-        } else {
+        } else if (isset($image) && $image['error'] !== UPLOAD_ERR_NO_FILE) {
+            // Only consider it an error if user tried to upload but failed
             $error = "Image upload error: " . ($image['error'] ?? 'Unknown');
+        }
 
-            $stmt = $db->prepare('DELETE FROM services WHERE id = ?');
-            $stmt->execute([$serviceId]);
+        if (!$error) {
+            $_SESSION['success_message'] = "Service created successfully" . 
+                (!$imageUploaded && isset($image) && $image['error'] !== UPLOAD_ERR_NO_FILE ? " but image upload failed" : "");
+            header('Location: /pages/seller.php');
+            exit();
         }
     }
 }
