@@ -5,20 +5,24 @@ declare(strict_types=1);
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../components/button/button.php');
+require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
 $user = User::getUserByUsername((string)$_GET['username']);
 $loggedInUser = Auth::getInstance()->getUser();
 
+if (!$user) {
+    header('Location: /');
+    exit;
+}
+
 head();
 
 echo '<link rel="stylesheet" href="/css/profile.css">';
-// Add the overlay JavaScript
 echo '<script src="/js/overlay.js"></script>';
 
 drawHeader();
 
-// Include the account settings overlay
 if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
     require_once(__DIR__ . '/../overlays/account_settings.php');
 
@@ -65,9 +69,21 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
         </section>
         <?php
         if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
-            echo '<section>';
+            echo '<section class="profile-favorites">';
             echo '<h2>Favorites</h2>';
-            echo '<p>You haven\'t liked any services yet. Try saving one by clicking the favorite button in the service page.</p>';
+            
+            $favorites = $user->getUserFavorites($user->getId());
+            
+            if (empty($favorites)) {
+                echo '<p>You haven\'t liked any services yet. Try saving one by clicking the heart button in the service page.</p>';
+            } else {
+                echo '<div class="favorites-grid">';
+                foreach ($favorites as $favorite) {
+                    Card::render($favorite);
+                }
+                echo '</div>';
+            }
+            
             echo '</section>';
         }
         ?>

@@ -48,4 +48,5 @@ class Auth
         }
         session_destroy();
     }
+    
 }

@@ -238,4 +238,63 @@ class User
     {
         return $this->bio;
     }
+    
+    // Favorite related methods
+    public static function addFavorite(int $userId, int $serviceId): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('INSERT OR IGNORE INTO favorites (user_id, service_id) VALUES (?, ?)');
+            $stmt->execute([$userId, $serviceId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    
+    public static function removeFavorite(int $userId, int $serviceId): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('DELETE FROM favorites WHERE user_id = ? AND service_id = ?');
+            $stmt->execute([$userId, $serviceId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    
+    public static function isFavorite(int $userId, int $serviceId): bool
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT 1 FROM favorites WHERE user_id = ? AND service_id = ? LIMIT 1');
+            $stmt->execute([$userId, $serviceId]);
+            return $stmt->fetch() !== false;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+    
+    public static function getUserFavorites(int $id): array
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('
+                SELECT s.*, u.name as seller_name, c.name as category_name 
+                FROM services s
+                JOIN favorites f ON s.id = f.service_id
+                JOIN users u ON s.seller = u.id
+                JOIN categories c ON s.category = c.id
+                WHERE f.user_id = ?
+                ORDER BY f.created_at DESC
+            ');
+            $stmt->execute([$id]);
+            $services = $stmt->fetchAll();
+            
+            return $services;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
 }

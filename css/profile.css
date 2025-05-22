@@ -55,6 +55,22 @@ section p {
     margin: 0;
 }
 
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.profile-favorites .card {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-favorites h2 {
+    margin-bottom: 16px;
+}
+
 @media (max-width: 768px) {
     .profile-header {
         grid-template-columns: auto;
