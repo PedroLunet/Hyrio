@@ -27,9 +27,6 @@ class Service
         $this->rating = $rating;
     }
 
-    /**
-     * Create a new service in the database
-     */
     public static function createService(string $name, string $description, float $price, int $seller, int $category, string $image = '/assets/placeholder.png', ?float $rating = null): bool
     {
         try {
@@ -45,9 +42,6 @@ class Service
         }
     }
 
-    /**
-     * Update an existing service in the database
-     */
     public function update(): bool
     {
         try {
@@ -73,9 +67,6 @@ class Service
         }
     }
 
-    /**
-     * Delete a service from the database
-     */
     public function delete(): bool
     {
         try {
@@ -88,42 +79,27 @@ class Service
         }
     }
 
-    /**
-     * Get a service by its ID
-     */
     public static function getServiceById(int $id): ?Service
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('
-                SELECT services.*, users.name as seller_name, users.profile_pic, users.bio, categories.name as category_name
-                FROM services
-                JOIN users ON services.seller = users.id
-                JOIN categories ON services.category = categories.id
-                WHERE services.id = ?
-            ');
+            $stmt = $db->prepare('SELECT * FROM services WHERE id = ?');
             $stmt->execute([$id]);
-            $serviceData = $stmt->fetch();
+            $service = $stmt->fetch();
 
-            if ($serviceData) {
-                $service = new Service(
-                    (int)$serviceData['id'],
-                    $serviceData['name'],
-                    $serviceData['description'],
-                    (float)$serviceData['price'],
-                    (int)$serviceData['seller'],
-                    (int)$serviceData['category'],
-                    $serviceData['image'],
-                    isset($serviceData['rating']) ? (float)$serviceData['rating'] : null
+            if ($service) {
+                return new Service(
+                    (int)$service['id'],
+                    $service['name'],
+                    $service['description'],
+                    (float)$service['price'],
+                    (int)$service['seller'],
+                    (int)$service['category'],
+                    $service['image'],
+                    isset($service['rating']) ? (float)$service['rating'] : null
                 );
-                // Add additional properties to the service object
-                $service->seller_name = $serviceData['seller_name'];
-                $service->profile_pic = $serviceData['profile_pic'];
-                $service->bio = $serviceData['bio'];
-                $service->category_name = $serviceData['category_name'];
-                
-                return $service;
             }
+
             return null;
         } catch (PDOException $e) {
             return null;
@@ -253,7 +229,6 @@ class Service
         }
     }
 
-    // Getters
     public function getId(): int
     {
         return $this->id;
@@ -292,26 +267,5 @@ class Service
     public function getRating(): ?float
     {
         return $this->rating;
-    }
-
-    // Additional properties getters for joined data
-    public function getSeller_name(): string
-    {
-        return $this->seller_name ?? '';
-    }
-
-    public function getProfilePic(): string
-    {
-        return '/' . ($this->profile_pic);
-    }
-
-    public function getBio(): string
-    {
-        return $this->bio ?? '';
-    }
-
-    public function getCategory_name(): string
-    {
-        return $this->category_name ?? '';
     }
 }

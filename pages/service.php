@@ -1,5 +1,7 @@
 <?php
-// Service Details Page
+
+declare(strict_types=1);
+
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
@@ -10,29 +12,21 @@ require_once(__DIR__ . '/../includes/auth.php');
 head();
 
 echo '<link rel="stylesheet" href="/css/service.css">';
-echo '<script src="/js/favorite.js" defer></script>';
 
-// Get service ID from query
-$serviceId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$service = Service::getServiceById((int)$_GET['id']);
+$seller = User::getUserById($service->getSeller());
+$loggedInUser = Auth::getInstance()->getUser();
 
-// Using the Service class from /database/classes/service.php
-$service = $serviceId ? Service::getServiceById($serviceId) : null;
-
-// Check if the service is favorited by the current user
 $isFavorite = false;
-$currentUser = null;
-if (isLoggedIn()) {
-    $currentUser = getCurrentUser();
-    if ($currentUser && $serviceId && $service) {
-        $isFavorite = User::isFavorite($currentUser->getId(), $serviceId);
-    }
+if ($loggedInUser && $service) {
+  $isFavorite = User::isFavorite($loggedInUser['id'], $service->getId());
 }
 
 drawHeader();
 ?>
 <main>
   <?php
-  if ($service): 
+  if ($service):
   ?>
     <div class="service-details-container">
       <div class="service-header">
@@ -44,23 +38,26 @@ drawHeader();
                 <span class="rating-value"><?= number_format(floatval($service->getRating()), 1) ?></span>
               </div>
             </div>
-          <?php endif; ?>
-          <div class="favorite-price-container">
-            <button class="favorite-button <?php echo $isFavorite ? 'active' : ''; ?>" id="favoriteBtn" aria-label="<?php echo $isFavorite ? 'Remove from favorites' : 'Add to favorites'; ?>">
-              <i class="ph-bold ph-heart"></i>
-            </button>
+          <?php endif; ?> <div class="favorite-price-container">
+            <form action="/actions/favorite_action.php" method="post" class="favorite-form">
+              <input type="hidden" name="serviceId" value="<?php echo $service->getId(); ?>">
+              <input type="hidden" name="action" value="toggle">
+              <button type="submit" class="favorite-button <?php echo $isFavorite ? 'active' : ''; ?>" aria-label="<?php echo $isFavorite ? 'Remove from favorites' : 'Add to favorites'; ?>">
+                <i class="ph-bold ph-heart"></i>
+              </button>
+            </form>
             <div class="price-section">
               <?php
-                Button::start(['variant' => 'primary', 'class' => 'service-price-button']);
-                ButtonIcon::render('ph-bold ph-currency-eur');
-                echo '<span>' . htmlspecialchars(number_format($service->getPrice(), 2)) . '€</span>';
-                Button::end();
+              Button::start(['variant' => 'primary', 'class' => 'service-price-button']);
+              ButtonIcon::render('ph-bold ph-currency-eur');
+              echo '<span>' . htmlspecialchars(number_format($service->getPrice(), 2)) . '€</span>';
+              Button::end();
               ?>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="service-image">
         <img src="<?= htmlspecialchars($service->getImage()) ?>"
           alt="<?= htmlspecialchars($service->getName()) ?>">
@@ -68,21 +65,21 @@ drawHeader();
       <div class="service-info">
         <h1><?= htmlspecialchars($service->getName()) ?></h1>
         <div class="service-meta-info">
-          <h2>by <?= htmlspecialchars($service->getSeller_name()) ?></h2>
-          <span class="service-category"><i class="ph-bold ph-tag"></i> <?= htmlspecialchars($service->getCategory_name()) ?></span>
+          <h2>by <?= htmlspecialchars($seller->getName()) ?></h2>
+          <span class="service-category"><i class="ph-bold ph-tag"></i> <?= htmlspecialchars("Category") ?></span>
         </div>
         <p class="service-description"><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
-        
-        <div class="seller-profile">  
-          <img src="<?= htmlspecialchars($service->getProfilePic()) ?>" 
-               alt="<?= htmlspecialchars($service->getSeller_name()) ?>" 
-               class="seller-pic">
+
+        <div class="seller-profile">
+          <img src="<?= htmlspecialchars($seller->getProfilePic()) ?>"
+            alt="<?= htmlspecialchars($seller->getName()) ?>"
+            class="seller-pic">
           <div class="seller-bio">
             <strong>About the seller:</strong>
-            <p><?= htmlspecialchars($service->getBio()) ?></p>
+            <p><?= htmlspecialchars($seller->getBio()) ?></p>
           </div>
         </div>
-        
+
         <div class="service-actions">
           <button class="contact-button btn btn-secondary">
             <i class="ph-bold ph-chat-text"></i>
@@ -91,13 +88,13 @@ drawHeader();
         </div>
       </div>
     </div>
-    
+
     <!-- Related services from the same category -->
     <div class="related-services">
-      <h2>More services in <?= htmlspecialchars($service->getCategory_name()) ?></h2>
+      <h2>More services in <?= htmlspecialchars("Category") ?></h2>
       <div class="services-row">
         <?php
-        $categoryServices = Service::getRelatedServicesByCategory($service->getCategory(), $serviceId);
+        $categoryServices = Service::getRelatedServicesByCategory($service->getCategory(), $service->getId());
         if (!empty($categoryServices)) {
           foreach ($categoryServices as $relatedService) {
             Card::render($relatedService);
@@ -108,13 +105,13 @@ drawHeader();
         ?>
       </div>
     </div>
-    
+
     <!-- Other services from the same seller -->
     <div class="related-services">
-      <h2>More from <?= htmlspecialchars($service->getSeller_name()) ?></h2>
+      <h2>More from <?= htmlspecialchars($seller->getName()) ?></h2>
       <div class="services-row">
         <?php
-        $sellerServices = Service::getRelatedServicesBySeller($service->getSeller(), $serviceId);
+        $sellerServices = Service::getRelatedServicesBySeller($service->getSeller(), $service->getId());
         if (!empty($sellerServices)) {
           foreach ($sellerServices as $sellerService) {
             Card::render($sellerService);
@@ -135,3 +132,16 @@ drawHeader();
   <?php endif; ?>
 </main>
 <?php drawFooter(); ?>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const favoriteForms = document.querySelectorAll('.favorite-form');
+
+  favoriteForms.forEach(form => {
+    form.addEventListener('submit', function () {
+      console.log('Favorite form submitted');
+    });
+  });
+});
+
+</script>

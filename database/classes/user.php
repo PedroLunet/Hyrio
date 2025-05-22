@@ -138,6 +138,24 @@ class User
         }
     }
 
+    public static function getUserById(int $id): ?User
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT * FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            $user = $stmt->fetch();
+
+            if ($user) {
+                return new User($user['id'], $user['name'], $user['username'], $user['email'], $user['role'], $user['profile_pic'], $user['bio']);
+            }
+
+            return null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -210,7 +228,7 @@ class User
         }
     }
     
-    public static function getUserFavorites(int $userId): array
+    public static function getUserFavorites(int $id): array
     {
         try {
             $db = Database::getInstance();
@@ -223,14 +241,8 @@ class User
                 WHERE f.user_id = ?
                 ORDER BY f.created_at DESC
             ');
-            $stmt->execute([$userId]);
+            $stmt->execute([$id]);
             $services = $stmt->fetchAll();
-            
-            foreach ($services as &$service) {
-                if (isset($service['image']) && $service['image'] && substr($service['image'], 0, 1) !== '/') {
-                    $service['image'] = '/' . $service['image'];
-                }
-            }
             
             return $services;
         } catch (PDOException $e) {

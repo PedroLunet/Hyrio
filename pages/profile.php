@@ -8,28 +8,21 @@ require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
-// Get the username from the URL
-$username = isset($_GET['username']) ? (string)$_GET['username'] : '';
-$user = User::getUserByUsername($username);
+$user = User::getUserByUsername((string)$_GET['username']);
+$loggedInUser = Auth::getInstance()->getUser();
 
-// Check if user exists
 if (!$user) {
-    // Redirect to home page if user doesn't exist
     header('Location: /');
     exit;
 }
 
-$loggedInUser = Auth::getInstance()->getUser();
-
 head();
 
 echo '<link rel="stylesheet" href="/css/profile.css">';
-// Add the overlay JavaScript
 echo '<script src="/js/overlay.js"></script>';
 
 drawHeader();
 
-// Include the account settings overlay
 if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
     require_once(__DIR__ . '/../overlays/account_settings.php');
 
@@ -79,8 +72,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<section class="profile-favorites">';
             echo '<h2>Favorites</h2>';
             
-            // Get user favorites using User class
-            $favorites = $user->getUserFavorites(userId: $user->getId());
+            $favorites = $user->getUserFavorites($user->getId());
             
             if (empty($favorites)) {
                 echo '<p>You haven\'t liked any services yet. Try saving one by clicking the heart button in the service page.</p>';

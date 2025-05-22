@@ -1,70 +1,74 @@
 <?php
+
+declare(strict_types=1);
+
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
-header('Content-Type: application/json');
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Check if the user is logged in
-if (!isLoggedIn()) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'User not logged in'
-    ]);
+$loggedInUser = Auth::getInstance()->getUser();
+if (!$loggedInUser) {
+    $_SESSION['error_message'] = "Please log in to manage favorites";
+    header('Location: /pages/login.php');
     exit;
 }
 
-// Get current user
-$currentUser = getCurrentUser();
-if (!$currentUser) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'User not found'
-    ]);
-    exit;
-}
-
-// Get request data
-$data = json_decode(file_get_contents('php://input'), true);
-$serviceId = isset($data['serviceId']) ? (int)$data['serviceId'] : 0;
-$action = isset($data['action']) ? $data['action'] : '';
+$serviceId = isset($_POST['serviceId']) ? (int)$_POST['serviceId'] : 0;
+$action = isset($_POST['action']) ? $_POST['action'] : '';
 
 if (!$serviceId) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'Invalid service ID'
-    ]);
+    $_SESSION['error_message'] = "Invalid service ID";
+    header('Location: ' . $_SERVER['HTTP_REFERER'] ?? '/');
     exit;
 }
 
-$userId = $currentUser->getId();
-
-// Process the requested action
-$result = [
-    'success' => false,
-    'error' => 'Invalid action'
-];
+$userId = $loggedInUser['id'];
 
 switch ($action) {
     case 'add':
-        $result['success'] = User::addFavorite($userId, $serviceId);
+        $success = User::addFavorite($userId, $serviceId);
+        if ($success) {
+            $_SESSION['success_message'] = "Service added to favorites";
+        } else {
+            $_SESSION['error_message'] = "Failed to add favorite";
+        }
         break;
-        
+
     case 'remove':
-        $result['success'] = User::removeFavorite($userId, $serviceId);
+        $success = User::removeFavorite($userId, $serviceId);
+        if ($success) {
+            $_SESSION['success_message'] = "Service removed from favorites";
+        } else {
+            $_SESSION['error_message'] = "Failed to remove favorite";
+        }
         break;
-        
-    case 'check':
+
+    case 'toggle':
         $isFavorite = User::isFavorite($userId, $serviceId);
-        $result = [
-            'success' => true,
-            'isFavorite' => $isFavorite
-        ];
+        if ($isFavorite) {
+            $success = User::removeFavorite($userId, $serviceId);
+            if ($success) {
+                $_SESSION['success_message'] = "Service removed from favorites";
+            } else {
+                $_SESSION['error_message'] = "Failed to remove favorite";
+            }
+        } else {
+            $success = User::addFavorite($userId, $serviceId);
+            if ($success) {
+                $_SESSION['success_message'] = "Service added to favorites";
+            } else {
+                $_SESSION['error_message'] = "Failed to add favorite";
+            }
+        }
         break;
-        
+
     default:
-        // Invalid action, result already set
+        $_SESSION['error_message'] = "Invalid action";
         break;
 }
 
-echo json_encode($result);
+header('Location: ' . $_SERVER['HTTP_REFERER'] ?? '/');
