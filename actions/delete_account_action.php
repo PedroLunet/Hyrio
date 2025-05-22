@@ -21,7 +21,7 @@ if (!$loggedInUser) {
 if (isset($_POST['delete_account'])) {
     $userId = $loggedInUser['id'];
 
-    if (User::deleteUser($userId)) {
+    if (User::delete($userId)) {
         session_destroy();
         header('Location: /');
         exit;

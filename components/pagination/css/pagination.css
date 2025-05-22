@@ -1,0 +1,66 @@
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.pagination .page-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 3;
+    height: 3;
+    padding: 0.75em 0.75em;
+    border-radius: 8px;
+    background-color: white;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #ddd;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-link:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+.pagination .page-link.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.pagination .page-ellipsis {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.5rem;
+    color: var(--text);
+}
+
+/* Previous and Next buttons */
+.pagination .page-link[href*="Previous"],
+.pagination .page-link[href*="Next"] {
+    padding: 0.25rem 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pagination {
+        gap: 0.25rem;
+    }
+    
+    .pagination .page-link {
+        min-width: 2rem;
+        height: 2rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+    }
+}

@@ -13,10 +13,10 @@ INSERT
     )
 VALUES (
         1,
-        'Admin',
-        'admin',
-        'admin',
-        'admin@example.com',
+        'André Restivo',
+        'arestivo',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
+        'arestivo@fe.up.pt',
         'admin',
         'database/assets/adminProfilePic.jpg',
         'Administrator of the platform'
@@ -25,7 +25,7 @@ VALUES (
         2,
         'John Doe',
         'john_doe',
-        'hashed_password2',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'john@example.com',
         'user',
         'database/assets/userProfilePic.jpg',
@@ -35,7 +35,7 @@ VALUES (
         3,
         'Jane Smith',
         'jane_smith',
-        'hashed_password3',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'jane@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -45,7 +45,7 @@ VALUES (
         4,
         'Alice Johnson',
         'alice_johnson',
-        'hashed_password4',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'alice@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -55,7 +55,7 @@ VALUES (
         5,
         'Bob Brown',
         'bob_brown',
-        'hashed_password5',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'bob@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -65,7 +65,7 @@ VALUES (
         6,
         'Charlie Davis',
         'charlie_davis',
-        'hashed_password6',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'charlie@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -75,7 +75,7 @@ VALUES (
         7,
         'Diana Evans',
         'diana_evans',
-        'hashed_password7',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'diana@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -85,7 +85,7 @@ VALUES (
         8,
         'Ethan Foster',
         'ethan_foster',
-        'hashed_password8',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'ethan@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -95,7 +95,7 @@ VALUES (
         9,
         'Fiona Green',
         'fiona_green',
-        'hashed_password9',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'fiona@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -105,7 +105,7 @@ VALUES (
         10,
         'George Harris',
         'george_harris',
-        'hashed_password10',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'george@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -115,7 +115,7 @@ VALUES (
         11,
         'Hannah White',
         'hannah_white',
-        'hashed_password11',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'hannah@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -125,7 +125,7 @@ VALUES (
         12,
         'Ian King',
         'ian_king',
-        'hashed_password12',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'ian@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
@@ -135,11 +135,41 @@ VALUES (
         13,
         'Julia Lee',
         'julia_lee',
-        'hashed_password13',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
         'julia@example.com',
         'freelancer',
         'database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in UX/UI design'
+    ),
+    (
+        14,
+        'Pedro Monteiro',
+        'pedroafmonteiro',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
+        'pedroafmonteiro10@gmail.com',
+        'admin',
+        'database/assets/profiles/14/profile_picture.jpg',
+        'Administrator of the platform'
+    ),
+    (
+        15,
+        'Pedro Lunet',
+        'pedrolunet',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
+        'pedrolunet@gmail.com',
+        'admin',
+        'database/assets/adminProfilePic.jpg',
+        'Administrator of the platform'
+    ),
+    (
+        16,
+        'João Lopes',
+        'joaolopes',
+        '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
+        'joaomlopes20059@gmail.com',
+        'admin',
+        'database/assets/adminProfilePic.jpg',
+        'Administrator of the platform'
     );
 -- Insert sample categories
 INSERT
