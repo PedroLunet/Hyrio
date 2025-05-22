@@ -1,0 +1,102 @@
+<?php
+
+declare(strict_types=1);
+
+require_once(__DIR__ . '/../includes/common.php');
+require_once(__DIR__ . '/../components/button/button.php');
+require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../includes/auth.php');
+
+head();
+echo '<link rel="stylesheet" href="/css/service.css">';
+
+$service = Service::getServiceById((int) $_GET['id']);
+$seller = $service ? User::getUserById($service->getSeller()) : null;
+$loggedInUser = Auth::getInstance()->getUser();
+
+drawHeader();
+?>
+<main>
+  <?php if ($service && $seller): ?>
+    <div class="checkout-container">
+      <h1>Checkout</h1>
+      <div class="checkout-service-info">
+        <img src="<?= htmlspecialchars($service->getImage()) ?>" alt="<?= htmlspecialchars($service->getName()) ?>"
+          class="checkout-service-img">
+        <div>
+          <h2><?= htmlspecialchars($service->getName()) ?></h2>
+          <p>by <?= htmlspecialchars($seller->getName()) ?></p>
+          <p><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
+          <p><strong>Price:</strong> <?= htmlspecialchars(number_format($service->getPrice(), 2)) ?>€</p>
+        </div>
+      </div>
+      <form id="pay-form" action="/pages/receipt.php" method="post">
+        <input type="hidden" name="id" value="<?= $service->getId() ?>">
+        <button type="button" id="pay-button" class="btn btn-primary">Pay</button>
+      </form>
+    </div>
+    <div id="confirm-overlay" class="confirm-overlay" style="display:none;">
+      <div class="confirm-modal">
+        <p>Are you sure you want to pay for this service?</p>
+        <button id="confirm-pay" class="btn btn-primary">Confirm</button>
+        <button id="cancel-pay" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  <?php else: ?>
+    <div class="service-not-found">
+      <h2>Service Not Found</h2>
+      <p>We couldn't find the service you're trying to buy.</p>
+      <a href="/" class="btn btn-primary">Back to Home</a>
+    </div>
+  <?php endif; ?>
+</main>
+<?php drawFooter(); ?>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const payButton = document.getElementById('pay-button');
+    const overlay = document.getElementById('confirm-overlay');
+    const confirmPay = document.getElementById('confirm-pay');
+    const cancelPay = document.getElementById('cancel-pay');
+    const payForm = document.getElementById('pay-form');
+
+    if (payButton) {
+      payButton.addEventListener('click', function (e) {
+        overlay.style.display = 'flex';
+      });
+    }
+    if (cancelPay) {
+      cancelPay.addEventListener('click', function () {
+        overlay.style.display = 'none';
+      });
+    }
+    if (confirmPay) {
+      confirmPay.addEventListener('click', function () {
+        payForm.submit();
+      });
+    }
+  });
+</script>
+
+<style>
+  .confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .confirm-modal {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+</style>

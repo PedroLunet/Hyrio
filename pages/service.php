@@ -13,7 +13,7 @@ head();
 
 echo '<link rel="stylesheet" href="/css/service.css">';
 
-$service = Service::getServiceById((int)$_GET['id']);
+$service = Service::getServiceById((int) $_GET['id']);
 $seller = User::getUserById($service->getSeller());
 $loggedInUser = Auth::getInstance()->getUser();
 
@@ -27,7 +27,7 @@ drawHeader();
 <main>
   <?php
   if ($service):
-  ?>
+    ?>
     <div class="service-details-container">
       <div class="service-header">
         <div class="service-pricing-block">
@@ -38,29 +38,31 @@ drawHeader();
                 <span class="rating-value"><?= number_format(floatval($service->getRating()), 1) ?></span>
               </div>
             </div>
-          <?php endif; ?> <div class="favorite-price-container">
+          <?php endif; ?>
+          <div class="favorite-price-container">
             <form action="/actions/favorite_action.php" method="post" class="favorite-form">
               <input type="hidden" name="serviceId" value="<?php echo $service->getId(); ?>">
               <input type="hidden" name="action" value="toggle">
-              <button type="submit" class="favorite-button <?php echo $isFavorite ? 'active' : ''; ?>" aria-label="<?php echo $isFavorite ? 'Remove from favorites' : 'Add to favorites'; ?>">
+              <button type="submit" class="favorite-button <?php echo $isFavorite ? 'active' : ''; ?>"
+                aria-label="<?php echo $isFavorite ? 'Remove from favorites' : 'Add to favorites'; ?>">
                 <i class="ph-bold ph-heart"></i>
               </button>
             </form>
             <div class="price-section">
-              <?php
-              Button::start(['variant' => 'primary', 'class' => 'service-price-button']);
-              ButtonIcon::render('ph-bold ph-currency-eur');
-              echo '<span>' . htmlspecialchars(number_format($service->getPrice(), 2)) . '€</span>';
-              Button::end();
-              ?>
+              <form action="/pages/checkout.php" method="get" style="display:inline;">
+                <input type="hidden" name="id" value="<?= $service->getId() ?>">
+                <button type="submit" class="service-price-button">
+                  <i class="ph-bold ph-currency-eur"></i>
+                  <span><?= htmlspecialchars(number_format($service->getPrice(), 2)) ?>€</span>
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
 
       <div class="service-image">
-        <img src="<?= htmlspecialchars($service->getImage()) ?>"
-          alt="<?= htmlspecialchars($service->getName()) ?>">
+        <img src="<?= htmlspecialchars($service->getImage()) ?>" alt="<?= htmlspecialchars($service->getName()) ?>">
       </div>
       <div class="service-info">
         <h1><?= htmlspecialchars($service->getName()) ?></h1>
@@ -71,8 +73,7 @@ drawHeader();
         <p class="service-description"><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
 
         <div class="seller-profile">
-          <img src="<?= htmlspecialchars($seller->getProfilePic()) ?>"
-            alt="<?= htmlspecialchars($seller->getName()) ?>"
+          <img src="<?= htmlspecialchars($seller->getProfilePic()) ?>" alt="<?= htmlspecialchars($seller->getName()) ?>"
             class="seller-pic">
           <div class="seller-bio">
             <strong>About the seller:</strong>
@@ -135,13 +136,13 @@ drawHeader();
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-  const favoriteForms = document.querySelectorAll('.favorite-form');
+    const favoriteForms = document.querySelectorAll('.favorite-form');
 
-  favoriteForms.forEach(form => {
-    form.addEventListener('submit', function () {
-      console.log('Favorite form submitted');
+    favoriteForms.forEach(form => {
+      form.addEventListener('submit', function () {
+        console.log('Favorite form submitted');
+      });
     });
   });
-});
 
 </script>
