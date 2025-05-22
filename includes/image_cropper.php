@@ -33,6 +33,11 @@ class ImageCropper
 
         list($width, $height, $type) = $imageInfo;
 
+        // If it's a GIF file, skip cropping to preserve animation
+        if ($type == IMAGETYPE_GIF) {
+            return true; // Skip cropping for GIFs to preserve animation
+        }
+
         // Parse aspect ratio
         $ratioComponents = explode(':', $aspectRatio);
         if (count($ratioComponents) !== 2) {
@@ -71,9 +76,6 @@ class ImageCropper
             case IMAGETYPE_PNG:
                 $srcImg = imagecreatefrompng($filePath);
                 break;
-            case IMAGETYPE_GIF:
-                $srcImg = imagecreatefromgif($filePath);
-                break;
             default:
                 return false;
         }
@@ -84,7 +86,7 @@ class ImageCropper
 
         $dstImg = imagecreatetruecolor($newWidth, $newHeight);
 
-        if ($type == IMAGETYPE_PNG || $type == IMAGETYPE_GIF) {
+        if ($type == IMAGETYPE_PNG) {
             imagecolortransparent($dstImg, imagecolorallocatealpha($dstImg, 0, 0, 0, 127));
             imagealphablending($dstImg, false);
             imagesavealpha($dstImg, true);
@@ -99,9 +101,6 @@ class ImageCropper
                 break;
             case IMAGETYPE_PNG:
                 $result = imagepng($dstImg, $filePath);
-                break;
-            case IMAGETYPE_GIF:
-                $result = imagegif($dstImg, $filePath);
                 break;
         }
 

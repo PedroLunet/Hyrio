@@ -124,38 +124,50 @@ if (!$user) {
             if (profilePicInput) {
                 profilePicInput.addEventListener('change', function() {
                         if (this.files && this.files[0]) {
-                            const reader = new FileReader();
+                            const file = this.files[0];
+                            const isGif = file.type === 'image/gif';
 
-                            reader.onload = function(e) {
-                                const img = new Image();
-
-                                img.onload = function() {
-                                    const canvas = document.createElement('canvas');
-                                    const size = Math.min(img.width, img.height);
-
-                                    const canvasSize = 300;
-                                    canvas.width = canvasSize;
-                                    canvas.height = canvasSize;
-
-                                    const ctx = canvas.getContext('2d');
-
-                                    ctx.clearRect(0, 0, canvasSize, canvasSize);
-
-
-                                    const offsetX = (img.width - size) / 2;
-                                    const offsetY = (img.height - size) / 2;
-
-                                    ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, canvasSize, canvasSize);
-
-                                    currentProfilePic.src = canvas.toDataURL('image/jpeg', 0.9);
+                            // If it's a GIF file, bypass canvas processing to preserve animation
+                            if (isGif) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    currentProfilePic.src = e.target.result;
                                     removeProfilePicFlag.value = '0';
-                                }
+                                };
+                                reader.readAsDataURL(file);
+                            } else {
+                                // For non-GIF files, continue with the image cropping process
+                                const reader = new FileReader();
 
-                                ;
-                                img.src = e.target.result;
+                                reader.onload = function(e) {
+                                    const img = new Image();
+
+                                    img.onload = function() {
+                                        const canvas = document.createElement('canvas');
+                                        const size = Math.min(img.width, img.height);
+
+                                        const canvasSize = 300;
+                                        canvas.width = canvasSize;
+                                        canvas.height = canvasSize;
+
+                                        const ctx = canvas.getContext('2d');
+
+                                        ctx.clearRect(0, 0, canvasSize, canvasSize);
+
+                                        const offsetX = (img.width - size) / 2;
+                                        const offsetY = (img.height - size) / 2;
+
+                                        ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, canvasSize, canvasSize);
+
+                                        currentProfilePic.src = canvas.toDataURL('image/jpeg', 0.9);
+                                        removeProfilePicFlag.value = '0';
+                                    };
+
+                                    img.src = e.target.result;
+                                };
+
+                                reader.readAsDataURL(file);
                             }
-
-                            reader.readAsDataURL(this.files[0]);
                         }
                     }
 

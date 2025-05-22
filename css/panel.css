@@ -197,11 +197,6 @@ section {
         flex-direction: column;
     }
 
-    .section-header-button {
-        width: 100%;
-        text-align: center;
-    }
-
     .section-content {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;

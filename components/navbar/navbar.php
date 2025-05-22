@@ -59,7 +59,7 @@ class Navbar
           echo '<input type="checkbox" id="' . $profileDropdownId . '" class="profile-dropdown-toggle">';
           echo '<label for="' . $profileDropdownId . '" class="profile-dropdown-btn">';
           echo '<div class="user-profile">';
-          echo '<img src="/' . htmlspecialchars($profilePic) . '" alt="Profile Picture" class="profile-pic" title="' . htmlspecialchars($user['name']) . '">';
+          echo '<img src="' . htmlspecialchars($profilePic) . '" alt="Profile Picture" class="profile-pic" title="' . htmlspecialchars($user['name']) . '">';
           echo '</div>';
           echo '</label>';
 
