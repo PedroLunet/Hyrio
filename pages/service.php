@@ -31,14 +31,13 @@ drawHeader();
     <div class="service-details-container">
       <div class="service-header">
         <div class="service-pricing-block">
-          <?php if ($service->getRating()): ?>
-            <div class="rating-section">
-              <div class="stars-container">
-                <i class="ph-fill ph-star star-filled"></i>
-                <span class="rating-value"><?= number_format(floatval($service->getRating()), 1) ?></span>
-              </div>
+          <div class="rating-section">
+            <div class="stars-container">
+              <i class="ph-fill ph-star star-filled"></i>
+              <span class="rating-value"><?= number_format(floatval($service->getRating()), 1) ?></span>
             </div>
-          <?php endif; ?> <div class="favorite-price-container">
+          </div>
+          <div class="favorite-price-container">
             <form action="/actions/favorite_action.php" method="post" class="favorite-form">
               <input type="hidden" name="serviceId" value="<?php echo $service->getId(); ?>">
               <input type="hidden" name="action" value="toggle">
@@ -100,7 +99,7 @@ drawHeader();
             Card::render($relatedService);
           }
         } else {
-          echo '<p class="no-related">No related services found in this category.</p>';
+          echo '<p class="none">No related services found in this category.</p>';
         }
         ?>
       </div>
@@ -117,7 +116,7 @@ drawHeader();
             Card::render($sellerService);
           }
         } else {
-          echo '<p class="no-related">No other services available from this seller.</p>';
+          echo '<p class="none">No other services available from this seller.</p>';
         }
         ?>
       </div>
@@ -134,14 +133,13 @@ drawHeader();
 <?php drawFooter(); ?>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-  const favoriteForms = document.querySelectorAll('.favorite-form');
+  document.addEventListener('DOMContentLoaded', function() {
+    const favoriteForms = document.querySelectorAll('.favorite-form');
 
-  favoriteForms.forEach(form => {
-    form.addEventListener('submit', function () {
-      console.log('Favorite form submitted');
+    favoriteForms.forEach(form => {
+      form.addEventListener('submit', function() {
+        console.log('Favorite form submitted');
+      });
     });
   });
-});
-
 </script>

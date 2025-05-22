@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Card Component
  * 
@@ -23,19 +24,22 @@ class Card
    * Render a single card with service data
    * 
    * @param array $service The service data to display in the card
+   * @param bool $showPrice Whether to show the price button (default: true)
    * @return void
    */
-  public static function render($service = null)
+  public static function render($service = null, $showPrice = true)
   {
     self::includeCSS();
 
     // Include the button component for price button
     require_once(__DIR__ . '/../button/button.php');
+    require_once(__DIR__ . '/../../database/classes/user.php');
 
     // Generate service ID for the link
     $serviceId = isset($service['id']) ? (int) $service['id'] : 0;
+    $seller = User::getUserById($service['seller']);
 
-    ?>
+?>
     <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
       <div class="card" id="container">
         <div class="card-rating">
@@ -44,36 +48,39 @@ class Card
         </div>
 
         <div class="image-container">
-          <img src="<?= isset($service['image']) ? htmlspecialchars($service['image']) : '../assets/logo.png' ?>"
+          <img src="<?=htmlspecialchars($service['image'])?>"
             alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
         </div>
 
         <div id="label">
           <div id="titles">
             <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
-            <p><?= isset($service['seller_name']) ? htmlspecialchars($service['seller_name']) : 'bald man' ?></p>
+            <p><?= htmlspecialchars($seller->getName())?></p>
           </div>
           <?php
-          Button::start(['variant' => 'primary', 'class' => 'price-button']);
-          if (isset($service['price'])) {
-            ButtonIcon::render('ph-bold ph-currency-eur');
+          if ($showPrice) {
+            Button::start(['variant' => 'primary', 'class' => 'price-button']);
+            if (isset($service['price'])) {
+              ButtonIcon::render('ph-bold ph-currency-eur');
+            }
+            echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
+            Button::end();
           }
-          echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
-          Button::end();
           ?>
         </div>
       </div>
     </a>
-    <?php
+<?php
   }
 
   /**
    * Render a grid of cards from services data
    * 
    * @param array $services Array of service data
+   * @param bool $showPrice Whether to show price buttons (default: true)
    * @return void
    */
-  public static function renderGrid($services = [])
+  public static function renderGrid($services = [], $showPrice = true)
   {
     self::includeCSS();
 
@@ -89,7 +96,7 @@ class Card
     // Display services in a grid
     echo '<div class="card-grid">';
     foreach ($services as $service) {
-      self::render($service);
+      self::render($service, $showPrice);
     }
     echo '</div>';
   }

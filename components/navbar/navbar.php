@@ -49,7 +49,7 @@ class Navbar
         <?php
         $user = Auth::getInstance()->getUser();
         if ($user) {
-          $profilePic = isset($user['profile_pic']) ? $user['profile_pic'] : 'database/assets/userProfilePic.jpg';
+          $profilePic = $user['profile_pic'];
 
           // Generate a unique ID for this profile dropdown
           $profileDropdownId = 'profile_' . uniqid();
@@ -59,7 +59,7 @@ class Navbar
           echo '<input type="checkbox" id="' . $profileDropdownId . '" class="profile-dropdown-toggle">';
           echo '<label for="' . $profileDropdownId . '" class="profile-dropdown-btn">';
           echo '<div class="user-profile">';
-          echo '<img src="/' . htmlspecialchars($profilePic) . '" alt="Profile Picture" class="profile-pic" title="' . htmlspecialchars($user['name']) . '">';
+          echo '<img src="' . htmlspecialchars($profilePic) . '" alt="Profile Picture" class="profile-pic" title="' . htmlspecialchars($user['name']) . '">';
           echo '</div>';
           echo '</label>';
 
@@ -67,7 +67,10 @@ class Navbar
           echo '<div class="profile-dropdown-menu">';
           echo '<div class="user-name">' . htmlspecialchars($user['name']) . '</div>';
           echo '<a href="/pages/profile.php?username=' . htmlspecialchars($user['username']) . '" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>';
-          if ($user['role'] === 'admin') {
+          if ($user['is_seller']) {
+            echo '<a href="/pages/seller.php" class="dropdown-item"><i class="fas fa-store"></i> Seller Panel</a>';
+          }
+          if ($user['is_admin']) {
             echo '<a href="/pages/admin.php" class="dropdown-item"><i class="fas fa-cog"></i> Admin Panel</a>';
           }
           echo '<a href="/actions/logout_action.php" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>';

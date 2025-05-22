@@ -61,14 +61,20 @@ class Category
         }
     }
 
-    public static function getAllCategories(int $offset, int $limit): array
+    public static function getAllCategories(int $offset = 0, int $limit = 0): array
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('SELECT * FROM categories LIMIT ?, ?');
-            $stmt->bindParam(1, $offset, PDO::PARAM_INT);
-            $stmt->bindParam(2, $limit, PDO::PARAM_INT);
-            $stmt->execute();
+            
+            if ($limit === 0) {
+                $stmt = $db->query('SELECT * FROM categories');
+            } else {
+                $stmt = $db->prepare('SELECT * FROM categories LIMIT ?, ?');
+                $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+                $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+                $stmt->execute();
+            }
+            
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return [];
@@ -86,14 +92,17 @@ class Category
         }
     }
 
-    public static function getCategoryById(int $id): ?array
+    public static function getCategoryById(int $id): ?Category
     {
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('SELECT * FROM categories WHERE id = ?');
             $stmt->execute([$id]);
             $category = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $category ?: null;
+            if ($category) {
+                return new Category((int)$category['id'], $category['name']);
+            }
+            return null;
         } catch (PDOException $e) {
             return null;
         }

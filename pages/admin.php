@@ -10,7 +10,7 @@ require_once(__DIR__ . '/../database/classes/category.php');
 
 $loggedInUser = Auth::getInstance()->getUser();
 
-if (!$loggedInUser || $loggedInUser['role'] !== 'admin') {
+if (!$loggedInUser || !$loggedInUser['is_admin']) {
     header('Location: /');
     exit();
 }
@@ -19,11 +19,11 @@ head();
 drawHeader();
 
 echo '<link rel="stylesheet" href="../css/forms.css">';
-echo '<link rel="stylesheet" href="../css/admin.css">';
+echo '<link rel="stylesheet" href="../css/panel.css">';
 echo '<script src="/js/overlay.js"></script>';
 
 ?><?php
-    if ($loggedInUser && $loggedInUser['role'] === 'admin') {
+    if ($loggedInUser && $loggedInUser['is_admin']) {
         require_once(__DIR__ . '/../overlays/edit_category.php');
         require_once(__DIR__ . '/../overlays/add_category.php');
     }
@@ -75,16 +75,16 @@ echo '<script src="/js/overlay.js"></script>';
     <section class="admin-actions">
         <h2>Management</h2>
         <div class="action-buttons">
-            <button class="admin-button <?php echo $section === 'users' ? 'active' : ''; ?>" data-target="users-section">Manage Users</button>
-            <button class="admin-button <?php echo $section === 'services' ? 'active' : ''; ?>" data-target="services-section">Manage Services</button>
-            <button class="admin-button <?php echo $section === 'categories' ? 'active' : ''; ?>" data-target="categories-section">Manage Categories</button>
+            <button class="section-header-button <?php echo $section === 'users' ? 'active' : ''; ?>" data-target="users-section">Manage Users</button>
+            <button class="section-header-button <?php echo $section === 'services' ? 'active' : ''; ?>" data-target="services-section">Manage Services</button>
+            <button class="section-header-button <?php echo $section === 'categories' ? 'active' : ''; ?>" data-target="categories-section">Manage Categories</button>
         </div>
     </section>
 
-    <section id="users-section" class="admin-content-section <?php echo $section === 'users' ? 'active' : ''; ?>">
+    <section id="users-section" class="panel-content-section <?php echo $section === 'users' ? 'active' : ''; ?>">
         <h2>Users Management</h2>
         <div class="section-content">
-            <table class="admin-table">
+            <table class="panel-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -105,12 +105,21 @@ echo '<script src="/js/overlay.js"></script>';
                     $totalPages = ceil($totalUsers / $perPage);
 
                     foreach ($users as $user) {
+                        if ($user['is_admin'] && $user['is_seller']) {
+                            $role = 'seller, admin';
+                        } elseif ($user['is_admin']) {
+                            $role = 'admin';
+                        } elseif ($user['is_seller']) {
+                            $role = 'seller';
+                        } else {
+                            $role = 'user';
+                        }
                         echo '<tr>';
                         echo '<td>' . htmlspecialchars(strval($user['id'])) . '</td>';
                         echo '<td>' . htmlspecialchars(strval($user['username'])) . '</td>';
                         echo '<td>' . htmlspecialchars(strval($user['email'])) . '</td>';
-                        echo '<td>' . htmlspecialchars(strval($user['role'])) . '</td>';
-                        if ($user['role'] === 'admin') {
+                        echo '<td>' . htmlspecialchars(strval($role)) . '</td>';
+                        if ($user['is_admin']) {
                             echo '<td>
                         <button class="action-btn view-btn" onclick="window.location.href=\'/pages/profile.php?username=' . $user['username'] . '\'">View</button>
                         <button class="action-btn delete-btn" data-id="' . $user['id'] . '">Delete</button>
@@ -135,10 +144,10 @@ echo '<script src="/js/overlay.js"></script>';
             ?>
         </div>
     </section>
-    <section id="services-section" class="admin-content-section <?php echo $section === 'services' ? 'active' : ''; ?>">
+    <section id="services-section" class="panel-content-section <?php echo $section === 'services' ? 'active' : ''; ?>">
         <h2>Services Management</h2>
         <div class="section-content">
-            <table class="admin-table">
+            <table class="panel-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -183,13 +192,13 @@ echo '<script src="/js/overlay.js"></script>';
             ?>
         </div>
     </section>
-    <section id="categories-section" class="admin-content-section <?php echo $section === 'categories' ? 'active' : ''; ?>">
-        <div class="category-header">
+    <section id="categories-section" class="panel-content-section <?php echo $section === 'categories' ? 'active' : ''; ?>">
+        <div class="section-header">
             <h2>Categories Management</h2>
-            <button class="admin-button" id="add-category-btn">Add Category</button>
+            <button class="section-header-button" id="add-category-btn">Add Category</button>
         </div>
         <div class="section-content">
-            <table class="admin-table">
+            <table class="panel-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -230,8 +239,8 @@ echo '<script src="/js/overlay.js"></script>';
 </main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.admin-button[data-target]');
-            const sections = document.querySelectorAll('.admin-content-section');
+            const buttons = document.querySelectorAll('.section-header-button[data-target]');
+            const sections = document.querySelectorAll('.panel-content-section');
 
             buttons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -262,7 +271,7 @@ echo '<script src="/js/overlay.js"></script>';
                     buttons.forEach(btn => btn.classList.remove('active'));
                     sections.forEach(section => section.classList.remove('active'));
 
-                    const button = document.querySelector(`.admin-button[data-target="${targetId}"]`);
+                    const button = document.querySelector(`.section-header-button[data-target="${targetId}"]`);
                     if (button) button.classList.add('active');
 
                     const section = document.getElementById(targetId);
@@ -283,7 +292,7 @@ echo '<script src="/js/overlay.js"></script>';
             const id = event.target.dataset.id;
             const row = event.target.closest('tr');
 
-            let type = document.querySelector('.admin-button.active').dataset.target.replace('-section', '');
+            let type = document.querySelector('.section-header-button.active').dataset.target.replace('-section', '');
 
             if (type === 'users') type = 'user';
             else if (type === 'services') type = 'service';

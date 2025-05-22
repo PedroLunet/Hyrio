@@ -11,7 +11,7 @@ echo '<link rel="stylesheet" href="/css/forms.css">';
 
 $user = Auth::getInstance()->getUser();
 
-if (!$user || $user['role'] !== 'admin') {
+if (!$user || !$user['is_admin']) {
     header('Location: /pages/login.php');
     exit();
 }
