@@ -67,12 +67,12 @@ class Service
         }
     }
 
-    public function delete(): bool
+    public static function delete(int $id): bool
     {
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('DELETE FROM services WHERE id = ?');
-            $stmt->execute([$this->id]);
+            $stmt->execute([$id]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -256,6 +256,18 @@ class Service
         try {
             $db = Database::getInstance();
             $stmt = $db->query('SELECT COUNT(*) FROM services');
+            return (int)$stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public static function getTotalServicesBySeller(int $sellerId): int
+    {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT COUNT(*) FROM services WHERE seller = ?');
+            $stmt->execute([$sellerId]);
             return (int)$stmt->fetchColumn();
         } catch (PDOException $e) {
             return 0;

@@ -49,7 +49,9 @@ echo '<script src="/js/overlay.js"></script>';
             </div>
             <div class="stat-card">
                 <h3>Listings</h3>
-                <p class="stat-number">9</p>
+                <?php
+                echo '<p class="stat-number">' . htmlspecialchars((string)Service::getTotalServicesBySeller($loggedInUser['id'])) . '</p>';
+                ?>
             </div>
             <div class="stat-card">
                 <h3>Current Orders</h3>

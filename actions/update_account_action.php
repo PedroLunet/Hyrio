@@ -25,6 +25,7 @@ $newPassword = $_POST['new_password'] ?? '';
 $confirmPassword = $_POST['confirm_password'] ?? '';
 $removeProfilePicture = isset($_POST['remove_profile_picture']) && $_POST['remove_profile_picture'] === '1';
 $profilePicture = $loggedInUser['profile_pic'];
+$convertAccount = $_POST['convert_account'] ?? '';
 $error = null;
 
 if ($removeProfilePicture) {
@@ -60,6 +61,15 @@ if (empty($name) || empty($username) || empty($email)) {
     User::update($loggedInUser['id'], $name, $username, $email, $bio, $profilePicture);
 }
 
+$isSellerStatus = $loggedInUser['is_seller'];
+if ($convertAccount === 'add') {
+    User::addFreelancerStatus($loggedInUser['id']);
+    $isSellerStatus = true;
+} else if ($convertAccount === 'remove') {
+    User::removeFreelancerStatus($loggedInUser['id']);
+    $isSellerStatus = false;
+}
+
 if (!$error) {
     $_SESSION['user'] = [
         'id' => $loggedInUser['id'],
@@ -68,7 +78,7 @@ if (!$error) {
         'email' => $email,
         'bio' => $bio,
         'profile_pic' => $profilePicture,
-        'is_seller' => $loggedInUser['is_seller'],
+        'is_seller' => $isSellerStatus,
         'is_admin' => $loggedInUser['is_admin']
     ];
 }

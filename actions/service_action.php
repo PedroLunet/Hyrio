@@ -24,7 +24,6 @@ $categoryId = $_POST['category_id'] ?? '';
 $image = $_FILES['image'] ?? null;
 $error = null;
 
-// Changed validation to not require image
 if (empty($name) || empty($description) || empty($price) || empty($categoryId)) {
     $error = "Name, description, price and category are required";
 } else if (!is_numeric($price) || $price <= 0) {
@@ -45,7 +44,6 @@ if (empty($name) || empty($description) || empty($price) || empty($categoryId)) 
         $serviceId = (int)$db->lastInsertId();
         $imageUploaded = false;
 
-        // Upload image only if provided and valid
         if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
             $uploadDir = '/database/assets/services/' . $serviceId . '/';
             $uploader = new FileUploader('image', $uploadDir, ['image/jpeg', 'image/png'], 5242880, '2:1');
@@ -57,11 +55,11 @@ if (empty($name) || empty($description) || empty($price) || empty($categoryId)) 
                 $imageUploaded = true;
             } else {
                 $error = "Image upload failed: " . implode(', ', $uploader->getErrors());
-                // Don't delete the service, just notify about image issue
+                Service::delete($serviceId);
             }
         } else if (isset($image) && $image['error'] !== UPLOAD_ERR_NO_FILE) {
-            // Only consider it an error if user tried to upload but failed
             $error = "Image upload error: " . ($image['error'] ?? 'Unknown');
+            Service::delete($serviceId);
         }
 
         if (!$error) {

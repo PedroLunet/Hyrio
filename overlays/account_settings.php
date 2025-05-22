@@ -67,8 +67,22 @@ if (!$user) {
                 </fieldset>
                 <fieldset>
                     <legend>Freelancer Settings</legend>
-                    <div class="form-group">
-                        <p>Do you want to sell on our website? Click here to convert your account !</p>
+                    <div class="form-group freelancer-settings">
+                        <?php if ($user->isSeller()): ?>
+                            <p>Your account is currently a freelancer account. You can convert back to a regular user account.</p>
+                            <?php
+                            Button::start(['variant' => 'secondary', 'id' => 'convert-account-btn', 'data-action' => 'convert-account', 'name' => 'convert_account', 'value' => 'remove']);
+                            echo '<span>Convert</span>';
+                            Button::end();
+                            ?>
+                        <?php else: ?>
+                            <p>Do you want to sell on our website? Click here to convert your account!</p>
+                            <?php
+                            Button::start(['variant' => 'primary', 'id' => 'convert-account-btn', 'data-action' => 'convert-account', 'name' => 'convert_account', 'value' => 'add']);
+                            echo '<span>Convert</span>';
+                            Button::end();
+                            ?>
+                        <?php endif; ?>
                     </div>
                 </fieldset>
                 <fieldset class="delete-account-fieldset">
@@ -127,7 +141,6 @@ if (!$user) {
                             const file = this.files[0];
                             const isGif = file.type === 'image/gif';
 
-                            // If it's a GIF file, bypass canvas processing to preserve animation
                             if (isGif) {
                                 const reader = new FileReader();
                                 reader.onload = function(e) {
@@ -136,7 +149,6 @@ if (!$user) {
                                 };
                                 reader.readAsDataURL(file);
                             } else {
-                                // For non-GIF files, continue with the image cropping process
                                 const reader = new FileReader();
 
                                 reader.onload = function(e) {
@@ -178,26 +190,42 @@ if (!$user) {
 
             if (deleteAccountBtn) {
                 deleteAccountBtn.addEventListener('click', function(event) {
-                        event.preventDefault();
+                    event.preventDefault();
 
-                        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                            const form = document.createElement('form');
-                            form.method = 'POST';
-                            form.action = '/actions/delete_account_action.php';
-                            form.style.display = 'none';
+                    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/actions/delete_account_action.php';
+                        form.style.display = 'none';
 
-                            const input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'delete_account';
-                            input.value = '1';
-                            form.appendChild(input);
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'delete_account';
+                        input.value = '1';
+                        form.appendChild(input);
 
-                            document.body.appendChild(form);
-                            form.submit();
-                        }
+                        document.body.appendChild(form);
+                        form.submit();
                     }
+                });
+            }
 
-                );
+            const convertAccountBtn = document.querySelector('[data-action="convert-account"]');
+
+            if (convertAccountBtn) {
+                convertAccountBtn.addEventListener('click', function(event) {
+                    const form = this.closest('form');
+
+                    if (form) {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'convert_account';
+                        hiddenInput.value = this.value;
+                        form.appendChild(hiddenInput);
+
+                        form.submit();
+                    }
+                });
             }
         }
 

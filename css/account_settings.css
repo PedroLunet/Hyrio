@@ -24,6 +24,32 @@
     color: #333;
 }
 
+fieldset:has(.freelancer-settings) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px;
+}
+
+.freelancer-settings {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 15px;
+  align-items: center;
+  margin: 0 !important;
+}
+
+.freelancer-settings p {
+  grid-column: 1;
+  margin: 0;
+}
+
+.freelancer-settings button {
+  grid-column: 2;
+  align-self: center;
+  height: fit-content;
+}
+
 .account-settings-overlay fieldset {
     width: 100%;
     min-width: 0;
