@@ -15,7 +15,7 @@ class Service
     private string $image;
     private ?float $rating;
 
-    public function __construct(int $id, string $name, string $description, float $price, int $seller, int $category, string $image, ?float $rating = null)
+    public function __construct(int $id, string $name, string $description, float $price, int $seller, int $category, string $image, ?float $rating)
     {
         $this->id = $id;
         $this->name = $name;
@@ -27,7 +27,7 @@ class Service
         $this->rating = $rating;
     }
 
-    public static function createService(string $name, string $description, float $price, int $seller, int $category, string $image = '/assets/placeholder.png', ?float $rating = null): bool
+    public static function createService(string $name, string $description, float $price, int $seller, int $category, string $image = '/assets/placeholder.png', ?float $rating = 0.0): bool
     {
         try {
             $db = Database::getInstance();
@@ -126,14 +126,6 @@ class Service
             ');
             $stmt->execute([$categoryId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
-
-            // Format image paths for all services
-            foreach ($services as &$service) {
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
             
             return $services;
         } catch (PDOException $e) {
@@ -161,14 +153,6 @@ class Service
             $stmt->execute([$sellerId, $currentServiceId, $limit]);
             $services = $stmt->fetchAll();
             
-            // Format image paths for all services
-            foreach ($services as &$service) {
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
-            
             return $services;
         } catch (PDOException $e) {
             return [];
@@ -190,14 +174,6 @@ class Service
             ');
             $stmt->execute();
             $services = $stmt->fetchAll();
-            
-            // Format image paths for all services
-            foreach ($services as &$service) {
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
             
             return $services;
         } catch (PDOException $e) {
@@ -222,14 +198,6 @@ class Service
             $stmt->execute([$categoryId]);
             $services = $stmt->fetchAll();
             
-            // Add default image and rating to each service
-            foreach ($services as &$service) {
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
-            
             return $services;
         } catch (PDOException $e) {
             return [];
@@ -252,14 +220,6 @@ class Service
             ');
             $stmt->execute([$sellerId]);
             $services = $stmt->fetchAll();
-            
-            // Add default image and rating to each service
-            foreach ($services as &$service) {
-                // Add a default rating if not set
-                if (!isset($service['rating'])) {
-                    $service['rating'] = 4.5;
-                }
-            }
             
             return $services;
         } catch (PDOException $e) {
@@ -335,7 +295,7 @@ class Service
 
     public function getImage(): string
     {
-        return '/' . $this->image;
+        return $this->image;
     }
 
     public function getRating(): ?float
