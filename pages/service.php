@@ -69,7 +69,7 @@ drawHeader();
         <h1><?= htmlspecialchars($service->getName()) ?></h1>
         <div class="service-meta-info">
           <h2>by <?= htmlspecialchars($service->getSeller_name()) ?></h2>
-          <span class="service-category"><i class="ph-bold ph-tag"></i> <?= htmlspecialchars($service->getCategory()) ?></span>
+          <span class="service-category"><i class="ph-bold ph-tag"></i> <?= htmlspecialchars($service->getCategory_name()) ?></span>
         </div>
         <p class="service-description"><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
         
