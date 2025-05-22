@@ -18,6 +18,20 @@ if (!$loggedInUser || !$loggedInUser['is_seller']) {
 head();
 drawHeader();
 
+if ($loggedInUser) {
+    require_once(__DIR__ . '/../overlays/add_service.php');
+
+    if (isset($_SESSION['show_add_service']) && $_SESSION['show_add_service'] === true) {
+        unset($_SESSION['show_add_service']);
+
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                OverlaySystem.open("add-service-overlay");
+            });
+        </script>';
+    }
+}
+
 echo '<link rel="stylesheet" href="../css/panel.css">';
 echo '<link rel="stylesheet" href="../css/service.css">';
 echo '<script src="/js/overlay.js"></script>';
@@ -45,7 +59,7 @@ echo '<script src="/js/overlay.js"></script>';
     </section>
     <section class="">
         <div class="section-header">
-            <h2>Your Listing</h2>
+            <h2>Your Listings</h2>
             <button class="section-header-button" id="add-listing-btn">Create New Listing</button>
         </div>
         <div class="services-row">

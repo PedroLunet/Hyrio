@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/image_cropper.php';
+
 class FileUploader
 {
     private string $uploadDir;
@@ -7,18 +9,21 @@ class FileUploader
     private string $fileName;
     private array $allowedTypes;
     private int $maxFileSize;
+    private string $aspectRatio;
     private array $errors = [];
 
     public function __construct(
         string $fileName = '',
-        string $uploadDir = 'database/assets/',
+        string $uploadDir = '/database/assets/',
         array $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'],
         int $maxFileSize = 5242880,
+        string $aspectRatio = ImageCropper::ASPECT_RATIO_SQUARE,
     ) {
         $this->uploadDir = rtrim($uploadDir, '/') . '/';
         $this->allowedTypes = $allowedTypes;
         $this->maxFileSize = $maxFileSize;
         $this->fileName = $fileName;
+        $this->aspectRatio = $aspectRatio;
 
         $projectRoot = dirname(__DIR__);
         $this->fullUploadPath = $projectRoot . '/' . $this->uploadDir;
@@ -66,9 +71,8 @@ class FileUploader
             return null;
         }
 
-        require_once __DIR__ . '/image_cropper.php';
-        if (!ImageCropper::cropToSquare($fullPath)) {
-            $this->errors[] = 'Failed to crop image to square.';
+        if (!ImageCropper::cropToAspectRatio($fullPath, $this->aspectRatio)) {
+            $this->errors[] = 'Failed to crop image to ' . $this->aspectRatio . ' aspect ratio.';
             return null;
         }
 
@@ -83,5 +87,15 @@ class FileUploader
     public function hasInitErrors(): bool
     {
         return !empty($this->errors);
+    }
+
+    public function setAspectRatio(string $aspectRatio): void
+    {
+        $this->aspectRatio = $aspectRatio;
+    }
+
+    public function getAspectRatio(): string
+    {
+        return $this->aspectRatio;
     }
 }

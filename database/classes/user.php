@@ -27,7 +27,7 @@ class User
         $this->bio = $bio;
     }
 
-    public static function create(string $name, string $username, string $email, string $password, bool $isSeller = false, bool $isAdmin = false, string $profilePic = 'database/assets/userProfilePic.jpg', string $bio = '')
+    public static function create(string $name, string $username, string $email, string $password, bool $isSeller = false, bool $isAdmin = false, string $profilePic = '/database/assets/userProfilePic.jpg', string $bio = '')
     {
         try {
             $db = Database::getInstance();
@@ -269,7 +269,7 @@ class User
 
     public function getProfilePic(): string
     {
-        return '/' . $this->profilePic;
+        return $this->profilePic;
     }
 
     public function getBio(): string

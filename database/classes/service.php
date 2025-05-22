@@ -181,7 +181,6 @@ class Service
             
             // Add default image and rating to each service
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
                     $service['rating'] = 4.5;
@@ -216,7 +215,6 @@ class Service
             
             // Add default image and rating to each service
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
                     $service['rating'] = 4.5;
@@ -247,7 +245,6 @@ class Service
             
             // Add default image and rating to each service
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
                     $service['rating'] = 4.5;
@@ -279,7 +276,6 @@ class Service
             
             // Add default image and rating to each service
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
                     $service['rating'] = 4.5;
@@ -311,7 +307,6 @@ class Service
             
             // Add default image and rating to each service
             foreach ($services as &$service) {
-                $service['image'] = '/assets/placeholder.png';
                 // Add a default rating if not set
                 if (!isset($service['rating'])) {
                     $service['rating'] = 4.5;

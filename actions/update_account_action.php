@@ -28,9 +28,9 @@ $profilePicture = $loggedInUser['profile_pic'];
 $error = null;
 
 if ($removeProfilePicture) {
-    $profilePicture = 'database/assets/userProfilePic.jpg';
+    $profilePicture = '/database/assets/userProfilePic.jpg';
 } else if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] !== UPLOAD_ERR_NO_FILE) {
-    $uploader = new FileUploader('profile_picture', 'database/assets/profiles/' . $loggedInUser['id'] . '/');
+    $uploader = new FileUploader('profile_picture', '/database/assets/profiles/' . $loggedInUser['id'] . '/');
     if ($uploader->hasInitErrors()) {
         $error = implode(' ', $uploader->getErrors());
     } else {

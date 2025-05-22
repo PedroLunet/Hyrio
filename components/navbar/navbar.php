@@ -49,7 +49,7 @@ class Navbar
         <?php
         $user = Auth::getInstance()->getUser();
         if ($user) {
-          $profilePic = isset($user['profile_pic']) ? $user['profile_pic'] : 'database/assets/userProfilePic.jpg';
+          $profilePic = $user['profile_pic'];
 
           // Generate a unique ID for this profile dropdown
           $profileDropdownId = 'profile_' . uniqid();

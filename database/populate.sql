@@ -20,7 +20,7 @@ VALUES (
         'arestivo@fe.up.pt',
         0,
         1,
-        'database/assets/adminProfilePic.jpg',
+        '/database/assets/adminProfilePic.jpg',
         'Administrator of the platform'
     ),
     (
@@ -31,7 +31,7 @@ VALUES (
         'john@example.com',
         0,
         0,
-        'database/assets/userProfilePic.jpg',
+        '/database/assets/userProfilePic.jpg',
         'Regular user'
     ),
     (
@@ -42,7 +42,7 @@ VALUES (
         'jane@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in design'
     ),
     (
@@ -53,7 +53,7 @@ VALUES (
         'alice@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in illustration'
     ),
     (
@@ -64,7 +64,7 @@ VALUES (
         'bob@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in backend development'
     ),
     (
@@ -75,7 +75,7 @@ VALUES (
         'charlie@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in video editing'
     ),
     (
@@ -86,7 +86,7 @@ VALUES (
         'diana@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in photography'
     ),
     (
@@ -97,7 +97,7 @@ VALUES (
         'ethan@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in mobile app development'
     ),
     (
@@ -108,7 +108,7 @@ VALUES (
         'fiona@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in content marketing'
     ),
     (
@@ -119,7 +119,7 @@ VALUES (
         'george@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in SEO optimization'
     ),
     (
@@ -130,7 +130,7 @@ VALUES (
         'hannah@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in social media management'
     ),
     (
@@ -141,7 +141,7 @@ VALUES (
         'ian@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in game development'
     ),
     (
@@ -152,7 +152,7 @@ VALUES (
         'julia@example.com',
         1,
         0,
-        'database/assets/freelancerProfilePic.jpg',
+        '/database/assets/freelancerProfilePic.jpg',
         'Freelancer specializing in UX/UI design'
     ),
     (
@@ -163,7 +163,7 @@ VALUES (
         'pedroafmonteiro10@gmail.com',
         0,
         1,
-        'database/assets/profiles/14/profile_picture.jpg',
+        '/database/assets/profiles/14/profile_picture.jpg',
         'Administrator of the platform'
     ),
     (
@@ -174,7 +174,7 @@ VALUES (
         'pedrolunet@gmail.com',
         0,
         1,
-        'database/assets/adminProfilePic.jpg',
+        '/database/assets/adminProfilePic.jpg',
         'Administrator of the platform'
     ),
     (
@@ -185,7 +185,7 @@ VALUES (
         'joaomlopes20059@gmail.com',
         0,
         1,
-        'database/assets/adminProfilePic.jpg',
+        '/database/assets/adminProfilePic.jpg',
         'Administrator of the platform'
     );
 -- Insert sample categories
@@ -220,7 +220,7 @@ VALUES (
         50.00,
         3,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.5
     ),
     (
@@ -230,7 +230,7 @@ VALUES (
         200.00,
         3,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -240,7 +240,7 @@ VALUES (
         30.00,
         2,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.2
     ),
     (
@@ -250,7 +250,7 @@ VALUES (
         100.00,
         4,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -260,7 +260,7 @@ VALUES (
         120.00,
         4,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -270,7 +270,7 @@ VALUES (
         80.00,
         4,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.6
     ),
     (
@@ -280,7 +280,7 @@ VALUES (
         150.00,
         5,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -290,7 +290,7 @@ VALUES (
         200.00,
         5,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -300,7 +300,7 @@ VALUES (
         250.00,
         5,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -310,7 +310,7 @@ VALUES (
         300.00,
         6,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -320,7 +320,7 @@ VALUES (
         350.00,
         6,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -330,7 +330,7 @@ VALUES (
         200.00,
         6,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -340,7 +340,7 @@ VALUES (
         150.00,
         7,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -350,7 +350,7 @@ VALUES (
         300.00,
         7,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -360,7 +360,7 @@ VALUES (
         250.00,
         7,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -370,7 +370,7 @@ VALUES (
         500.00,
         8,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -380,7 +380,7 @@ VALUES (
         600.00,
         8,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -390,7 +390,7 @@ VALUES (
         300.00,
         8,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -400,7 +400,7 @@ VALUES (
         200.00,
         9,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -410,7 +410,7 @@ VALUES (
         100.00,
         9,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -420,7 +420,7 @@ VALUES (
         150.00,
         9,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -430,7 +430,7 @@ VALUES (
         300.00,
         10,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -440,7 +440,7 @@ VALUES (
         150.00,
         10,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -450,7 +450,7 @@ VALUES (
         400.00,
         10,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -460,7 +460,7 @@ VALUES (
         200.00,
         11,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -470,7 +470,7 @@ VALUES (
         150.00,
         11,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -480,7 +480,7 @@ VALUES (
         250.00,
         11,
         3,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -490,7 +490,7 @@ VALUES (
         400.00,
         12,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -500,7 +500,7 @@ VALUES (
         350.00,
         12,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -510,7 +510,7 @@ VALUES (
         200.00,
         12,
         2,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     ),
     (
@@ -520,7 +520,7 @@ VALUES (
         300.00,
         13,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.8
     ),
     (
@@ -530,7 +530,7 @@ VALUES (
         200.00,
         13,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.9
     ),
     (
@@ -540,6 +540,6 @@ VALUES (
         400.00,
         13,
         1,
-        'assets/placeholder.png',
+        '/assets/placeholder.png',
         4.7
     );

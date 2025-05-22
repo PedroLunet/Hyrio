@@ -24,7 +24,15 @@ if (!$user || !$user['is_seller']) {
             <button class="close-btn" aria-label="Close">X</button>
         </div>
         <div class="overlay-body">
-            <form id="add-service-form" method="POST" action="/actions/service_action.php">
+            <?php if (isset($_SESSION['error_message'])): ?>
+                <div class="error-message">
+                    <?php
+                    echo htmlspecialchars($_SESSION['error_message']);
+                    unset($_SESSION['error_message']);
+                    ?>
+                </div>
+            <?php endif; ?>
+            <form id="add-service-form" method="POST" action="/actions/service_action.php" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="service">
                 <input type="hidden" name="action" value="add">
                 <?php
@@ -56,12 +64,30 @@ if (!$user || !$user['is_seller']) {
                         ?>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group image-upload-container">
                     <label for="service-image">Image:</label>
-                    <input type="file" id="service-image" name="image" accept="image/*">
+                    <div class="image-preview">
+                        <img src="/assets/placeholder.png" alt="Service image preview" id="service-image-preview">
+                    </div>
+                    <div class="image-controls">
+                        <?php
+                        Button::start(['variant' => 'primary', 'class' => 'custom-file-upload', 'onclick' => "document.getElementById('service-image').click(); event.preventDefault(); return false;"]);
+                        echo '<span>Choose Image</span>';
+                        Button::end();
+                        ?>
+                        <input type="file" id="service-image" name="image" accept="image/*" class="file-input">
+                        <?php
+                        Button::start(['variant' => 'secondary', 'class' => 'remove-image-btn', 'onclick' => "document.getElementById('service-image-preview').src = '/assets/placeholder.png'; document.getElementById('service-image').value = ''; event.preventDefault(); return false;"]);
+                        echo '<span>Remove Image</span>';
+                        Button::end();
+                        ?>
+                    </div>
                 </div>
                 <div class="form-actions">
                     <?php
+                    Button::start(['variant' => 'text', 'type' => 'button', 'data-action' => 'close']);
+                    echo '<span>Cancel</span>';
+                    Button::end();
                     Button::start(['variant' => 'primary', 'type' => 'submit', 'form' => 'add-service-form']);
                     echo '<span>Add Service</span>';
                     Button::end();
@@ -89,6 +115,41 @@ if (!$user || !$user['is_seller']) {
                 } else if (parseFloat(priceInput.value) <= 0) {
                     formEvent.preventDefault();
                     alert('Price must be greater than 0');
+                }
+            });
+        }
+
+        const serviceImageInput = document.getElementById('service-image');
+        const serviceImagePreview = document.getElementById('service-image-preview');
+
+        if (serviceImageInput) {
+            serviceImageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            const size = Math.min(img.width, img.height);
+
+                            const canvasSize = 300;
+                            canvas.width = canvasSize;
+                            canvas.height = canvasSize;
+
+                            const ctx = canvas.getContext('2d');
+
+                            ctx.clearRect(0, 0, canvasSize, canvasSize);
+
+                            const offsetX = (img.width - size) / 2;
+                            const offsetY = (img.height - size) / 2;
+
+                            ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, canvasSize, canvasSize);
+
+                            serviceImagePreview.src = canvas.toDataURL('image/jpeg', 0.9);
+                        };
+                        img.src = e.target.result;
+                    }
+                    reader.readAsDataURL(this.files[0]);
                 }
             });
         }
