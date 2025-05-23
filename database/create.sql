@@ -29,3 +29,13 @@ CREATE TABLE favorites (id INTEGER PRIMARY KEY,
   service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(user_id, service_id));
+
+DROP TABLE IF EXISTS messages;
+CREATE TABLE messages (
+  id INTEGER PRIMARY KEY,
+  sender VARCHAR(255) NOT NULL REFERENCES users(username),
+  receiver VARCHAR(255) NOT NULL REFERENCES users(username),
+  message_text TEXT NOT NULL,
+  timestamp INTEGER NOT NULL,
+  read BOOLEAN DEFAULT 0
+);
