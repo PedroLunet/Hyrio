@@ -59,7 +59,9 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
         </header>
 
         <section>
-            <h2>About me</h2>
+            <div class="section-header">
+                <h2>About me</h2>
+            </div>
             <?php
             if ($user->getBio() === '') {
                 echo '<p>This user has not set a bio yet.</p>';
@@ -70,15 +72,17 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
         </section>
         <?php
         if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
-            echo '<section class="profile-favorites">';
+            echo '<section>';
+            echo '<div class="section-header">';
             echo '<h2>Favorites</h2>';
-
+            echo '</div>';
+            
             $favorites = $user->getUserFavorites($user->getId());
 
             if (empty($favorites)) {
                 echo '<p>You haven\'t liked any services yet. Try saving one by clicking the heart button in the service page.</p>';
             } else {
-                echo '<div class="favorites-grid">';
+                echo '<div class="services-row">';
                 foreach ($favorites as $favorite) {
                     Card::render($favorite);
                 }

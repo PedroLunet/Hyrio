@@ -129,7 +129,7 @@
 	position: absolute;
 	top: 15px;
 	right: 15px;
-	z-index: 5; /* Ensure it appears above the image */
+	z-index: 3; /* Ensure it appears above the image */
 	background-color: rgba(0, 0, 0, 0.25); /* Reduced opacity for transparency */
 	color: white;
 	border-radius: 12px;
