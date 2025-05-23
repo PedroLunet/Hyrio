@@ -180,9 +180,9 @@ VALUES (
     (
         16,
         'João Lopes',
-        'joaolopes',
+        'jlopes_15',
         '$2y$12$KZImD5OjtsFLvWr96BAGXeiPeChrjHc5LjMvwkZONDMjE0qFO7Gpe', -- Password: 123456
-        'joaomlopes20059@gmail.com',
+        'joaomiguel20059@gmail.com',
         0,
         1,
         '/database/assets/adminProfilePic.jpg',
