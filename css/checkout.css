@@ -97,22 +97,7 @@
 	justify-content: flex-end;
 	margin-top: 1.2rem;
 }
-#pay-button {
-	padding: 0.7rem 2.2rem;
-	font-size: 1.1rem;
-	border-radius: 8px;
-	border: none;
-	background: linear-gradient(90deg, var(--primary, #1a73e8) 60%, #4285f4 100%);
-	color: #fff;
-	font-weight: 600;
-	cursor: pointer;
-	box-shadow: 0 2px 8px rgba(26, 115, 232, 0.08);
-	transition: background 0.2s, transform 0.1s;
-}
-#pay-button:hover {
-	background: linear-gradient(90deg, #1765c1 60%, #357ae8 100%);
-	transform: translateY(-2px) scale(1.03);
-}
+
 .confirm-overlay {
 	position: fixed;
 	top: 0;
@@ -157,21 +142,7 @@
 	margin: 0 0.5rem;
 	transition: background 0.18s, color 0.18s;
 }
-.btn-primary {
-	background: linear-gradient(90deg, var(--primary, #1a73e8) 60%, #4285f4 100%);
-	color: #fff;
-}
-.btn-primary:hover {
-	background: linear-gradient(90deg, #1765c1 60%, #357ae8 100%);
-}
-.btn-secondary {
-	background: #e9ecef;
-	color: #333;
-}
-.btn-secondary:hover {
-	background: #d3dae6;
-	color: var(--primary, #1a73e8);
-}
+
 .service-not-found {
 	max-width: 400px;
 	margin: 4rem auto;

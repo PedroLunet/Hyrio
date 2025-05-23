@@ -52,7 +52,17 @@ drawHeader();
           <textarea id="message" name="message" rows="4"
             placeholder="Add any special instructions or information for the seller..."></textarea>
         </div>
-        <button type="button" id="pay-button" class="btn btn-primary">Pay</button>
+        <?php
+        require_once(__DIR__ . '/../components/button/button.php');
+        Button::start([
+          'type' => 'button',
+          'id' => 'pay-button',
+          'variant' => 'primary',
+        ]);
+        ButtonIcon::render('ph-bold ph-credit-card');
+        ?>
+        <span>Pay</span>
+        <?php Button::end(); ?>
       </form>
     </div>
     <div id="confirm-overlay" class="confirm-overlay" style="display:none;">
