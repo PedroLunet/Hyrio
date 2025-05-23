@@ -1,9 +1,9 @@
 .profile-header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: 1fr 1fr;
-    column-gap: 1%;
-    margin-bottom: 30px;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-rows: 1fr 1fr;
+	column-gap: 1%;
+	margin-bottom: 30px;
 }
 
 .profile-picture {
@@ -42,15 +42,15 @@
 }
 
 section {
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    padding: 20px;
+	background-color: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	margin-bottom: 30px;
+	padding: 20px;
 }
 
 section h2 {
-    margin: 0;
+	margin: 0;
 }
 
 section p {
@@ -58,58 +58,48 @@ section p {
 }
 
 .section-header {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .services-row {
-  display: flex;
-  overflow-x: auto;
-  gap: 1.5rem;
-  padding: 1rem 0.5rem;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary) #f0f0f0;
-  padding-bottom: 20px;
-  margin-bottom: -15px;
+	display: flex;
+	overflow-x: auto;
+	gap: 1.5rem;
+	padding: 1rem 0.5rem;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: var(--primary) #f0f0f0;
+	padding-bottom: 20px;
+	margin-bottom: -15px;
 }
 
 .services-row .card-link {
-  min-width: 280px;
-  width: 280px;
-  max-width: 90%;
-  flex-shrink: 0;
+	min-width: 280px;
+	width: 280px;
+	max-width: 90%;
+	flex-shrink: 0;
 }
 
 /* --- Purchases Table Styles --- */
 .purchases-table {
 	width: 100%;
 	border-collapse: collapse;
-	margin: 1.5rem 0;
-	background: #fff;
-	border-radius: 8px;
-	overflow: hidden;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+	margin-top: 20px;
 }
 .purchases-table th,
 .purchases-table td {
-	padding: 1rem 1.2rem;
+	padding: 12px 15px;
 	text-align: left;
-}
-.purchases-table thead {
-	background: #f5f6fa;
+	border-bottom: 1px solid #ddd;
 }
 .purchases-table th {
+	background-color: #f8f9fa;
 	font-weight: 600;
 	color: #333;
-	border-bottom: 2px solid #e6e6e6;
 }
-.purchases-table tbody tr {
-	border-bottom: 1px solid #f0f0f0;
-	transition: background 0.2s;
-}
-.purchases-table tbody tr:hover {
-	background: #f7faff;
+.purchases-table tr:hover {
+	background-color: #f5f5f5;
 }
 .purchases-table td a {
 	color: #2d72d9;
@@ -206,6 +196,17 @@ section p {
 		margin: 0 auto;
 	}
 
+	.purchases-table {
+		font-size: 0.9em;
+		min-width: 600px;
+	}
+
+	.purchases-table th,
+	.purchases-table td {
+		padding: 8px 10px;
+		white-space: nowrap;
+	}
+
 	.purchases-table th:nth-child(3),
 	.purchases-table td:nth-child(3) {
 		display: none; /* Hide seller column on smaller screens */
@@ -235,6 +236,15 @@ section p {
 	.profile-actions .button {
 		padding: 8px 14px;
 		font-size: 0.9em;
+	}
+
+	.purchases-table {
+		font-size: 0.8em;
+	}
+
+	.purchases-table th,
+	.purchases-table td {
+		padding: 10px 8px;
 	}
 
 	.purchases-table th:nth-child(2),
