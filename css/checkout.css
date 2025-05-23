@@ -123,24 +123,66 @@
 	background: #fff;
 	padding: 2.2rem 2rem 1.5rem 2rem;
 	border-radius: 12px;
-	text-align: center;
 	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
 	min-width: 270px;
+	max-width: 95vw;
+	width: 100%;
+	text-align: center;
+	margin: 0 1rem;
 }
 .confirm-modal p {
 	font-size: 1.1rem;
 	margin-bottom: 1.3rem;
 	color: #222;
 }
-.btn {
-	padding: 0.6rem 1.5rem;
-	border-radius: 7px;
-	border: none;
-	font-size: 1rem;
-	font-weight: 600;
-	cursor: pointer;
-	margin: 0 0.5rem;
-	transition: background 0.18s, color 0.18s;
+.confirm-actions {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+}
+
+.confirm-modal button {
+	text-align: center;
+	justify-content: center;
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+@media (max-width: 600px) {
+	.confirm-modal {
+		padding: 1.2rem 0.7rem 1rem 0.7rem;
+		border-radius: 10px;
+		min-width: unset;
+		width: 98vw;
+		max-width: 98vw;
+		margin: 0 1vw;
+		box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+	}
+	.confirm-modal p {
+		font-size: 1rem;
+		margin-bottom: 1rem;
+	}
+	.confirm-actions {
+		flex-direction: column;
+		gap: 0.7rem;
+	}
+	.confirm-modal button {
+		width: 100%;
+		font-size: 1.05em;
+		padding: 0.8em 0;
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+	}
+}
+
+@media (max-width: 400px) {
+	.confirm-modal {
+		padding: 0.7rem 0.2rem 0.7rem 0.2rem;
+		border-radius: 7px;
+	}
+	.confirm-modal p {
+		font-size: 0.95rem;
+	}
 }
 
 .service-not-found {

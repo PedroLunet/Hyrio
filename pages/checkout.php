@@ -68,8 +68,10 @@ drawHeader();
     <div id="confirm-overlay" class="confirm-overlay" style="display:none;">
       <div class="confirm-modal">
         <p>Are you sure you want to pay for this service?</p>
-        <button id="confirm-pay" class="btn btn-primary">Confirm</button>
-        <button id="cancel-pay" class="btn btn-secondary">Cancel</button>
+        <div class="confirm-actions" style="display: flex; gap: 1rem; justify-content: center;">
+          <button id="confirm-pay" class="btn btn-primary">Confirm</button>
+          <button id="cancel-pay" class="btn btn-secondary">Cancel</button>
+        </div>
       </div>
     </div>
   <?php else: ?>
