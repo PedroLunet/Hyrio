@@ -17,3 +17,8 @@ class Database
         return self::$instance;
     }
 }
+
+function getDatabaseConnection(): PDO
+{
+    return Database::getInstance();
+}

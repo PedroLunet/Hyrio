@@ -1,137 +1,266 @@
 .profile-header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: 1fr 1fr;
-    column-gap: 1%;
-    margin-bottom: 30px;
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-rows: 1fr 1fr;
+	column-gap: 1%;
+	margin-bottom: 30px;
 }
 
 .profile-picture {
-    width: 200px;
-    border-radius: 50%;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    grid-column: 1;
-    grid-row: 1 / span 2;
+	width: 200px;
+	border-radius: 50%;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+	grid-column: 1;
+	grid-row: 1 / span 2;
 }
 
 .profile-header h1 {
-    margin: 0;
-    font-size: 1.8em;
-    font-weight: 600;
-    color: var(--text);
-    grid-column: 2;
-    grid-row: 1;
-    align-self: flex-end;
+	margin: 0;
+	font-size: 1.8em;
+	font-weight: 600;
+	color: var(--text);
+	grid-column: 2;
+	grid-row: 1;
+	align-self: flex-end;
 }
 
 .profile-username {
-    color: var(--secondary);
-    font-size: 1.1em;
-    margin: 0;
-    font-weight: 500;
-    grid-column: 2;
-    grid-row: 2;
+	color: var(--secondary);
+	font-size: 1.1em;
+	margin: 0;
+	font-weight: 500;
+	grid-column: 2;
+	grid-row: 2;
 }
 
 .profile-actions {
-    justify-content: center;
-    grid-column: 3;
-    grid-row: 1 / span 2;
-    align-self: center;
+	justify-content: center;
+	grid-column: 3;
+	grid-row: 1 / span 2;
+	align-self: center;
 }
 
 section {
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    padding: 20px;
+	background-color: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	margin-bottom: 30px;
+	padding: 20px;
 }
 
 section h2 {
-    margin: 0;
+	margin: 0;
 }
 
 section p {
-    margin: 0;
+	margin: 0;
 }
 
 .section-header {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .services-row {
-  display: flex;
-  overflow-x: auto;
-  gap: 1.5rem;
-  padding: 1rem 0.5rem;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary) #f0f0f0;
-  padding-bottom: 20px;
-  margin-bottom: -15px;
+	display: flex;
+	overflow-x: auto;
+	gap: 1.5rem;
+	padding: 1rem 0.5rem;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: var(--primary) #f0f0f0;
+	padding-bottom: 20px;
+	margin-bottom: -15px;
 }
 
 .services-row .card-link {
-  min-width: 280px;
-  width: 280px;
-  max-width: 90%;
-  flex-shrink: 0;
+	min-width: 280px;
+	width: 280px;
+	max-width: 90%;
+	flex-shrink: 0;
+}
+
+/* --- Purchases Table Styles --- */
+.purchases-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+.purchases-table th,
+.purchases-table td {
+	padding: 12px 15px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+.purchases-table th {
+	background-color: #f8f9fa;
+	font-weight: 600;
+	color: #333;
+}
+.purchases-table tr:hover {
+	background-color: #f5f5f5;
+}
+.purchases-table td a {
+	color: #2d72d9;
+	text-decoration: none;
+	font-weight: 500;
+}
+.purchases-table td a:hover {
+	text-decoration: underline;
+}
+.purchases-table td {
+	color: #444;
+	vertical-align: middle;
+}
+.purchases-table td.price {
+	font-weight: 600;
+	color: #1a8917;
+}
+.purchases-table td.seller {
+	color: #555;
+}
+.purchases-table td.date {
+	color: #888;
+	font-size: 0.98em;
+}
+
+.purchases-table td.message-btn {
+	text-align: center;
+	padding: 0.7rem;
+}
+
+.message-view-btn {
+	padding: 0.45rem 0.7rem;
+	border-radius: 6px;
+	border: none;
+	font-size: 0.85rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s;
+	min-width: 90px;
+	white-space: nowrap;
+}
+
+.message-view-btn.btn-primary {
+	background-color: var(--primary, #3b82f6);
+	color: white;
+	box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.message-view-btn.btn-secondary {
+	background-color: #e2e8f0;
+	color: #64748b;
+}
+
+.message-view-btn:hover {
+	opacity: 0.9;
+	transform: translateY(-1px);
+}
+
+.message-view-btn:active {
+	transform: translateY(1px);
 }
 
 @media (max-width: 768px) {
-    .profile-header {
-        grid-template-columns: auto;
-        grid-template-rows: auto auto auto auto;
-        row-gap: 10px;
-    }
+	.profile-header {
+		grid-template-columns: auto;
+		grid-template-rows: auto auto auto auto;
+		row-gap: 10px;
+	}
 
-    .profile-picture {
-        width: 100px;
-        grid-row: 1;
-        grid-column: 1;
-        margin: 0 auto 5px;
-    }
+	.profile-picture {
+		width: 100px;
+		grid-row: 1;
+		grid-column: 1;
+		margin: 0 auto 5px;
+	}
 
-    .profile-header h1 {
-        font-size: 1.5em;
-        grid-row: 2;
-        grid-column: 1;
-        text-align: center;
-    }
+	.profile-header h1 {
+		font-size: 1.5em;
+		grid-row: 2;
+		grid-column: 1;
+		text-align: center;
+	}
 
-    .profile-username {
-        font-size: 1em;
-        grid-row: 3;
-        grid-column: 1;
-        text-align: center;
-    }
+	.profile-username {
+		font-size: 1em;
+		grid-row: 3;
+		grid-column: 1;
+		text-align: center;
+	}
 
-    .profile-actions {
-        grid-row: 4;
-        grid-column: 1;
-        margin: 0 auto;
-    }
+	.profile-actions {
+		grid-row: 4;
+		grid-column: 1;
+		margin: 0 auto;
+	}
+
+	/* Responsive scroll wrapper for tables, matching admin panel */
+	.section-content {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		width: 100%;
+	}
+
+	/* Ensure .purchases-table is always scrollable and min-width matches admin panel */
+	.purchases-table {
+		font-size: 0.9em;
+		min-width: 600px;
+	}
+	.purchases-table th,
+	.purchases-table td {
+		padding: 8px 10px;
+		white-space: nowrap;
+	}
+
+	.purchases-table th:nth-child(3),
+	.purchases-table td:nth-child(3) {
+		display: none; /* Hide seller column on smaller screens */
+	}
+
+	.message-view-btn {
+		padding: 0.4rem 0.6rem;
+		font-size: 0.8rem;
+		min-width: 80px;
+	}
 }
 
 @media (max-width: 480px) {
-    .profile-picture {
-        width: 80px;
-        height: 80px;
-    }
+	.profile-picture {
+		width: 80px;
+		height: 80px;
+	}
 
-    .profile-header h1 {
-        font-size: 1.3em;
-    }
+	.profile-header h1 {
+		font-size: 1.3em;
+	}
 
-    .profile-bio {
-        padding: 12px 16px;
-    }
+	.profile-bio {
+		padding: 12px 16px;
+	}
 
-    .profile-actions .button {
-        padding: 8px 14px;
-        font-size: 0.9em;
-    }
+	.profile-actions .button {
+		padding: 8px 14px;
+		font-size: 0.9em;
+	}
+
+	.purchases-table {
+		font-size: 0.8em;
+	}
+
+	.purchases-table th,
+	.purchases-table td {
+		padding: 10px 8px;
+	}
+
+	.purchases-table td {
+		padding: 0.8rem 0.5rem;
+	}
+
+	.message-view-btn {
+		padding: 0.35rem 0.5rem;
+		font-size: 0.75rem;
+		min-width: 70px;
+	}
 }

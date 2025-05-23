@@ -8,7 +8,7 @@ require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
-$user = User::getUserByUsername((string)$_GET['username']);
+$user = User::getUserByUsername((string) $_GET['username']);
 $loggedInUser = Auth::getInstance()->getUser();
 
 if (!$user) {
@@ -25,6 +25,7 @@ drawHeader();
 
 if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
     require_once(__DIR__ . '/../overlays/account_settings.php');
+    require_once(__DIR__ . '/../overlays/seller_message.php');
 
     if (isset($_SESSION['show_account_settings']) && $_SESSION['show_account_settings'] === true) {
         unset($_SESSION['show_account_settings']);
@@ -75,9 +76,9 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<div class="section-header">';
             echo '<h2>Favorites</h2>';
             echo '</div>';
-            
+
             $favorites = $user->getUserFavorites($user->getId());
-            
+
             if (empty($favorites)) {
                 echo '<p>You haven\'t liked any services yet. Try saving one by clicking the heart button in the service page.</p>';
             } else {
@@ -87,7 +88,46 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 }
                 echo '</div>';
             }
-            
+
+            echo '</section>';
+
+            // Purchased services section
+            require_once(__DIR__ . '/../database/classes/purchase.php');
+            $purchases = Purchase::getByUser($user->getId());
+            echo '<section class="profile-purchases">';
+            echo '<h2>Purchased Services</h2>';
+            if (empty($purchases)) {
+                echo '<p>You haven\'t purchased any services yet.</p>';
+            } else {
+                echo '<div class="section-content">';
+                echo '<table class="purchases-table">';
+                echo '<thead><tr><th>Service</th><th>Price</th><th>Seller</th><th>Date</th><th>Message</th></tr></thead>';
+                echo '<tbody>';
+                foreach ($purchases as $purchase) {
+                    $service = Service::getServiceById($purchase['service_id']);
+                    if ($service) {
+                        $sellerObj = User::getUserById($service->getSeller());
+                        echo '<tr>';
+                        echo '<td><a href="/pages/service.php?id=' . $service->getId() . '">' . htmlspecialchars($service->getName()) . '</a></td>';
+                        echo '<td class="price">' . htmlspecialchars(number_format($service->getPrice(), 2)) . '€</td>';
+                        echo '<td class="seller">' . htmlspecialchars($sellerObj ? $sellerObj->getName() : 'Unknown') . '</td>';
+                        echo '<td class="date">' . htmlspecialchars(date('M d, Y', strtotime($purchase['purchased_at']))) . '</td>';
+                        echo '<td class="message-btn">';
+                        // Check if a message exists before displaying the button
+                        $messageContent = isset($purchase['message']) && !empty($purchase['message'])
+                            ? nl2br(htmlspecialchars($purchase['message'])) : '';
+                        $buttonClass = empty($messageContent) ? 'btn-secondary' : 'btn-primary';
+                        $serviceName = htmlspecialchars($service->getName());
+                        $sellerName = htmlspecialchars($sellerObj ? $sellerObj->getName() : 'Unknown');
+                        echo '<button class="message-view-btn ' . $buttonClass . '" onclick="showSellerMessage(`' . str_replace('`', '\`', $messageContent) . '`, `' . str_replace('`', '\`', $serviceName) . '`, `' . str_replace('`', '\`', $sellerName) . '`)">View Message</button>';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                }
+                echo '</tbody>';
+                echo '</table>';
+                echo '</div>';
+            }
             echo '</section>';
         }
         ?>
