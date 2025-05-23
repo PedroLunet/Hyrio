@@ -156,7 +156,7 @@
 		width: 98vw;
 		max-width: 98vw;
 		margin: 0 1vw;
-		box-shadow: 0 2px 10px rgba(0,0,0,0.13);
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.13);
 	}
 	.confirm-modal p {
 		font-size: 1rem;

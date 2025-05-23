@@ -46,14 +46,27 @@ drawHeader();
 
         <hr>
         <p>Thank you for your purchase!</p>
-        <a href="/" class="btn btn-primary">Back to Home</a>
+        <?php
+        require_once(__DIR__ . '/../components/button/button.php');
+        Button::start([
+          'type' => 'button',
+          'variant' => 'primary',
+          'style' => 'margin-top:1rem;',
+          'id' => 'back-home-btn'
+        ]);
+        ButtonIcon::render('ph-bold ph-house');
+        ?>
+        <span>Back to Home</span>
+        <?php Button::end(); ?>
       </div>
     </div>
   <?php else: ?>
     <div class="service-not-found">
       <h2>Service Not Found</h2>
       <p>We couldn't find the service for this receipt.</p>
-      <a href="/" class="btn btn-primary">Back to Home</a>
+      <a href="/" class="btn btn-primary">
+        <i class="icon-home"></i> Back to Home
+      </a>
     </div>
   <?php endif; ?>
 </main>
@@ -92,3 +105,13 @@ drawHeader();
     color: #495057;
   }
 </style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const backHomeBtn = document.getElementById('back-home-btn');
+    if (backHomeBtn) {
+      backHomeBtn.addEventListener('click', function () {
+        window.location.href = '/';
+      });
+    }
+  });
+</script>
