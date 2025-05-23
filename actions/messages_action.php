@@ -9,7 +9,7 @@ require_once(__DIR__ . '/../database/classes/service.php');
 require_once(__DIR__ . '/../database/classes/messages.php');
 require_once(__DIR__ . '/../includes/database.php');
 
-if (!Auth::getInstance()->isLoggedIn()) {
+if (Auth::getInstance()->getUser() === null) {
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'get_new_messages') {
         header('Content-Type: application/json');
         echo json_encode(['error' => 'User not authenticated']);
@@ -63,9 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
 
     $senderUsername = $loggedInUser['username'];
     $receiverUsername = $otherUser->getUsername();
-
-    // Check if a conversation already exists
-    $messages = getMessages($db, $senderUsername, $receiverUsername);
 
     header("Location: /pages/messages.php?user=" . $receiverUsername);
     exit();

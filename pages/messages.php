@@ -46,9 +46,32 @@ drawHeader();
         <aside class="conversations-sidebar">
             <h2>Conversations</h2>
             <div class="conversation-list">
-                <?php if (empty($conversations)): ?>
+                <?php 
+                $otherUserInList = false;
+                if ($otherUser) {
+                    foreach ($conversations as $conversation) {
+                        if ($conversation['other_user'] === $otherUser) {
+                            $otherUserInList = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (empty($conversations) && !$otherUser): ?>
                     <p class="no-conversations">No conversations yet.</p>
                 <?php else: ?>
+                    <?php 
+                    if ($otherUser && !$otherUserInList) {
+                        $otherUsername = htmlspecialchars($otherUser);
+                    ?>
+                        <a href="/pages/messages.php?user=<?= $otherUsername ?>" 
+                           class="conversation-item selected">
+                            <div class="conversation-info">
+                                <h3><?= $otherUsername ?></h3>
+                            </div>
+                        </a>
+                    <?php } ?>
+                    
                     <?php foreach ($conversations as $conversation): 
                         $otherUsername = htmlspecialchars($conversation['other_user']);
                         
