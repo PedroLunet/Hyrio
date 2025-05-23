@@ -7,11 +7,11 @@ require_once(__DIR__ . '/../../includes/database.php');
 
 class Purchase
 {
-  public static function create(int $userId, int $serviceId, float $price): int
+  public static function create(int $userId, int $serviceId, float $price, ?string $message = null): int
   {
     $db = getDatabaseConnection();
-    $stmt = $db->prepare('INSERT INTO purchases (user_id, service_id, price) VALUES (?, ?, ?)');
-    $stmt->execute([$userId, $serviceId, $price]);
+    $stmt = $db->prepare('INSERT INTO purchases (user_id, service_id, price, message) VALUES (?, ?, ?, ?)');
+    $stmt->execute([$userId, $serviceId, $price, $message]);
     return (int) $db->lastInsertId();
   }
 

@@ -125,6 +125,43 @@ section p {
 	font-size: 0.98em;
 }
 
+.purchases-table td.message-btn {
+	text-align: center;
+	padding: 0.7rem;
+}
+
+.message-view-btn {
+	padding: 0.45rem 0.7rem;
+	border-radius: 6px;
+	border: none;
+	font-size: 0.85rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s;
+	min-width: 90px;
+	white-space: nowrap;
+}
+
+.message-view-btn.btn-primary {
+	background-color: var(--primary, #3b82f6);
+	color: white;
+	box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.message-view-btn.btn-secondary {
+	background-color: #e2e8f0;
+	color: #64748b;
+}
+
+.message-view-btn:hover {
+	opacity: 0.9;
+	transform: translateY(-1px);
+}
+
+.message-view-btn:active {
+	transform: translateY(1px);
+}
+
 @media (max-width: 768px) {
 	.profile-header {
 		grid-template-columns: auto;
@@ -158,6 +195,17 @@ section p {
 		grid-column: 1;
 		margin: 0 auto;
 	}
+
+	.purchases-table th:nth-child(3),
+	.purchases-table td:nth-child(3) {
+		display: none; /* Hide seller column on smaller screens */
+	}
+
+	.message-view-btn {
+		padding: 0.4rem 0.6rem;
+		font-size: 0.8rem;
+		min-width: 80px;
+	}
 }
 
 @media (max-width: 480px) {
@@ -177,5 +225,22 @@ section p {
 	.profile-actions .button {
 		padding: 8px 14px;
 		font-size: 0.9em;
+	}
+
+	.purchases-table th:nth-child(2),
+	.purchases-table td:nth-child(2),
+	.purchases-table th:nth-child(4),
+	.purchases-table td:nth-child(4) {
+		display: none; /* Hide price and date columns on very small screens */
+	}
+
+	.purchases-table td {
+		padding: 0.8rem 0.5rem;
+	}
+
+	.message-view-btn {
+		padding: 0.35rem 0.5rem;
+		font-size: 0.75rem;
+		min-width: 70px;
 	}
 }

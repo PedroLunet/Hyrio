@@ -36,6 +36,14 @@ drawHeader();
         <p>Purchased by: <?= htmlspecialchars($buyer->getName()) ?></p>
         <p><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
         <p><strong>Price Paid:</strong> <?= htmlspecialchars(number_format($purchase['price'], 2)) ?>€</p>
+
+        <?php if (!empty($purchase['message'])): ?>
+          <div class="message-box">
+            <h3>Message to Seller</h3>
+            <p><?= nl2br(htmlspecialchars($purchase['message'])) ?></p>
+          </div>
+        <?php endif; ?>
+
         <hr>
         <p>Thank you for your purchase!</p>
         <a href="/" class="btn btn-primary">Back to Home</a>
@@ -63,5 +71,24 @@ drawHeader();
 
   .receipt-details {
     font-size: 1.1rem;
+  }
+
+  .message-box {
+    background-color: #f8f9fa;
+    border-left: 3px solid #6c757d;
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .message-box h3 {
+    margin-top: 0;
+    font-size: 1.1rem;
+    color: #495057;
+  }
+
+  .message-box p {
+    margin-bottom: 0;
+    color: #495057;
   }
 </style>

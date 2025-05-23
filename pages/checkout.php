@@ -18,8 +18,12 @@ $seller = $service ? User::getUserById($service->getSeller()) : null;
 $loggedInUser = Auth::getInstance()->getUser();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $loggedInUser && $service) {
+  // Get message if provided
+  $message = isset($_POST['message']) ? trim($_POST['message']) : null;
+
   // Store purchase in DB
-  $purchaseId = Purchase::create($loggedInUser['id'], $service->getId(), $service->getPrice());
+  $purchaseId = Purchase::create($loggedInUser['id'], $service->getId(), $service->getPrice(), $message);
+
   // Redirect to receipt with purchase id
   header('Location: /pages/receipt.php?purchase_id=' . $purchaseId);
   exit();
@@ -43,6 +47,11 @@ drawHeader();
       </div>
       <form id="pay-form" action="/pages/checkout.php?id=<?= $service->getId() ?>" method="post">
         <input type="hidden" name="id" value="<?= $service->getId() ?>">
+        <div class="message-container">
+          <label for="message">Message to seller (optional):</label>
+          <textarea id="message" name="message" rows="4"
+            placeholder="Add any special instructions or information for the seller..."></textarea>
+        </div>
         <button type="button" id="pay-button" class="btn btn-primary">Pay</button>
       </form>
     </div>
