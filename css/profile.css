@@ -196,11 +196,18 @@ section p {
 		margin: 0 auto;
 	}
 
+	/* Responsive scroll wrapper for tables, matching admin panel */
+	.section-content {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		width: 100%;
+	}
+
+	/* Ensure .purchases-table is always scrollable and min-width matches admin panel */
 	.purchases-table {
 		font-size: 0.9em;
 		min-width: 600px;
 	}
-
 	.purchases-table th,
 	.purchases-table td {
 		padding: 8px 10px;
@@ -245,13 +252,6 @@ section p {
 	.purchases-table th,
 	.purchases-table td {
 		padding: 10px 8px;
-	}
-
-	.purchases-table th:nth-child(2),
-	.purchases-table td:nth-child(2),
-	.purchases-table th:nth-child(4),
-	.purchases-table td:nth-child(4) {
-		display: none; /* Hide price and date columns on very small screens */
 	}
 
 	.purchases-table td {

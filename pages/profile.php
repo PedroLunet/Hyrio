@@ -76,7 +76,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<div class="section-header">';
             echo '<h2>Favorites</h2>';
             echo '</div>';
-            
+
             $favorites = $user->getUserFavorites($user->getId());
 
             if (empty($favorites)) {
@@ -99,6 +99,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             if (empty($purchases)) {
                 echo '<p>You haven\'t purchased any services yet.</p>';
             } else {
+                echo '<div class="section-content">';
                 echo '<table class="purchases-table">';
                 echo '<thead><tr><th>Service</th><th>Price</th><th>Seller</th><th>Date</th><th>Message</th></tr></thead>';
                 echo '<tbody>';
@@ -125,6 +126,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 }
                 echo '</tbody>';
                 echo '</table>';
+                echo '</div>';
             }
             echo '</section>';
         }
