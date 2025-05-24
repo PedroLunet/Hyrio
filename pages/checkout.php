@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $loggedInUser && $service) {
   $message = isset($_POST['message']) ? trim($_POST['message']) : null;
 
   // Store purchase in DB
-  $purchaseId = Purchase::create($loggedInUser['id'], $service->getId(), $service->getPrice(), $message);
+  $purchaseId = Purchase::create($loggedInUser['id'], $service->getId(), $message);
 
   // Redirect to receipt with purchase id
   header('Location: /pages/receipt.php?purchase_id=' . $purchaseId);

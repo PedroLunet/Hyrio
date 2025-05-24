@@ -35,8 +35,8 @@ CREATE TABLE purchases (
   id INTEGER PRIMARY KEY,
   user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE,
-  price DECIMAL(10,2) NOT NULL,
   message TEXT,
+  status VARCHAR(50) NOT NULL DEFAULT 'pending',  -- pending, completed, cancelled
   purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

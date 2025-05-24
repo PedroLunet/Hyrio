@@ -6,7 +6,10 @@ require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../includes/auth.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../database/classes/purchase.php');
+require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../overlays/add_service.php');
+require_once(__DIR__ . '/../overlays/view_order.php');
 
 $loggedInUser = Auth::getInstance()->getUser();
 
@@ -130,8 +133,39 @@ echo '<script src="/js/overlay.js"></script>';
         <div class="section-header">
             <h2>Your Orders</h2>
         </div>
-        <div class="services-row">
-            <p>You don't have any orders yet.</p>
+        <div class="section-content">
+            <table class="panel-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Buyer</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $orders = Purchase::getBySeller($loggedInUser['id']);
+                    foreach ($orders as $order) {
+                        $buyer = User::getUserById($order['user_id']);
+                        $service = Service::getServiceById($order['service_id']);
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars(strval($order['id'])) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($buyer->getName())) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($service->getName())) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($order['status'])) . '</td>';
+                        echo '<td>
+                            <button class="action-btn view-btn" onclick="showOrderDetails(' . $order['id'] . ')">View</button>
+                            <button class="action-btn edit-btn" data-order-id="' . $order['id'] . '">Complete</button>
+                            <button class="action-btn delete-btn" data-id="' . $order['id'] . '">Cancel</button>
+
+                        </td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
 
 </main>
