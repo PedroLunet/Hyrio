@@ -52,4 +52,31 @@ $response = [
     'purchased_at' => $purchase['purchased_at']
 ];
 
+// If purchase is completed, check for available files
+if ($purchase['status'] === 'completed') {
+    $filesDir = __DIR__ . '/../database/assets/purchases/' . $purchaseId . '/';
+    $availableFiles = [];
+
+    if (is_dir($filesDir)) {
+        $files = scandir($filesDir);
+        foreach ($files as $file) {
+            if ($file !== '.' && $file !== '..' && is_file($filesDir . $file)) {
+                // Extract original filename if it was stored with unique suffix
+                $originalFilename = $file;
+                if (preg_match('/^(.+)_[a-f0-9]+(\.[^.]+)$/', $file, $matches)) {
+                    $originalFilename = $matches[1] . $matches[2];
+                }
+
+                $availableFiles[] = [
+                    'filename' => $file,
+                    'original_name' => $originalFilename,
+                    'size' => filesize($filesDir . $file)
+                ];
+            }
+        }
+    }
+
+    $response['available_files'] = $availableFiles;
+}
+
 echo json_encode($response);

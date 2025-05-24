@@ -24,6 +24,7 @@ drawHeader();
 if ($loggedInUser) {
     require_once(__DIR__ . '/../overlays/add_service.php');
     require_once(__DIR__ . '/../overlays/edit_service.php');
+    require_once(__DIR__ . '/../overlays/complete_order.php');
 
     if (isset($_SESSION['show_add_service']) && $_SESSION['show_add_service'] === true) {
         unset($_SESSION['show_add_service']);
@@ -310,32 +311,6 @@ drawFooter();
     }
 
     function completeOrder(orderId) {
-        if (confirm('Are you sure you want to mark this order as complete?')) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/actions/purchase_action.php';
-            form.style.display = 'none';
-
-            const idInput = document.createElement('input');
-            idInput.type = 'hidden';
-            idInput.name = 'id';
-            idInput.value = orderId;
-            form.appendChild(idInput);
-
-            const actionInput = document.createElement('input');
-            actionInput.type = 'hidden';
-            actionInput.name = 'action';
-            actionInput.value = 'complete';
-            form.appendChild(actionInput);
-
-            const sectionInput = document.createElement('input');
-            sectionInput.type = 'hidden';
-            sectionInput.name = 'section';
-            sectionInput.value = '<?php echo $section; ?>';
-            form.appendChild(sectionInput);
-
-            document.body.appendChild(form);
-            form.submit();
-        }
+        showCompleteOrderOverlay(orderId);
     }
 </script>
