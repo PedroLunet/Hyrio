@@ -113,7 +113,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                         echo '<td><a href="/pages/service.php?id=' . $service->getId() . '">' . htmlspecialchars($service->getName()) . '</a></td>';
                         echo '<td class="price">' . htmlspecialchars(number_format($service->getPrice(), 2)) . '€</td>';
                         echo '<td class="seller">' . htmlspecialchars($sellerObj ? $sellerObj->getName() : 'Unknown') . '</td>';
-                        echo '<td class="date">' . htmlspecialchars(date('M d, Y', strtotime($purchase['purchased_at']))) . '</td>';
+                        echo '<td class="status">' . htmlspecialchars($purchase['status']) . '</td>';
                         echo '<td class="message-btn">';
                         echo '<button class="action-btn view-btn" onclick="showOrderDetails(' . $purchase['id'] . ')">View</button>';
                         echo '</td>';

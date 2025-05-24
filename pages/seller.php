@@ -156,11 +156,14 @@ echo '<script src="/js/overlay.js"></script>';
                         echo '<td>' . htmlspecialchars(strval($service->getName())) . '</td>';
                         echo '<td>' . htmlspecialchars(strval($order['status'])) . '</td>';
                         echo '<td>
-                            <button class="action-btn view-btn" onclick="showOrderDetails(' . $order['id'] . ')">View</button>
-                            <button class="action-btn edit-btn" data-order-id="' . $order['id'] . '">Complete</button>
-                            <button class="action-btn delete-btn" data-id="' . $order['id'] . '">Cancel</button>
+                            <button class="action-btn view-btn" onclick="showOrderDetails(' . $order['id'] . ')">View</button>';
 
-                        </td>';
+                        if ($order['status'] === 'pending') {
+                            echo '<button class="action-btn edit-btn" data-order-id="' . $order['id'] . '" onclick="completeOrder(' . $order['id'] . ')">Complete</button>';
+                            echo '<button class="action-btn delete-btn" data-order-id="' . $order['id'] . '" onclick="cancelOrder(' . $order['id'] . ')">Cancel</button>';
+                        }
+
+                        echo '</td>';
                         echo '</tr>';
                     }
                     ?>
@@ -236,7 +239,7 @@ drawFooter();
     });
 
     document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('delete-btn')) {
+        if (event.target.classList.contains('delete-btn') && !event.target.dataset.orderId) {
             event.preventDefault();
 
             const id = event.target.dataset.id;
@@ -275,4 +278,64 @@ drawFooter();
             }
         }
     });
+
+    function cancelOrder(orderId) {
+        if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/actions/purchase_action.php';
+            form.style.display = 'none';
+
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = orderId;
+            form.appendChild(idInput);
+
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'cancel';
+            form.appendChild(actionInput);
+
+            const sectionInput = document.createElement('input');
+            sectionInput.type = 'hidden';
+            sectionInput.name = 'section';
+            sectionInput.value = '<?php echo $section; ?>';
+            form.appendChild(sectionInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    function completeOrder(orderId) {
+        if (confirm('Are you sure you want to mark this order as complete?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/actions/purchase_action.php';
+            form.style.display = 'none';
+
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = orderId;
+            form.appendChild(idInput);
+
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'complete';
+            form.appendChild(actionInput);
+
+            const sectionInput = document.createElement('input');
+            sectionInput.type = 'hidden';
+            sectionInput.name = 'section';
+            sectionInput.value = '<?php echo $section; ?>';
+            form.appendChild(sectionInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
 </script>

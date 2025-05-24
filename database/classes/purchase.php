@@ -78,4 +78,18 @@ class Purchase
     $stmt->execute([$sellerId]);
     return $stmt->fetchAll();
   }
+
+  public static function cancel(int $purchaseId): bool
+  {
+    $db = getDatabaseConnection();
+    $stmt = $db->prepare('UPDATE purchases SET status = ? WHERE id = ?');
+    return $stmt->execute(['cancelled', $purchaseId]);
+  }
+
+  public static function complete(int $purchaseId): bool
+  {
+    $db = getDatabaseConnection();
+    $stmt = $db->prepare('UPDATE purchases SET status = ? WHERE id = ?');
+    return $stmt->execute(['completed', $purchaseId]);
+  }
 }

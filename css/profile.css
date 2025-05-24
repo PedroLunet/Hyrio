@@ -111,18 +111,6 @@ section p {
 }
 .purchases-table td {
 	color: #444;
-	vertical-align: middle;
-}
-.purchases-table td.price {
-	font-weight: 600;
-	color: #1a8917;
-}
-.purchases-table td.seller {
-	color: #555;
-}
-.purchases-table td.date {
-	color: #888;
-	font-size: 0.98em;
 }
 
 .action-btn {
