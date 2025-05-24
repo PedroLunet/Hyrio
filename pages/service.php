@@ -105,13 +105,13 @@ drawHeader();
       <div class="service-image">
         <img src="<?= htmlspecialchars($service->getImage()) ?>" alt="<?= htmlspecialchars($service->getName()) ?>">
       </div>
+      <p class="service-description"><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
       <div class="service-info">
         <h1><?= htmlspecialchars($service->getName()) ?></h1>
         <div class="service-meta-info">
           <h2>by <?= htmlspecialchars($seller->getName()) ?></h2>
           <span class="service-category"><i class="ph-bold ph-tag"></i> <?= htmlspecialchars("Category") ?></span>
         </div>
-        <p class="service-description"><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
 
         <div class="seller-profile">
           <img src="<?= htmlspecialchars($seller->getProfilePic()) ?>" alt="<?= htmlspecialchars($seller->getName()) ?>"
