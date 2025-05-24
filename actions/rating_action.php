@@ -67,19 +67,36 @@ switch ($action) {
     $success = Rating::addOrUpdateRating($user['id'], $serviceId, $rating, $review);
 
     if ($success) {
-      // Get updated rating stats
-      $stats = Rating::getRatingStats($serviceId);
+      // Check if this is an AJAX request
+      $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
-      header('Content-Type: application/json');
-      echo json_encode([
-        'success' => true,
-        'message' => $action === 'add' ? 'Rating added successfully' : 'Rating updated successfully',
-        'stats' => $stats
-      ]);
+      if ($isAjax) {
+        // Get updated rating stats for AJAX response
+        $stats = Rating::getRatingStats($serviceId);
+        header('Content-Type: application/json');
+        echo json_encode([
+          'success' => true,
+          'message' => $action === 'add' ? 'Rating added successfully' : 'Rating updated successfully',
+          'stats' => $stats
+        ]);
+      } else {
+        // Set success message and redirect for form submission
+        $_SESSION['success_message'] = $action === 'add' ? 'Rating added successfully!' : 'Rating updated successfully!';
+        header('Location: /pages/service.php?id=' . $serviceId);
+        exit;
+      }
     } else {
-      header('HTTP/1.1 500 Internal Server Error');
-      header('Content-Type: application/json');
-      echo json_encode(['success' => false, 'message' => 'Failed to save rating']);
+      $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+      if ($isAjax) {
+        header('HTTP/1.1 500 Internal Server Error');
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'Failed to save rating']);
+      } else {
+        $_SESSION['error_message'] = 'Failed to save rating. Please try again.';
+        header('Location: /pages/service.php?id=' . $serviceId);
+        exit;
+      }
     }
     break;
 
@@ -87,19 +104,34 @@ switch ($action) {
     $success = Rating::deleteRating($user['id'], $serviceId);
 
     if ($success) {
-      // Get updated rating stats
-      $stats = Rating::getRatingStats($serviceId);
+      $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
-      header('Content-Type: application/json');
-      echo json_encode([
-        'success' => true,
-        'message' => 'Rating deleted successfully',
-        'stats' => $stats
-      ]);
+      if ($isAjax) {
+        // Get updated rating stats for AJAX response
+        $stats = Rating::getRatingStats($serviceId);
+        header('Content-Type: application/json');
+        echo json_encode([
+          'success' => true,
+          'message' => 'Rating deleted successfully',
+          'stats' => $stats
+        ]);
+      } else {
+        $_SESSION['success_message'] = 'Rating deleted successfully!';
+        header('Location: /pages/service.php?id=' . $serviceId);
+        exit;
+      }
     } else {
-      header('HTTP/1.1 500 Internal Server Error');
-      header('Content-Type: application/json');
-      echo json_encode(['success' => false, 'message' => 'Failed to delete rating']);
+      $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
+      if ($isAjax) {
+        header('HTTP/1.1 500 Internal Server Error');
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'message' => 'Failed to delete rating']);
+      } else {
+        $_SESSION['error_message'] = 'Failed to delete rating. Please try again.';
+        header('Location: /pages/service.php?id=' . $serviceId);
+        exit;
+      }
     }
     break;
 
@@ -126,18 +158,16 @@ switch ($action) {
     break;
 
   default:
-    header('HTTP/1.1 400 Bad Request');
-    header('Content-Type: application/json');
-    echo json_encode(['success' => false, 'message' => 'Invalid action']);
-    break;
-}
+    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
-// Redirect back to service page if not AJAX request
-if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
-  $redirectUrl = '/pages/service.php?id=' . $serviceId;
-  if (isset($_SESSION['rating_message'])) {
-    unset($_SESSION['rating_message']);
-  }
-  header('Location: ' . $redirectUrl);
-  exit;
+    if ($isAjax) {
+      header('HTTP/1.1 400 Bad Request');
+      header('Content-Type: application/json');
+      echo json_encode(['success' => false, 'message' => 'Invalid action']);
+    } else {
+      $_SESSION['error_message'] = 'Invalid action requested.';
+      header('Location: /pages/service.php?id=' . $serviceId);
+      exit;
+    }
+    break;
 }

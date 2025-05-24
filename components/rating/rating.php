@@ -44,49 +44,18 @@ class RatingComponent
   }
 
   /**
-   * Render interactive rating form
+   * Render rating button that opens the overlay
    */
-  public static function renderRatingForm(int $serviceId, ?array $existingRating = null): void
+  public static function renderRatingButton(int $serviceId, ?array $existingRating = null): void
   {
-    $currentRating = $existingRating ? $existingRating['rating'] : 0;
-    $currentReview = $existingRating ? $existingRating['review'] : '';
     $isUpdate = $existingRating !== null;
+    $buttonText = $isUpdate ? 'Update Rating' : 'Rate Service';
+    $buttonClass = $isUpdate ? 'btn btn-secondary' : 'btn btn-primary';
 
-    echo '<div class="rating-form-container">';
-    echo '<h3>' . ($isUpdate ? 'Update Your Rating' : 'Rate This Service') . '</h3>';
-
-    echo '<form action="/actions/rating_action.php" method="POST" class="rating-form">';
-    echo '<input type="hidden" name="service_id" value="' . $serviceId . '">';
-    echo '<input type="hidden" name="action" value="' . ($isUpdate ? 'update' : 'add') . '">';
-
-    // Star rating input
-    echo '<div class="star-rating-input">';
-    echo '<label>Your Rating:</label>';
-    echo '<div class="stars-input">';
-    for ($i = 1; $i <= 5; $i++) {
-      $checked = $i <= $currentRating ? 'checked' : '';
-      echo '<input type="radio" id="star' . $i . '" name="rating" value="' . $i . '" ' . $checked . '>';
-      echo '<label for="star' . $i . '" class="star-label"><i class="ph-fill ph-star"></i></label>';
-    }
-    echo '</div>';
-    echo '</div>';
-
-    // Review textarea
-    echo '<div class="review-input">';
-    echo '<label for="review">Your Review (optional):</label>';
-    echo '<textarea id="review" name="review" rows="4" placeholder="Share your experience with this service...">' . htmlspecialchars($currentReview) . '</textarea>';
-    echo '</div>';
-
-    // Submit button
-    echo '<div class="rating-form-actions">';
-    echo '<button type="submit" class="btn btn-primary">' . ($isUpdate ? 'Update Rating' : 'Submit Rating') . '</button>';
-    if ($isUpdate) {
-      echo '<button type="button" class="btn btn-secondary" onclick="deleteRating(' . $serviceId . ')">Delete Rating</button>';
-    }
-    echo '</div>';
-
-    echo '</form>';
-    echo '</div>';
+    echo '<button class="' . $buttonClass . ' rate-service-btn" onclick="openRatingOverlay(' . $serviceId . ')">';
+    echo '<i class="ph-bold ph-star"></i>';
+    echo $buttonText;
+    echo '</button>';
   }
 
   /**

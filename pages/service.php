@@ -36,7 +36,7 @@ if ($loggedInUser) {
   $canRateCheck = Rating::canUserRate($loggedInUser['id'], $service->getId());
   $canUserRate = $canRateCheck['can_rate'];
   $ratingMessage = $canRateCheck['reason'];
-  
+
   if ($canUserRate) {
     $userRating = Rating::getUserRatingForService($loggedInUser['id'], $service->getId());
   }
@@ -46,6 +46,27 @@ $allRatings = Rating::getRatingsByServiceId($service->getId());
 drawHeader();
 ?>
 <main>
+  <?php
+  // Display success/error messages
+  if (isset($_SESSION['success_message'])): ?>
+    <div class="success-message">
+      <i class="ph-bold ph-check-circle"></i>
+      <?= htmlspecialchars($_SESSION['success_message']) ?>
+    </div>
+    <?php
+    unset($_SESSION['success_message']);
+  endif;
+
+  if (isset($_SESSION['error_message'])): ?>
+    <div class="error-message">
+      <i class="ph-bold ph-warning-circle"></i>
+      <?= htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php
+    unset($_SESSION['error_message']);
+  endif;
+  ?>
+
   <?php
   if ($service):
     ?>
@@ -121,10 +142,7 @@ drawHeader();
       <div class="rating-actions">
         <h2>Ratings & Reviews</h2>
         <?php if ($loggedInUser && $canUserRate): ?>
-          <button class="rate-service-btn"
-            onclick="document.querySelector('.rating-form-container').scrollIntoView({behavior: 'smooth'})">
-            <?= $userRating ? 'Update Rating' : 'Rate Service' ?>
-          </button>
+          <?php RatingComponent::renderRatingButton($service->getId(), $userRating); ?>
         <?php elseif ($loggedInUser && !$canUserRate): ?>
           <div class="rating-restriction-message">
             <i class="ph-bold ph-info"></i>
@@ -140,11 +158,6 @@ drawHeader();
 
       <!-- Rating Statistics -->
       <?php RatingComponent::renderRatingStats($ratingStats); ?>
-
-      <!-- Rating Form (only for users who have purchased and aren't the seller) -->
-      <?php if ($loggedInUser && $canUserRate): ?>
-        <?php RatingComponent::renderRatingForm($service->getId(), $userRating); ?>
-      <?php endif; ?>
 
       <!-- Reviews List -->
       <?php RatingComponent::renderReviews($allRatings); ?>
@@ -192,9 +205,16 @@ drawHeader();
     </div>
   <?php endif; ?>
 </main>
+
+<!-- Rating Overlay -->
+<?php if ($loggedInUser): ?>
+  <div id="rating-overlay-container"></div>
+<?php endif; ?>
+
 <?php drawFooter(); ?>
 
 <script src="/js/rating.js"></script>
+<script src="/js/overlay.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const favoriteForms = document.querySelectorAll('.favorite-form');
@@ -204,5 +224,61 @@ drawHeader();
         console.log('Favorite form submitted');
       });
     });
+
+    // Initialize overlay system
+    OverlaySystem.init();
   });
+
+  // Function to open rating overlay
+  function openRatingOverlay(serviceId) {
+    const container = document.getElementById('rating-overlay-container');
+    if (container) {
+      // Show loading state
+      container.innerHTML = `
+        <div class="overlay rating-overlay" id="rating-overlay" style="display: block; opacity: 1;">
+          <div class="overlay-content" style="transform: translateY(0); opacity: 1;">
+            <div class="overlay-header">
+              <h2>Loading...</h2>
+              <button class="close-btn" onclick="OverlaySystem.close('rating-overlay')" aria-label="Close">✕</button>
+            </div>
+            <div class="overlay-body" style="text-align: center; padding: 2rem;">
+              <i class="ph-bold ph-spinner" style="font-size: 2rem; animation: spin 1s linear infinite;"></i>
+              <p>Loading rating form...</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Load the overlay content via fetch
+      fetch(`/overlays/rating.php?service_id=${serviceId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then(html => {
+          container.innerHTML = html;
+          OverlaySystem.open('rating-overlay');
+        })
+        .catch(error => {
+          console.error('Error loading rating overlay:', error);
+          container.innerHTML = `
+            <div class="overlay rating-overlay" id="rating-overlay" style="display: block; opacity: 1;">
+              <div class="overlay-content" style="transform: translateY(0); opacity: 1;">
+                <div class="overlay-header">
+                  <h2>Error</h2>
+                  <button class="close-btn" onclick="OverlaySystem.close('rating-overlay')" aria-label="Close">✕</button>
+                </div>
+                <div class="overlay-body" style="text-align: center; padding: 2rem;">
+                  <i class="ph-bold ph-warning" style="font-size: 2rem; color: #e74c3c;"></i>
+                  <p>Error loading rating form. Please try again.</p>
+                  <button class="btn btn-secondary" onclick="OverlaySystem.close('rating-overlay')">Close</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+    }
+  }
 </script>
