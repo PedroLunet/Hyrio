@@ -92,4 +92,12 @@ class Purchase
     $stmt = $db->prepare('UPDATE purchases SET status = ? WHERE id = ?');
     return $stmt->execute(['completed', $purchaseId]);
   }
+
+  public static function getTotalPendingPurchasesBySeller(int $sellerId): int
+  {
+    $db = getDatabaseConnection();
+    $stmt = $db->prepare('SELECT COUNT(*) FROM purchases WHERE service_id IN (SELECT id FROM services WHERE user_id = ?) AND status = ?');
+    $stmt->execute([$sellerId, 'pending']);
+    return (int) $stmt->fetchColumn();
+  }
 }
