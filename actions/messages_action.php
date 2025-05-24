@@ -50,6 +50,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
 
     echo json_encode(['messages' => $newMessages]);
     exit();
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_message') {
+    
+    header('Content-Type: application/json');
+    
+    $messageText = isset($_POST['message_text']) ? trim($_POST['message_text']) : '';
+    $receiverUsername = isset($_POST['receiver']) ? $_POST['receiver'] : '';
+
+    if (empty($messageText)) {
+        echo json_encode(['success' => false, 'error' => 'Message text is required']);
+        exit();
+    }
+
+    if (empty($receiverUsername)) {
+        echo json_encode(['success' => false, 'error' => 'Receiver is required']);
+        exit();
+    }
+
+    $username = $loggedInUser['username'];
+    
+    try {
+        $messageId = sendMessage($db, $username, $receiverUsername, $messageText);
+        echo json_encode(['success' => true, 'messageId' => $messageId]);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'error' => 'Failed to send message']);
+    }
+    
+    exit();
+    
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
 
     $userId = intval($_POST['user_id']);

@@ -97,6 +97,10 @@ drawHeader();
                     <h2>
                         Conversation with <?= htmlspecialchars($otherUser) ?>
                     </h2>
+                    <div class="connection-status" id="connection-status">
+                        <span class="status-indicator"></span>
+                        <span class="status-text">Connected</span>
+                    </div>
                 </div>
                 
                 <div class="messages-list" id="messages-list">
@@ -118,11 +122,11 @@ drawHeader();
                     <?php endif; ?>
                 </div>
                 
-                <form class="message-form" method="post">
+                <form class="message-form" method="post" data-ajax="true">
                     <input type="hidden" name="receiver" value="<?= htmlspecialchars($otherUser) ?>">
                     
                     <div class="message-input-area">
-                        <textarea name="message_text" placeholder="Type a message..." class="message-input"></textarea>
+                        <textarea name="message_text" placeholder="Type a message..." class="message-input" rows="3"></textarea>
                     </div>
                     
                     <div class="message-actions">
@@ -130,59 +134,17 @@ drawHeader();
                     </div>
                 </form>
                 
+                <script src="/js/messages.js"></script>
                 <script>
-                    // Auto-scroll to bottom of messages list on page load
+                    // Initialize real-time messaging
                     document.addEventListener('DOMContentLoaded', function() {
-                        const messagesList = document.getElementById('messages-list');
-                        if (messagesList) {
-                            messagesList.scrollTop = messagesList.scrollHeight;
-                        }
-                    });
-                    
-                    // Poll for new messages every 5 seconds
-                    let lastMessageId = <?= !empty($messages) ? end($messages)['id'] : 0 ?>;
-                    
-                    function checkForNewMessages() {
-                        $.ajax({
-                            url: '/actions/messages_action.php',
-                            type: 'GET',
-                            data: {
-                                action: 'get_new_messages',
-                                other_user: '<?= $otherUser ?>',
-                                last_message_id: lastMessageId
-                            },
-                            success: function(data) {
-                                if (data.messages && data.messages.length > 0) {
-
-                                    lastMessageId = data.messages[data.messages.length - 1].id; 
-                                    const messagesList = document.getElementById('messages-list');
-
-                                    data.messages.forEach(message => {
-                                        const isOwn = message.sender === '<?= $username ?>';
-                                        const messageClass = isOwn ? 'message-own' : 'message-other';
-                                        
-                                        let messageHtml = `<div class="message-item ${messageClass}">
-                                            <div class="message-content">
-                                                <p>${message.message_text}</p>
-                                                <span class="message-time">${new Date(message.timestamp * 1000).toLocaleString('en-US', {month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit'})}</span>
-                                            </div>
-                                        </div>`;
-                                        
-                                        messagesList.innerHTML += messageHtml;
-                                    });
-                                    
-                                    // Scroll to bottom
-                                    messagesList.scrollTop = messagesList.scrollHeight;
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error fetching new messages:', error);
-                            }
+                        window.messagesHandler = new MessagesHandler({
+                            otherUser: '<?= htmlspecialchars($otherUser) ?>',
+                            currentUser: '<?= htmlspecialchars($username) ?>',
+                            lastMessageId: <?= !empty($messages) ? end($messages)['id'] : 0 ?>
                         });
-                    }
-                    
-                    // Poll every 5 seconds
-                    setInterval(checkForNewMessages, 5000);
+                        window.messagesHandler.init();
+                    });
                 </script>
                 
             <?php else: ?>
