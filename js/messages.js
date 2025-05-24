@@ -33,6 +33,7 @@ class MessagesHandler {
 		this.startPolling();
 		this.setupKeyboardShortcuts();
 		this.updateConnectionStatus(true);
+		this.markConversationAsRead();
 	}
 
 	scrollToBottom() {
@@ -168,6 +169,10 @@ class MessagesHandler {
 
 				// Scroll to bottom
 				this.scrollToBottom();
+
+				// Mark conversation as read and update UI
+				this.markConversationAsRead();
+				this.updateConversationsList();
 			}
 		} catch (error) {
 			console.error('Error fetching new messages:', error);
@@ -257,6 +262,164 @@ class MessagesHandler {
 			indicator.classList.add('disconnected');
 			text.textContent = 'Disconnected';
 		}
+	}
+
+	destroy() {
+		this.stopPolling();
+	}
+
+	async markConversationAsRead() {
+		try {
+			const url = new URL(
+				'/actions/messages_action.php',
+				window.location.origin
+			);
+			url.searchParams.append('action', 'mark_read');
+			url.searchParams.append('other_user', this.otherUser);
+
+			await fetch(url);
+		} catch (error) {
+			console.error('Error marking conversation as read:', error);
+		}
+	}
+
+	updateConversationsList() {
+		// Update the conversation list to remove unread indicators for this conversation
+		const conversationItems = document.querySelectorAll('.conversation-item');
+		conversationItems.forEach((item) => {
+			const href = item.getAttribute('href');
+			if (href && href.includes(`user=${this.otherUser}`)) {
+				item.classList.remove('unread');
+				const unreadBadge = item.querySelector('.unread-badge');
+				if (unreadBadge) {
+					unreadBadge.remove();
+				}
+			}
+		});
+	}
+}
+
+class ConversationListManager {
+	constructor(currentUser) {
+		this.currentUser = currentUser;
+		this.pollingInterval = null;
+		this.pollingFrequency = 3000; // Poll every 3 seconds for conversation updates
+		this.conversationList = null;
+	}
+
+	init() {
+		this.conversationList = document.querySelector('.conversation-list');
+		if (this.conversationList) {
+			this.startPolling();
+		}
+	}
+
+	startPolling() {
+		this.pollingInterval = setInterval(() => {
+			this.updateConversationList();
+		}, this.pollingFrequency);
+	}
+
+	stopPolling() {
+		if (this.pollingInterval) {
+			clearInterval(this.pollingInterval);
+			this.pollingInterval = null;
+		}
+	}
+
+	async updateConversationList() {
+		try {
+			const url = new URL(
+				'/actions/messages_action.php',
+				window.location.origin
+			);
+			url.searchParams.append('action', 'get_conversations');
+
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			if (data.conversations) {
+				this.renderConversationList(data.conversations);
+			}
+		} catch (error) {
+			console.error('Error updating conversation list:', error);
+		}
+	}
+
+	renderConversationList(conversations) {
+		const currentUrl = new URL(window.location.href);
+		const currentUser = currentUrl.searchParams.get('user');
+
+		let html = '';
+
+		if (conversations.length === 0) {
+			html = '<p class="no-conversations">No conversations yet.</p>';
+		} else {
+			conversations.forEach((conversation) => {
+				const otherUsername = conversation.other_user;
+				const lastMessage = conversation.last_message;
+				const lastMessageTime = this.formatTimestamp(
+					conversation.last_message_timestamp
+				);
+				const unreadCount = conversation.unread_count;
+				const hasUnread = unreadCount > 0;
+				const isFromSelf =
+					conversation.last_message_sender === this.currentUser;
+				const isSelected = currentUser === otherUsername ? 'selected' : '';
+				const unreadClass = hasUnread ? 'unread' : '';
+
+				const messagePreview = lastMessage
+					? lastMessage.length > 40
+						? lastMessage.substring(0, 40) + '...'
+						: lastMessage
+					: 'No messages yet';
+
+				html += `
+					<a href="/pages/messages.php?user=${encodeURIComponent(
+						otherUsername
+					)}" class="conversation-item ${isSelected} ${unreadClass}">
+						<div class="conversation-info">
+							<div class="conversation-header-info">
+								<h3>${this.escapeHtml(otherUsername)}</h3>
+								${hasUnread ? `<span class="unread-badge">${unreadCount}</span>` : ''}
+							</div>
+							<div class="last-message">
+								<span class="message-preview">
+									${isFromSelf && lastMessage ? '<span class="you-prefix">You: </span>' : ''}
+									${this.escapeHtml(messagePreview)}
+								</span>
+								${lastMessage ? `<span class="message-time">${lastMessageTime}</span>` : ''}
+							</div>
+						</div>
+					</a>
+				`;
+			});
+		}
+
+		// Only update if content has changed to avoid flickering
+		if (this.conversationList.innerHTML !== html) {
+			this.conversationList.innerHTML = html;
+		}
+	}
+
+	formatTimestamp(timestamp) {
+		if (!timestamp) return '';
+		const date = new Date(timestamp * 1000);
+		return date.toLocaleString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+	}
+
+	escapeHtml(text) {
+		const div = document.createElement('div');
+		div.textContent = text;
+		return div.innerHTML;
 	}
 
 	destroy() {

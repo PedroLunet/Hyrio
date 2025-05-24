@@ -48,7 +48,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
         $message['timestamp'] = (int) $message['timestamp'];
     }
 
+    // Mark conversation as read when fetching new messages
+    if (!empty($newMessages)) {
+        markConversationAsRead($db, $username, $otherUser);
+    }
+
     echo json_encode(['messages' => $newMessages]);
+    exit();
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'mark_read') {
+
+    header('Content-Type: application/json');
+
+    $otherUser = isset($_GET['other_user']) ? $_GET['other_user'] : null;
+
+    if (!$otherUser) {
+        echo json_encode(['error' => 'Missing required parameter']);
+        exit();
+    }
+
+    $username = $loggedInUser['username'];
+    markConversationAsRead($db, $username, $otherUser);
+
+    echo json_encode(['success' => true]);
+    exit();
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'get_conversations') {
+
+    header('Content-Type: application/json');
+
+    $username = $loggedInUser['username'];
+    $conversations = getConversations($db, $username);
+
+    // Format the conversations for JSON response
+    $formattedConversations = [];
+    foreach ($conversations as $conversation) {
+        $formattedConversations[] = [
+            'other_user' => htmlspecialchars($conversation['other_user']),
+            'last_message' => htmlspecialchars($conversation['last_message']),
+            'last_message_timestamp' => (int) $conversation['last_message_timestamp'],
+            'last_message_sender' => htmlspecialchars($conversation['last_message_sender']),
+            'unread_count' => (int) $conversation['unread_count']
+        ];
+    }
+
+    echo json_encode(['conversations' => $formattedConversations]);
     exit();
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_message') {
 

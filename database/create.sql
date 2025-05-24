@@ -37,5 +37,5 @@ CREATE TABLE messages (
   receiver VARCHAR(255) NOT NULL REFERENCES users(username),
   message_text TEXT NOT NULL,
   timestamp INTEGER NOT NULL,
-  read BOOLEAN DEFAULT 0
+  read_timestamp INTEGER DEFAULT 0  -- 0 = unread, timestamp = when read
 );

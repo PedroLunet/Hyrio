@@ -34,6 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message_text'])) {
 
 $conversations = getConversations($db, $username);
 
+// Mark the current conversation as read if a user is selected
+if ($otherUser) {
+    markConversationAsRead($db, $username, $otherUser);
+}
+
 head();
 
 echo '<link rel="stylesheet" href="/css/messages.css">';
@@ -66,19 +71,45 @@ drawHeader();
                         ?>
                         <a href="/pages/messages.php?user=<?= $otherUsername ?>" class="conversation-item selected">
                             <div class="conversation-info">
-                                <h3><?= $otherUsername ?></h3>
+                                <div class="conversation-header-info">
+                                    <h3><?= $otherUsername ?></h3>
+                                </div>
+                                <div class="last-message">
+                                    <span class="message-preview">No messages yet</span>
+                                </div>
                             </div>
                         </a>
                     <?php } ?>
 
                     <?php foreach ($conversations as $conversation):
                         $otherUsername = htmlspecialchars($conversation['other_user']);
+                        $lastMessage = htmlspecialchars($conversation['last_message']);
+                        $lastMessageTime = date('M j, H:i', $conversation['last_message_timestamp']);
+                        $unreadCount = (int) $conversation['unread_count'];
+                        $hasUnread = $unreadCount > 0;
+                        $isFromSelf = $conversation['last_message_sender'] === $username;
 
                         $isSelected = ($otherUser === $otherUsername) ? 'selected' : '';
+                        $unreadClass = $hasUnread ? 'unread' : '';
                         ?>
-                        <a href="/pages/messages.php?user=<?= $otherUsername ?>" class="conversation-item <?= $isSelected ?>">
+                        <a href="/pages/messages.php?user=<?= $otherUsername ?>"
+                            class="conversation-item <?= $isSelected ?> <?= $unreadClass ?>">
                             <div class="conversation-info">
-                                <h3><?= $otherUsername ?></h3>
+                                <div class="conversation-header-info">
+                                    <h3><?= $otherUsername ?></h3>
+                                    <?php if ($hasUnread): ?>
+                                        <span class="unread-badge"><?= $unreadCount ?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="last-message">
+                                    <span class="message-preview">
+                                        <?php if ($isFromSelf): ?>
+                                            <span class="you-prefix">You: </span>
+                                        <?php endif; ?>
+                                        <?= mb_strlen($lastMessage) > 40 ? mb_substr($lastMessage, 0, 40) . '...' : $lastMessage ?>
+                                    </span>
+                                    <span class="message-time"><?= $lastMessageTime ?></span>
+                                </div>
                             </div>
                         </a>
                     <?php endforeach; ?>
@@ -137,12 +168,19 @@ drawHeader();
                 <script>
                     // Initialize real-time messaging
                     document.addEventListener('DOMContentLoaded', function () {
-                        window.messagesHandler = new MessagesHandler({
-                            otherUser: '<?= htmlspecialchars($otherUser) ?>',
-                            currentUser: '<?= htmlspecialchars($username) ?>',
-                            lastMessageId: <?= !empty($messages) ? end($messages)['id'] : 0 ?>
-                        });
-                        window.messagesHandler.init();
+                        // Initialize conversation list manager (always active)
+                        window.conversationListManager = new ConversationListManager('<?= htmlspecialchars($username) ?>');
+                        window.conversationListManager.init();
+
+                        // Initialize message handler only if we have a conversation selected
+                        <?php if ($otherUser): ?>
+                            window.messagesHandler = new MessagesHandler({
+                                otherUser: '<?= htmlspecialchars($otherUser) ?>',
+                                currentUser: '<?= htmlspecialchars($username) ?>',
+                                lastMessageId: <?= !empty($messages) ? end($messages)['id'] : 0 ?>
+                            });
+                            window.messagesHandler.init();
+                        <?php endif; ?>
                     });
                 </script>
 
@@ -160,6 +198,15 @@ drawHeader();
                         <p>Choose a conversation from the list or start a new one from a service page.</p>
                     </div>
                 </div>
+
+                <script src="/js/messages.js"></script>
+                <script>
+                    // Initialize conversation list manager even when no conversation is selected
+                    document.addEventListener('DOMContentLoaded', function () {
+                        window.conversationListManager = new ConversationListManager('<?= htmlspecialchars($username) ?>');
+                        window.conversationListManager.init();
+                    });
+                </script>
             <?php endif; ?>
         </section>
     </div>
