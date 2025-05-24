@@ -241,36 +241,9 @@ $totalPages = ceil($totalResults / $perPage);
                     </div>
                 <?php else: ?>
                     <?php if ($searchMode === 'users'): ?>
-                        <div class="user-grid">
-                            <?php foreach ($results as $user): ?>
-                                <div class="user-card">
-                                    <a href="/pages/profile.php?username=<?= htmlspecialchars($user['username']) ?>" class="user-card-link">
-                                        <div class="user-card-image">
-                                            <img src="<?= htmlspecialchars($user['profile_pic']) ?>"
-                                                alt="<?= htmlspecialchars($user['name']) ?>">
-                                        </div>
-                                        <div class="user-card-content">
-                                            <h3><?= htmlspecialchars($user['name']) ?></h3>
-                                            <p class="username">@<?= htmlspecialchars($user['username']) ?></p>
-                                            <?php if ((bool)$user['is_seller']): ?>
-                                                <span class="user-badge freelancer">Freelancer</span>
-                                            <?php endif; ?>
-                                            <?php if (!empty($user['bio'])): ?>
-                                                <p class="user-bio">
-                                                    <?= substr(htmlspecialchars($user['bio']), 0, 100) . (strlen($user['bio']) > 100 ? '...' : '') ?>
-                                                </p>
-                                            <?php endif; ?>
-                                        </div>
-                                    </a>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+                        <?php Card::renderUserGrid($results); ?>
                     <?php else: ?>
-                        <div class="card-grid">
-                            <?php foreach ($results as $service): ?>
-                                <?php Card::render($service, showPrice: false); ?>
-                            <?php endforeach; ?>
-                        </div>
+                        <?php Card::renderGrid($results, showPrice: false); ?>
                     <?php endif; ?>
 
                     <?php if ($totalPages > 1): ?>
