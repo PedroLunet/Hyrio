@@ -39,3 +39,13 @@ CREATE TABLE purchases (
   message TEXT,
   purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+DROP TABLE IF EXISTS messages;
+CREATE TABLE messages (
+  id INTEGER PRIMARY KEY,
+  sender VARCHAR(255) NOT NULL REFERENCES users(username),
+  receiver VARCHAR(255) NOT NULL REFERENCES users(username),
+  message_text TEXT NOT NULL,
+  timestamp INTEGER NOT NULL,
+  read_timestamp INTEGER DEFAULT 0  -- 0 = unread, timestamp = when read
+);

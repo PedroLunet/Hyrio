@@ -67,6 +67,7 @@ class Navbar
           echo '<div class="profile-dropdown-menu">';
           echo '<div class="user-name">' . htmlspecialchars($user['name']) . '</div>';
           echo '<a href="/pages/profile.php?username=' . htmlspecialchars($user['username']) . '" class="dropdown-item"><i class="fas fa-user"></i> My Profile</a>';
+          echo '<a href="/pages/messages.php?username=' . htmlspecialchars($user['username']) . '" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>';
           if ($user['is_seller']) {
             echo '<a href="/pages/seller.php" class="dropdown-item"><i class="fas fa-store"></i> Seller Panel</a>';
           }
