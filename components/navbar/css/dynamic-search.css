@@ -70,7 +70,5 @@
 @media (max-width: 768px) {
     .mobile-search-container .search-suggestions {
         top: calc(100% - 1px);
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
     }
 }
