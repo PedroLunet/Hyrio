@@ -4,27 +4,70 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../database/classes/category.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../components/pagination/pagination.php');
 
 head();
 drawHeader();
 
-// Get search query from URL
+echo '<link rel="stylesheet" href="/css/search.css">';
+
 $searchQuery = isset($_GET['q']) ? trim($_GET['q']) : '';
+
+$categoryId = null;
+if (isset($_GET['category']) && $_GET['category'] !== '') {
+    $categoryId = (int)$_GET['category'];
+    if ($categoryId <= 0) {
+        $categoryId = null;
+    }
+}
+
+$minPrice = null;
+if (isset($_GET['min_price']) && $_GET['min_price'] !== '') {
+    $minPrice = (float)$_GET['min_price'];
+    if ($minPrice < 0) {
+        $minPrice = null;
+    }
+}
+
+$maxPrice = null;
+if (isset($_GET['max_price']) && $_GET['max_price'] !== '') {
+    $maxPrice = (float)$_GET['max_price'];
+    if ($maxPrice <= 0) {
+        $maxPrice = null;
+    }
+}
+
+$minRating = null;
+if (isset($_GET['min_rating']) && $_GET['min_rating'] !== '') {
+    $minRating = (float)$_GET['min_rating'];
+    if ($minRating < 1 || $minRating > 5) {
+        $minRating = null;
+    }
+}
+
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$perPage = 12; // Number of results per page
+$perPage = 12;
 $offset = ($page - 1) * $perPage;
 
-// Get search results if a query was provided
+$categories = Category::getAllCategories();
+
 $results = [];
 $totalResults = 0;
 
 if (!empty($searchQuery)) {
-    $results = Service::searchServices($searchQuery);
+
+    $results = Service::searchServicesWithFilters(
+        $searchQuery,
+        $categoryId,
+        $minPrice,
+        $maxPrice,
+        $minRating
+    );
+
     $totalResults = count($results);
 
-    // Handle pagination manually since we don't have a paginated search method
     $results = array_slice($results, $offset, $perPage);
 }
 
@@ -32,88 +75,113 @@ $totalPages = ceil($totalResults / $perPage);
 ?>
 
 <main>
+    <?php if (!empty($searchQuery)): ?>
+        <h1>Results for: <?= htmlspecialchars($searchQuery) ?></h1>
+    <?php else: ?>
+        <h1>Search Results</h1>
+    <?php endif; ?>
     <div class="search-page-container">
-        <div class="search-header">
-            <h1>Search Results</h1>
-            <?php if (!empty($searchQuery)): ?>
-                <p>Showing results for: <strong><?= htmlspecialchars($searchQuery) ?></strong></p>
-                <p>Found <?= $totalResults ?> result<?= $totalResults !== 1 ? 's' : '' ?></p>
-            <?php endif; ?>
+        <div class="search-filters">
+            <h2>Filters</h2>
+            <form id="filter-form" method="get" action="search.php">
+                <input type="hidden" name="q" value="<?= htmlspecialchars($searchQuery) ?>">
+
+                <div class="filter-section">
+                    <label for="category">Category:</label>
+                    <select name="category" id="category">
+                        <option value="">All Categories</option>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?= $category['id'] ?>" <?= isset($categoryId) && $categoryId == $category['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($category['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <label>Price Range:</label>
+                    <div class="price-inputs">
+                        <input type="number" name="min_price" id="min-price" placeholder="Min" min="0" step="0.01" value="<?= $minPrice !== null ? htmlspecialchars((string)$minPrice) : '' ?>">
+                        <span>to</span>
+                        <input type="number" name="max_price" id="max-price" placeholder="Max" min="0" step="0.01" value="<?= $maxPrice !== null ? htmlspecialchars((string)$maxPrice) : '' ?>">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label for="min-rating">Minimum Rating:</label>
+                    <select name="min_rating" id="min-rating">
+                        <option value="">Any Rating</option>
+                        <option value="5" <?= isset($minRating) && $minRating == 5 ? 'selected' : '' ?>>5 stars</option>
+                        <option value="4" <?= isset($minRating) && $minRating == 4 ? 'selected' : '' ?>>4+ stars</option>
+                        <option value="3" <?= isset($minRating) && $minRating == 3 ? 'selected' : '' ?>>3+ stars</option>
+                        <option value="2" <?= isset($minRating) && $minRating == 2 ? 'selected' : '' ?>>2+ stars</option>
+                        <option value="1" <?= isset($minRating) && $minRating == 1 ? 'selected' : '' ?>>1+ stars</option>
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <?php
+                    Button::start([
+                        'type' => 'submit',
+                        'variant' => 'primary',
+                    ]);
+                    echo '<span>Apply Filters</span>';
+                    Button::end();
+                    Button::start([
+                        'type' => 'button',
+                        'variant' => 'text',
+                        'class' => 'reset-button',
+                        'onClick' => "window.location.href='search.php?q=" . htmlspecialchars($searchQuery) . "'"
+                    ]);
+                    echo '<span>Reset Filters</span>';
+                    Button::end();
+                    ?>
+                </div>
+            </form>
         </div>
 
         <?php if (empty($searchQuery)): ?>
-            <div class="search-empty-state">
-                <i class="fas fa-search"></i>
-                <h2>Start Searching</h2>
-                <p>Use the search bar above to find services</p>
-            </div>
-        <?php elseif (empty($results)): ?>
-            <div class="search-empty-state">
-                <i class="fas fa-search"></i>
-                <h2>No Results Found</h2>
-                <p>We couldn't find any services matching your search: <strong><?= htmlspecialchars($searchQuery) ?></strong></p>
-                <p>Try using different keywords or check for spelling errors.</p>
+            <div class="content-area">
+                <div class="search-empty-state">
+                    <i class="fas fa-search"></i>
+                    <h2>Start Searching</h2>
+                    <p>Use the search bar above to find services</p>
+                </div>
             </div>
         <?php else: ?>
-            <div class="card-grid">
-                <?php foreach ($results as $service): ?>
-                    <?php Card::render($service); ?>
-                <?php endforeach; ?>
-            </div>
+            <div class="content-area">
+                <?php if (empty($results)): ?>
+                    <div class="search-empty-state">
+                        <i class="fas fa-search"></i>
+                        <h2>No Results Found</h2>
+                        <p>We couldn't find any services matching your search: <strong><?= htmlspecialchars($searchQuery) ?></strong></p>
+                        <p>Try using different keywords or check for spelling errors.</p>
+                    </div>
+                <?php else: ?>
+                    <div class="card-grid">
+                        <?php foreach ($results as $service): ?>
+                            <?php Card::render($service, showPrice: false); ?>
+                        <?php endforeach; ?>
+                    </div>
 
-            <?php if ($totalPages > 1): ?>
-                <div class="pagination-container">
-                    <?php
-                    // Add the search query to pagination
-                    $additionalParams = ['q' => $searchQuery];
-                    Pagination::render($page, (int)$totalPages, 'page', $additionalParams);
-                    ?>
-                </div>
-            <?php endif; ?>
+                    <?php if ($totalPages > 1): ?>
+                        <div class="pagination-container">
+                            <?php
+                            $additionalParams = ['q' => $searchQuery];
+
+                            if ($categoryId) $additionalParams['category'] = $categoryId;
+                            if ($minPrice) $additionalParams['min_price'] = $minPrice;
+                            if ($maxPrice) $additionalParams['max_price'] = $maxPrice;
+                            if ($minRating) $additionalParams['min_rating'] = $minRating;
+
+                            Pagination::render($page, (int)$totalPages, 'page', $additionalParams);
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
     </div>
 </main>
 
 <?php drawFooter(); ?>
-
-<style>
-    .search-page-container {
-        width: 90%;
-        margin: 2rem auto;
-    }
-
-    .search-header {
-        margin-bottom: 2rem;
-    }
-
-    .search-header h1 {
-        margin-bottom: 0.5rem;
-    }
-
-    .search-empty-state {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        background-color: white;
-        border-radius: 8px;
-        padding: 3rem;
-        box-shadow: 0 1px 8px 0 var(--shadow);
-        margin: 2rem auto;
-    }
-
-    .search-empty-state i {
-        font-size: 3rem;
-        color: var(--primary);
-        margin-bottom: 1rem;
-    }
-
-    .search-empty-state h2 {
-        margin-bottom: 1rem;
-    }
-
-    .pagination-container {
-        margin-top: 2rem;
-    }
-</style>

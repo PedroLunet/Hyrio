@@ -208,22 +208,52 @@ class Service
         }
     }
 
-    /**
-     * Search for services by name or description
-     */
-    public static function searchServices(string $query): array
-    {
+    public static function searchServicesWithFilters(
+        string $query,
+        ?int $categoryId = null,
+        ?float $minPrice = null,
+        ?float $maxPrice = null,
+        ?float $minRating = null
+    ): array {
         try {
             $db = Database::getInstance();
             $searchQuery = '%' . $query . '%';
-            $stmt = $db->prepare('
+
+            $sql = '
                 SELECT services.*, users.name as seller_name, categories.name as category_name
                 FROM services 
                 JOIN users ON services.seller = users.id
                 JOIN categories ON services.category = categories.id
-                WHERE services.name LIKE ? OR services.description LIKE ?
-            ');
-            $stmt->execute([$searchQuery, $searchQuery]);
+                WHERE (services.name LIKE ? OR services.description LIKE ?)
+            ';
+
+            $params = [$searchQuery, $searchQuery];
+
+            if ($categoryId !== null && $categoryId > 0) {
+                $sql .= ' AND services.category = ?';
+                $params[] = $categoryId;
+            }
+
+            if ($minPrice !== null && $minPrice >= 0) {
+                $sql .= ' AND services.price >= ?';
+                $params[] = $minPrice;
+            }
+
+            if ($maxPrice !== null && $maxPrice > 0) {
+                $sql .= ' AND services.price <= ?';
+                $params[] = $maxPrice;
+            }
+
+            if ($minRating !== null && $minRating > 0) {
+                $sql .= ' AND services.rating IS NOT NULL AND services.rating >= ?';
+                $params[] = $minRating;
+            }
+
+            $debugSQL = $sql;
+            $debugParams = $params;
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
             $services = $stmt->fetchAll();
 
             return $services;
