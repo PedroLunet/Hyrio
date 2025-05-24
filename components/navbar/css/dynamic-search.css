@@ -70,8 +70,12 @@
 
 .suggestion-item.see-more {
     font-size: 0.85rem;
-    color: var(--primary);
+    color: var(--text);
     background-color: #fff;
+}
+
+.suggestion-item.see-more:hover {
+    background-color: #f5f5f5;
 }
 
 .suggestion-item .highlight {
