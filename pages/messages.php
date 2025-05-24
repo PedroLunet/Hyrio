@@ -47,7 +47,7 @@ drawHeader();
 ?>
 
 <main class="messages-container">
-    <div class="messages-layout">
+    <div class="messages-layout<?= $otherUser ? ' conversation-selected' : '' ?>">
         <aside class="conversations-sidebar">
             <h2>Conversations</h2>
             <div class="conversation-list">
@@ -123,8 +123,15 @@ drawHeader();
                 $messages = getMessages($db, $username, $otherUser);
                 ?>
                 <div class="conversation-header">
+                    <button class="mobile-back-btn" onclick="goBackToConversations()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg>
+                        Back
+                    </button>
                     <h2>
-                        Conversation with <?= htmlspecialchars($otherUser) ?>
+                        <?= htmlspecialchars($otherUser) ?>
                     </h2>
                     <div class="connection-status" id="connection-status">
                         <span class="status-indicator"></span>
@@ -166,6 +173,17 @@ drawHeader();
 
                 <script src="/js/messages.js"></script>
                 <script>
+                    // Mobile navigation function
+                    function goBackToConversations() {
+                        // For mobile, navigate to messages page without user parameter
+                        if (window.innerWidth <= 768) {
+                            window.location.href = '/pages/messages.php';
+                        } else {
+                            // For larger screens, also redirect to messages page
+                            window.location.href = '/pages/messages.php';
+                        }
+                    }
+
                     // Initialize real-time messaging
                     document.addEventListener('DOMContentLoaded', function () {
                         // Initialize conversation list manager (always active)
@@ -181,6 +199,28 @@ drawHeader();
                             });
                             window.messagesHandler.init();
                         <?php endif; ?>
+
+                        // Handle mobile conversation clicks
+                        const conversationItems = document.querySelectorAll('.conversation-item');
+                        conversationItems.forEach(item => {
+                            item.addEventListener('click', function (e) {
+                                if (window.innerWidth <= 768) {
+                                    // On mobile, add transition effect and navigate
+                                    const messagesLayout = document.querySelector('.messages-layout');
+                                    if (messagesLayout) {
+                                        messagesLayout.classList.add('conversation-selected');
+
+                                        // Small delay for visual feedback, then navigate
+                                        setTimeout(() => {
+                                            window.location.href = item.getAttribute('href');
+                                        }, 200);
+
+                                        e.preventDefault();
+                                        return false;
+                                    }
+                                }
+                            });
+                        });
                     });
                 </script>
 
@@ -205,6 +245,28 @@ drawHeader();
                     document.addEventListener('DOMContentLoaded', function () {
                         window.conversationListManager = new ConversationListManager('<?= htmlspecialchars($username) ?>');
                         window.conversationListManager.init();
+
+                        // Handle mobile conversation clicks
+                        const conversationItems = document.querySelectorAll('.conversation-item');
+                        conversationItems.forEach(item => {
+                            item.addEventListener('click', function (e) {
+                                if (window.innerWidth <= 768) {
+                                    // On mobile, add transition effect and navigate
+                                    const messagesLayout = document.querySelector('.messages-layout');
+                                    if (messagesLayout) {
+                                        messagesLayout.classList.add('conversation-selected');
+
+                                        // Small delay for visual feedback, then navigate
+                                        setTimeout(() => {
+                                            window.location.href = item.getAttribute('href');
+                                        }, 200);
+
+                                        e.preventDefault();
+                                        return false;
+                                    }
+                                }
+                            });
+                        });
                     });
                 </script>
             <?php endif; ?>
