@@ -55,11 +55,13 @@ $categories = Category::getAllCategories();
 
 $results = [];
 $totalResults = 0;
+$hasActiveFilters = $categoryId !== null || $minPrice !== null || $maxPrice !== null || $minRating !== null;
 
-if (!empty($searchQuery)) {
+if (!empty($searchQuery) || $hasActiveFilters) {
+    $query = !empty($searchQuery) ? $searchQuery : '';
 
     $results = Service::searchServicesWithFilters(
-        $searchQuery,
+        $query,
         $categoryId,
         $minPrice,
         $maxPrice,
@@ -77,6 +79,31 @@ $totalPages = ceil($totalResults / $perPage);
 <main>
     <?php if (!empty($searchQuery)): ?>
         <h1>Results for: <?= htmlspecialchars($searchQuery) ?></h1>
+    <?php elseif ($hasActiveFilters): ?>
+        <?php if ($categoryId !== null && $minPrice === null && $maxPrice === null && $minRating === null):
+            $categoryName = '';
+            foreach ($categories as $cat) {
+                if ($cat['id'] == $categoryId) {
+                    $categoryName = $cat['name'];
+                    break;
+                }
+            }
+            if (!empty($categoryName)): ?>
+                <h1><?= htmlspecialchars($categoryName) ?></h1>
+            <?php endif; ?>
+        <?php else: ?>
+            <h1>Filtered Results</h1>
+            <?php if ($categoryId !== null):
+                $categoryName = '';
+                foreach ($categories as $cat) {
+                    if ($cat['id'] == $categoryId) {
+                        $categoryName = $cat['name'];
+                        break;
+                    }
+                }
+            ?>
+            <?php endif; ?>
+        <?php endif; ?>
     <?php else: ?>
         <h1>Search Results</h1>
     <?php endif; ?>
@@ -84,7 +111,9 @@ $totalPages = ceil($totalResults / $perPage);
         <div class="search-filters">
             <h2>Filters</h2>
             <form id="filter-form" method="get" action="search.php">
-                <input type="hidden" name="q" value="<?= htmlspecialchars($searchQuery) ?>">
+                <?php if (!empty($searchQuery)): ?>
+                    <input type="hidden" name="q" value="<?= htmlspecialchars($searchQuery) ?>">
+                <?php endif; ?>
 
                 <div class="filter-section">
                     <label for="category">Category:</label>
@@ -131,7 +160,7 @@ $totalPages = ceil($totalResults / $perPage);
                         'type' => 'button',
                         'variant' => 'text',
                         'class' => 'reset-button',
-                        'onClick' => "window.location.href='search.php?q=" . htmlspecialchars($searchQuery) . "'"
+                        'onClick' => "window.location.href='" . (!empty($searchQuery) ? "search.php?q=" . htmlspecialchars($searchQuery) : ($hasActiveFilters ? "search.php" : "search.php")) . "'"
                     ]);
                     echo '<span>Reset Filters</span>';
                     Button::end();
@@ -140,7 +169,7 @@ $totalPages = ceil($totalResults / $perPage);
             </form>
         </div>
 
-        <?php if (empty($searchQuery)): ?>
+        <?php if (empty($searchQuery) && !$hasActiveFilters): ?>
             <div class="content-area">
                 <div class="search-empty-state">
                     <i class="fas fa-search"></i>
@@ -154,8 +183,12 @@ $totalPages = ceil($totalResults / $perPage);
                     <div class="search-empty-state">
                         <i class="fas fa-search"></i>
                         <h2>No Results Found</h2>
-                        <p>We couldn't find any services matching your search: <strong><?= htmlspecialchars($searchQuery) ?></strong></p>
-                        <p>Try using different keywords or check for spelling errors.</p>
+                        <?php if (!empty($searchQuery)): ?>
+                            <p>We couldn't find any services matching your search: <strong><?= htmlspecialchars($searchQuery) ?></strong></p>
+                        <?php else: ?>
+                            <p>We couldn't find any services matching the selected filters</p>
+                        <?php endif; ?>
+                        <p>Try changing your filters or using different keywords.</p>
                     </div>
                 <?php else: ?>
                     <div class="card-grid">

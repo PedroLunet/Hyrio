@@ -217,17 +217,24 @@ class Service
     ): array {
         try {
             $db = Database::getInstance();
-            $searchQuery = '%' . $query . '%';
 
             $sql = '
                 SELECT services.*, users.name as seller_name, categories.name as category_name
                 FROM services 
                 JOIN users ON services.seller = users.id
                 JOIN categories ON services.category = categories.id
-                WHERE (services.name LIKE ? OR services.description LIKE ?)
+                WHERE 1=1
             ';
 
-            $params = [$searchQuery, $searchQuery];
+            $params = [];
+
+            // Only add search query condition if the query is not empty
+            if (!empty($query)) {
+                $searchQuery = '%' . $query . '%';
+                $sql .= ' AND (services.name LIKE ? OR services.description LIKE ?)';
+                $params[] = $searchQuery;
+                $params[] = $searchQuery;
+            }
 
             if ($categoryId !== null && $categoryId > 0) {
                 $sql .= ' AND services.category = ?';
