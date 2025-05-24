@@ -41,7 +41,11 @@ function initializeRatingForms() {
 }
 
 function highlightStars(count) {
-	const starLabels = document.querySelectorAll('.star-label');
+	// Only target star labels within the current rating form, not all stars on the page
+	const ratingForm = document.querySelector('.rating-form');
+	if (!ratingForm) return;
+
+	const starLabels = ratingForm.querySelectorAll('.star-label');
 	starLabels.forEach((label, index) => {
 		const star = label.querySelector('i');
 		if (index < count) {

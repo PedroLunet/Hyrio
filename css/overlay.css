@@ -1,123 +1,123 @@
 .overlay {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 5;
-    overflow-y: auto;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+	overflow-y: auto;
+	opacity: 0;
+	transition: opacity 0.3s ease;
 }
 
 .overlay-content {
-    position: relative;
-    background-color: white;
-    margin: 50px auto;
-    padding: 0;
-    width: 80%;
-    max-width: 900px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+	position: relative;
+	background-color: white;
+	margin: 50px auto;
+	padding: 0;
+	width: 80%;
+	max-width: 900px;
+	border-radius: 16px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+	overflow: hidden;
+	transform: translateY(-20px);
+	opacity: 0;
+	transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .overlay-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: white;
-    color: var(--primary);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	background-color: white;
+	color: var(--primary);
 }
 
 .overlay-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
+	margin: 0;
+	font-size: 1.5rem;
 }
 
 .close-btn {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
+	background: transparent;
+	border: none;
+	color: white;
+	font-size: 24px;
+	cursor: pointer;
+	padding: 0;
+	line-height: 1;
 }
 
 .overlay-body {
-    padding: 20px;
-    display: grid;
-    column-gap: 20px;
-    row-gap: 10px;
-    overflow: visible;
+	padding: 20px;
+	display: grid;
+	column-gap: 20px;
+	row-gap: 10px;
+	overflow: visible;
 }
 
 @media (max-width: 768px) {
-    .overlay-content {
-        width: 90%;
-        margin: 30px auto;
-    }
+	.overlay-content {
+		width: 90%;
+		margin: 30px auto;
+	}
 
-    .overlay-body {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
+	.overlay-body {
+		grid-template-columns: 1fr;
+		gap: 15px;
+	}
 
-    .overlay-body>* {
-        width: 100%;
-        box-sizing: border-box;
-    }
+	.overlay-body > * {
+		width: 100%;
+		box-sizing: border-box;
+	}
 }
 
 @media (max-width: 480px) {
-    .overlay-content {
-        width: 95%;
-        margin: 20px auto;
-    }
+	.overlay-content {
+		width: 95%;
+		margin: 20px auto;
+	}
 
-    .overlay-header {
-        padding: 15px;
-    }
+	.overlay-header {
+		padding: 15px;
+	}
 
-    .overlay-body {
-        padding: 15px;
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
+	.overlay-body {
+		padding: 15px;
+		grid-template-columns: 1fr;
+		gap: 15px;
+	}
 
-    .overlay-body>* {
-        width: 100%;
-    }
+	.overlay-body > * {
+		width: 100%;
+	}
 }
 
 .overlay.active {
-    opacity: 1;
-    display: block;
+	opacity: 1;
+	display: block;
 }
 
 .overlay-content.active {
-    transform: translateY(0);
-    opacity: 1;
+	transform: translateY(0);
+	opacity: 1;
 }
 
 .full-width {
-    grid-column: 1 / -1 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
+	grid-column: 1 / -1 !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
 }
 
 .error-message {
-    grid-column: 1 / -1;
-    margin-bottom: 15px;
-    width: 100%;
-    box-sizing: border-box;
+	grid-column: 1 / -1;
+	margin-bottom: 15px;
+	width: 100%;
+	box-sizing: border-box;
 }

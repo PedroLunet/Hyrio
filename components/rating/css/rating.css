@@ -65,26 +65,26 @@
 	display: none;
 }
 
-.star-label {
+.rating-form .star-label {
 	cursor: pointer;
 	font-size: 1.5rem;
 	color: #d1d5db;
 	transition: color 0.2s ease;
 }
 
-.star-label:hover,
-.stars-input input[type='radio']:checked ~ .star-label,
-.stars-input input[type='radio']:checked + .star-label {
+.rating-form .star-label:hover,
+.rating-form .stars-input input[type='radio']:checked ~ .star-label,
+.rating-form .stars-input input[type='radio']:checked + .star-label {
 	color: #fbbf24;
 }
 
-/* Highlight stars on hover */
-.stars-input:hover .star-label {
+/* Highlight stars on hover - only within rating forms */
+.rating-form .stars-input:hover .star-label {
 	color: #d1d5db;
 }
 
-.stars-input .star-label:hover,
-.stars-input .star-label:hover ~ .star-label {
+.rating-form .stars-input .star-label:hover,
+.rating-form .stars-input .star-label:hover ~ .star-label {
 	color: #fbbf24;
 }
 
