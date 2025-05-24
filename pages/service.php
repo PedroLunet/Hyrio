@@ -82,10 +82,15 @@ drawHeader();
         </div>
 
         <div class="service-actions">
-          <button class="contact-button btn btn-secondary">
-            <i class="ph-bold ph-chat-text"></i>
-            Contact Seller
-          </button>
+          <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
+            <form action="/actions/messages_action.php" method="POST">
+              <input type="hidden" name="user_id" value="<?php echo $service->getSeller(); ?>">
+              <button type="submit" class="contact-button btn btn-secondary" title="Open a conversation with this seller">
+                <i class="ph-bold ph-chat-text"></i>
+                Contact Seller
+              </button>
+            </form>
+          <?php endif; ?>
         </div>
       </div>
     </div>
