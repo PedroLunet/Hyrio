@@ -25,11 +25,11 @@ $loggedInUser = Auth::getInstance()->getUser();
 $db = Database::getInstance();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'get_new_messages') {
-    
+
     header('Content-Type: application/json');
-    
+
     $otherUser = isset($_GET['other_user']) ? $_GET['other_user'] : null;
-    $lastMessageId = isset($_GET['last_message_id']) ? (int)$_GET['last_message_id'] : 0;
+    $lastMessageId = isset($_GET['last_message_id']) ? (int) $_GET['last_message_id'] : 0;
 
     if (!$otherUser) {
         echo json_encode(['error' => 'Missing required parameter']);
@@ -44,16 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
         if (isset($message['message_text'])) {
             $message['message_text'] = htmlspecialchars($message['message_text']);
         }
-        
-        $message['timestamp'] = (int)$message['timestamp'];
+
+        $message['timestamp'] = (int) $message['timestamp'];
     }
 
     echo json_encode(['messages' => $newMessages]);
     exit();
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_message') {
-    
+
     header('Content-Type: application/json');
-    
+
     $messageText = isset($_POST['message_text']) ? trim($_POST['message_text']) : '';
     $receiverUsername = isset($_POST['receiver']) ? $_POST['receiver'] : '';
 
@@ -68,16 +68,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
     }
 
     $username = $loggedInUser['username'];
-    
+
     try {
         $messageId = sendMessage($db, $username, $receiverUsername, $messageText);
         echo json_encode(['success' => true, 'messageId' => $messageId]);
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'error' => 'Failed to send message']);
     }
-    
+
     exit();
-    
+
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
 
     $userId = intval($_POST['user_id']);
