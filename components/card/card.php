@@ -21,13 +21,26 @@ class Card
   }
 
   /**
-   * Render a single card with service data
+   * Render a single card with service data (alias for renderService)
    * 
    * @param array $service The service data to display in the card
    * @param bool $showPrice Whether to show the price button (default: true)
    * @return void
    */
   public static function render($service = null, $showPrice = true)
+  {
+    // Keep the original render method as an alias to renderService for backward compatibility
+    self::renderService($service, $showPrice);
+  }
+
+  /**
+   * Render a single service card
+   * 
+   * @param array $service The service data to display in the card
+   * @param bool $showPrice Whether to show the price button (default: true)
+   * @return void
+   */
+  public static function renderService($service = null, $showPrice = true)
   {
     self::includeCSS();
 
@@ -40,37 +53,97 @@ class Card
     $seller = User::getUserById($service['seller']);
 
 ?>
-    <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
-      <div class="card" id="container">
-        <div class="card-rating">
-          <i class="ph-fill ph-star"></i>
-          <span><?= isset($service['rating']) ? htmlspecialchars(number_format($service['rating'], 1)) : '4.5' ?></span>
-        </div>
-
-        <div class="image-container">
-          <img src="<?=htmlspecialchars($service['image'])?>"
-            alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
-        </div>
-
-        <div id="label">
-          <div id="titles">
-            <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
-            <p><?= htmlspecialchars($seller->getName())?></p>
+    <div class="card">
+      <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
+        <div class="card-content">
+          <div class="rating">
+            <i class="ph-fill ph-star"></i>
+            <span><?= isset($service['rating']) ? htmlspecialchars(number_format($service['rating'], 1)) : '4.5' ?></span>
           </div>
-          <?php
-          if ($showPrice) {
-            Button::start(['variant' => 'primary', 'class' => 'price-button']);
-            if (isset($service['price'])) {
-              ButtonIcon::render('ph-bold ph-currency-eur');
+
+          <div class="service-image">
+            <img src="<?= htmlspecialchars($service['image']) ?>"
+              alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
+          </div>
+
+          <div class="label">
+            <div class="titles">
+              <h3><?= isset($service['name']) ? htmlspecialchars($service['name']) : 'i build minecraft servers' ?></h3>
+              <p><?= htmlspecialchars($seller->getName()) ?></p>
+            </div>
+            <?php
+            if ($showPrice) {
+              Button::start(['variant' => 'primary', 'class' => 'price-button']);
+              if (isset($service['price'])) {
+                ButtonIcon::render('ph-bold ph-currency-eur');
+              }
+              echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
+              Button::end();
             }
-            echo '<span>' . (isset($service['price']) ? htmlspecialchars(number_format($service['price'], 2)) : '230') . '€</span>';
-            Button::end();
-          }
-          ?>
+            ?>
+          </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
+  <?php
+  }
+
+  /**
+   * Render a single user card
+   * 
+   * @param array $user The user data to display in the card
+   * @return void
+   */
+  public static function renderUser($user = null)
+  {
+    self::includeCSS();
+
+  ?>
+    <div class="card">
+      <a href="/pages/profile.php?username=<?= htmlspecialchars($user['username']) ?>" class="card-link">
+        <div class="card-content">
+          <div class="user-image">
+            <img src="<?= htmlspecialchars($user['profile_pic']) ?>"
+              alt="<?= htmlspecialchars($user['name']) ?>">
+          </div>
+          <div class="label">
+            <div class="titles">
+              <h3><?= htmlspecialchars($user['name']) ?></h3>
+              <p class="username">@<?= htmlspecialchars($user['username']) ?></p>
+            </div>
+            <?php if ((bool)$user['is_seller']): ?>
+              <span class="user-badge freelancer">Freelancer</span>
+            <?php endif; ?>
+          </div>
+        </div>
+      </a>
+    </div>
 <?php
+  }
+
+  /**
+   * Render a grid of user cards
+   * 
+   * @param array $users Array of user data
+   * @return void
+   */
+  public static function renderUserGrid($users = [])
+  {
+    self::includeCSS();
+
+    if (empty($users)) {
+      echo '<div class="no-users-message">';
+      echo '<p>No users found matching your criteria.</p>';
+      echo '<p>Try changing your filters or search terms.</p>';
+      echo '</div>';
+      return;
+    }
+
+    echo '<div class="grid">';
+    foreach ($users as $user) {
+      self::renderUser($user);
+    }
+    echo '</div>';
   }
 
   /**
@@ -94,7 +167,7 @@ class Card
     }
 
     // Display services in a grid
-    echo '<div class="card-grid">';
+    echo '<div class="grid">';
     foreach ($services as $service) {
       self::render($service, $showPrice);
     }

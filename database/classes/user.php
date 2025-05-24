@@ -276,7 +276,7 @@ class User
     {
         return $this->bio;
     }
-    
+
     // Favorite related methods
     public static function addFavorite(int $userId, int $serviceId): bool
     {
@@ -289,7 +289,7 @@ class User
             return false;
         }
     }
-    
+
     public static function removeFavorite(int $userId, int $serviceId): bool
     {
         try {
@@ -301,7 +301,7 @@ class User
             return false;
         }
     }
-    
+
     public static function isFavorite(int $userId, int $serviceId): bool
     {
         try {
@@ -313,7 +313,7 @@ class User
             return false;
         }
     }
-    
+
     public static function getUserFavorites(int $id): array
     {
         try {
@@ -329,8 +329,39 @@ class User
             ');
             $stmt->execute([$id]);
             $services = $stmt->fetchAll();
-            
+
             return $services;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public static function searchUsers(string $query, bool $onlySellers = false, int $limit = 0): array
+    {
+        try {
+            $db = Database::getInstance();
+
+            $searchQuery = '%' . $query . '%';
+            $sql = 'SELECT id, name, username, email, is_seller, is_admin, profile_pic, bio 
+                   FROM users 
+                   WHERE (name LIKE ? OR username LIKE ?)';
+
+            if ($onlySellers) {
+                $sql .= ' AND is_seller = 1';
+            }
+
+            $sql .= ' ORDER BY name';
+
+            if ($limit > 0) {
+                $sql .= ' LIMIT ?';
+                $stmt = $db->prepare($sql);
+                $stmt->execute([$searchQuery, $searchQuery, $limit]);
+            } else {
+                $stmt = $db->prepare($sql);
+                $stmt->execute([$searchQuery, $searchQuery]);
+            }
+
+            return $stmt->fetchAll();
         } catch (PDOException $e) {
             return [];
         }

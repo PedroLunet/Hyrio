@@ -18,6 +18,8 @@ class Navbar
   {
     if (!self::$cssIncluded) {
       echo '<link rel="stylesheet" href="/components/navbar/css/navbar.css">';
+      echo '<link rel="stylesheet" href="/components/navbar/css/dynamic-search.css">';
+      echo '<script src="/js/dynamic-search.js" defer></script>';
       self::$cssIncluded = true;
     }
   }
@@ -38,13 +40,25 @@ class Navbar
     require_once(__DIR__ . '/../../includes/auth.php');
 
     $categories = Categories::getCategories();
-    ?>
+?>
     <header id="menu-header">
       <div class="nav-left">
         <a href="/">
           <img src="/assets/logo.png" alt="Logo">
         </a>
       </div>
+
+      <div class="nav-center">
+        <form action="/pages/search.php" method="GET" class="search-form">
+          <div class="search-container">
+            <input type="text" name="q" placeholder="Search Hyrio..." class="search-input" required>
+            <button type="submit" class="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
       <div class="nav-right">
         <?php
         $user = Auth::getInstance()->getUser();
@@ -77,7 +91,7 @@ class Navbar
           echo '<a href="/actions/logout_action.php" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>';
           echo '</div>'; // End dropdown menu
           echo '</div>'; // End profile dropdown
-    
+
           // Add JavaScript to close dropdown when clicking outside
           echo '<script>
           document.addEventListener("DOMContentLoaded", function() {
@@ -101,7 +115,20 @@ class Navbar
         ?>
       </div>
     </header>
-    <?php
+
+    </div>
+    </header>
+    <div class="mobile-search-container">
+      <form action="/pages/search.php" method="GET" class="search-form">
+        <div class="search-container">
+          <input type="text" name="q" placeholder="Search Hyrio..." class="search-input" required>
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+<?php
   }
 }
 ?>

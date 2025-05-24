@@ -95,7 +95,9 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             require_once(__DIR__ . '/../database/classes/purchase.php');
             $purchases = Purchase::getByUser($user->getId());
             echo '<section class="profile-purchases">';
+            echo '<div class="section-header">';
             echo '<h2>Purchased Services</h2>';
+            echo '</div>';
             if (empty($purchases)) {
                 echo '<p>You haven\'t purchased any services yet.</p>';
             } else {
