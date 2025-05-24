@@ -5,13 +5,16 @@ declare(strict_types=1);
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
+require_once(__DIR__ . '/../components/rating/rating.php');
 require_once(__DIR__ . '/../database/classes/service.php');
 require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../database/classes/rating.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
 head();
 
 echo '<link rel="stylesheet" href="/css/service.css">';
+echo '<link rel="stylesheet" href="/components/rating/css/rating.css">';
 
 $service = Service::getServiceById((int) $_GET['id']);
 $seller = User::getUserById($service->getSeller());
@@ -22,6 +25,14 @@ if ($loggedInUser && $service) {
   $isFavorite = User::isFavorite($loggedInUser['id'], $service->getId());
 }
 
+// Get rating data
+$ratingStats = Rating::getRatingStats($service->getId());
+$userRating = null;
+if ($loggedInUser) {
+  $userRating = Rating::getUserRatingForService($loggedInUser['id'], $service->getId());
+}
+$allRatings = Rating::getRatingsByServiceId($service->getId());
+
 drawHeader();
 ?>
 <main>
@@ -31,11 +42,10 @@ drawHeader();
     <div class="service-details-container">
       <div class="service-header">
         <div class="service-pricing-block">
-          <?php if ($service->getRating()): ?>
+          <?php if ($ratingStats['total_ratings'] > 0): ?>
             <div class="rating-section">
               <div class="stars-container">
-                <i class="ph-fill ph-star star-filled"></i>
-                <span class="rating-value"><?= number_format(floatval($service->getRating()), 1) ?></span>
+                <?php RatingComponent::renderStars((float) $ratingStats['average_rating'], (int) $ratingStats['total_ratings']); ?>
               </div>
             </div>
           <?php endif; ?>
@@ -92,7 +102,32 @@ drawHeader();
             </form>
           <?php endif; ?>
         </div>
+
       </div>
+    </div>
+
+    <!-- Rating Section -->
+    <div class="service-rating-section">
+      <div class="rating-actions">
+        <h2>Ratings & Reviews</h2>
+        <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
+          <button class="rate-service-btn"
+            onclick="document.querySelector('.rating-form-container').scrollIntoView({behavior: 'smooth'})">
+            <?= $userRating ? 'Update Rating' : 'Rate Service' ?>
+          </button>
+        <?php endif; ?>
+      </div>
+
+      <!-- Rating Statistics -->
+      <?php RatingComponent::renderRatingStats($ratingStats); ?>
+
+      <!-- Rating Form (only for logged-in users who aren't the seller) -->
+      <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
+        <?php RatingComponent::renderRatingForm($service->getId(), $userRating); ?>
+      <?php endif; ?>
+
+      <!-- Reviews List -->
+      <?php RatingComponent::renderReviews($allRatings); ?>
     </div>
 
     <!-- Related services from the same category -->
@@ -139,6 +174,7 @@ drawHeader();
 </main>
 <?php drawFooter(); ?>
 
+<script src="/js/rating.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const favoriteForms = document.querySelectorAll('.favorite-form');
@@ -149,5 +185,4 @@ drawHeader();
       });
     });
   });
-
 </script>
