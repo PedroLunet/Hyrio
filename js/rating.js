@@ -11,10 +11,17 @@ function initializeRatingForms() {
 		const starInputs = ratingForm.querySelectorAll('input[name="rating"]');
 		const starLabels = ratingForm.querySelectorAll('.star-label');
 
+		// Initialize the display based on any checked input
+		const checkedInput = ratingForm.querySelector('input[name="rating"]:checked');
+		if (checkedInput) {
+			highlightStars(parseInt(checkedInput.value));
+		}
+
 		// Add hover effects for better UX
 		starLabels.forEach((label, index) => {
 			label.addEventListener('mouseenter', function () {
 				highlightStars(index + 1);
+				updateRatingFeedback(index + 1);
 			});
 
 			label.addEventListener('mouseleave', function () {
@@ -23,12 +30,15 @@ function initializeRatingForms() {
 				);
 				const checkedValue = checkedInput ? parseInt(checkedInput.value) : 0;
 				highlightStars(checkedValue);
+				updateRatingFeedback(checkedValue);
 			});
 
 			label.addEventListener('click', function () {
 				const input = label.previousElementSibling;
 				input.checked = true;
-				highlightStars(parseInt(input.value));
+				const rating = parseInt(input.value);
+				highlightStars(rating);
+				updateRatingFeedback(rating);
 			});
 		});
 
@@ -38,6 +48,22 @@ function initializeRatingForms() {
 			submitRating(this);
 		});
 	}
+}
+
+function updateRatingFeedback(rating) {
+	const feedbackElement = document.getElementById('rating-feedback');
+	if (!feedbackElement) return;
+
+	const feedbackTexts = {
+		0: 'Click to rate',
+		1: 'Poor',
+		2: 'Fair',
+		3: 'Good',
+		4: 'Very Good',
+		5: 'Excellent'
+	};
+
+	feedbackElement.textContent = feedbackTexts[rating] || 'Click to rate';
 }
 
 function highlightStars(count) {
@@ -232,5 +258,6 @@ function showMessage(message, type = 'info') {
 	}, 5000);
 }
 
-// Make deleteRating function available globally
+// Make functions available globally
 window.deleteRating = deleteRating;
+window.initializeRatingForms = initializeRatingForms;

@@ -72,21 +72,13 @@
 	transition: color 0.2s ease;
 }
 
-.rating-form .star-label:hover,
-.rating-form .stars-input input[type='radio']:checked ~ .star-label,
-.rating-form .stars-input input[type='radio']:checked + .star-label {
+.rating-form .star-label:hover {
 	color: #fbbf24;
 }
 
-/* Highlight stars on hover - only within rating forms */
-.rating-form .stars-input:hover .star-label {
-	color: #d1d5db;
-}
+/* Remove the checked state styling - will be handled by JavaScript */
 
-.rating-form .stars-input .star-label:hover,
-.rating-form .stars-input .star-label:hover ~ .star-label {
-	color: #fbbf24;
-}
+/* Remove hover effects from CSS - will be handled by JavaScript */
 
 .review-input {
 	margin-bottom: 1rem;
@@ -396,7 +388,6 @@
 }
 
 .service-thumbnail {
-	width: 60px;
 	height: 60px;
 	border-radius: 8px;
 	object-fit: cover;

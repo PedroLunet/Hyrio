@@ -260,6 +260,10 @@ drawHeader();
         .then(html => {
           container.innerHTML = html;
           OverlaySystem.open('rating-overlay');
+          // Initialize rating form after overlay content is loaded
+          if (typeof initializeRatingForms === 'function') {
+            initializeRatingForms();
+          }
         })
         .catch(error => {
           console.error('Error loading rating overlay:', error);

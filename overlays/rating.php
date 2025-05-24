@@ -131,30 +131,11 @@ $isUpdate = $existingRating !== null;
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const ratingInputs = document.querySelectorAll('input[name="rating"]');
-    const ratingFeedback = document.getElementById('rating-feedback');
+  // Initialize character count for review textarea
+  function initializeCharacterCount() {
     const reviewTextarea = document.getElementById('review');
     const reviewCount = document.getElementById('review-count');
 
-    const ratingTexts = {
-      1: 'Poor',
-      2: 'Fair',
-      3: 'Good',
-      4: 'Very Good',
-      5: 'Excellent'
-    };
-
-    // Handle star rating feedback
-    ratingInputs.forEach(input => {
-      input.addEventListener('change', function () {
-        if (ratingFeedback) {
-          ratingFeedback.textContent = ratingTexts[this.value] || 'Click to rate';
-        }
-      });
-    });
-
-    // Handle review character count
     if (reviewTextarea && reviewCount) {
       function updateCharCount() {
         const count = reviewTextarea.value.length;
@@ -172,29 +153,10 @@ $isUpdate = $existingRating !== null;
         }
       });
     }
+  }
 
-    // Handle form submission
-    const ratingForm = document.getElementById('rating-form');
-    if (ratingForm) {
-      ratingForm.addEventListener('submit', function (e) {
-        const selectedRating = document.querySelector('input[name="rating"]:checked');
-        if (!selectedRating) {
-          e.preventDefault();
-          alert('Please select a rating before submitting.');
-          return;
-        }
-
-        // Add loading state
-        const submitButton = this.querySelector('button[type="submit"]');
-        const originalText = submitButton.innerHTML;
-        submitButton.innerHTML = '<i class="ph-bold ph-spinner"></i> Submitting...';
-        submitButton.disabled = true;
-
-        // The form will submit normally and redirect via PHP
-        // No need to handle AJAX here since we want the page to refresh
-      });
-    }
-  });
+  // Initialize character count immediately
+  initializeCharacterCount();
 
   function deleteRating(serviceId) {
     if (confirm('Are you sure you want to delete your rating? This action cannot be undone.')) {
