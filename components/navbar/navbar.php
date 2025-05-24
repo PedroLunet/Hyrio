@@ -18,6 +18,8 @@ class Navbar
   {
     if (!self::$cssIncluded) {
       echo '<link rel="stylesheet" href="/components/navbar/css/navbar.css">';
+      echo '<link rel="stylesheet" href="/components/navbar/css/dynamic-search.css">';
+      echo '<script src="/js/dynamic-search.js" defer></script>';
       self::$cssIncluded = true;
     }
   }
