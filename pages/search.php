@@ -151,7 +151,7 @@ $totalPages = ceil($totalResults / $perPage);
                         <label for="only-sellers">Show only:</label>
                         <div class="checkbox-option">
                             <input type="checkbox" id="only-sellers" name="only_sellers" value="1" <?= $onlySellers ? 'checked' : '' ?>>
-                            <label for="only-sellers">Only show freelancers</label>
+                            <label for="only-sellers">Freelancers</label>
                         </div>
                     </div>
                 <?php else: ?>

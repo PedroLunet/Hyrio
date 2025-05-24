@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     suggestionsContainer.className = 'search-suggestions';
     input.parentNode.appendChild(suggestionsContainer);
 
+    const searchForm = input.closest('form');
+
     let debounceTimer;
     input.addEventListener('input', function () {
       const query = this.value.trim();
@@ -67,33 +69,46 @@ function fetchSuggestions(query, container, input) {
       container.innerHTML = '';
 
       if (data.suggestions && data.suggestions.length > 0) {
-        data.suggestions.forEach(suggestion => {
-          const item = document.createElement('div');
-          item.className = 'suggestion-item';
-          if (suggestion.type === 'category') {
-            item.classList.add('suggestion-category');
-          }
+        const serviceSuggestions = data.suggestions.filter(s => s.type === 'service');
+        const userSuggestions = data.suggestions.filter(s => s.type === 'user');
+        const categorySuggestions = data.suggestions.filter(s => s.type === 'category');
 
-          const iconClass = suggestion.type === 'category' ? 'fas fa-folder' : 'fas fa-tag';
+        if (serviceSuggestions.length > 0) {
+          const sectionHeader = document.createElement('div');
+          sectionHeader.className = 'suggestion-header';
+          sectionHeader.textContent = 'Services';
+          container.appendChild(sectionHeader);
 
-          const textContainer = document.createElement('span');
-          textContainer.className = 'suggestion-text';
-          textContainer.innerHTML = highlightMatch(suggestion.text, query);
-
-          item.innerHTML = `<i class="${iconClass}"></i>`;
-          item.appendChild(textContainer);
-
-          item.addEventListener('click', function () {
-            if (suggestion.type === 'service') {
-              window.location.href = `/pages/service.php?id=${suggestion.id}`;
-            } else {
-              // For categories, don't include the search query
-              window.location.href = `/pages/search.php?category=${suggestion.id}`;
-            }
+          serviceSuggestions.forEach(suggestion => {
+            addSuggestionItem(container, suggestion, query);
           });
 
-          container.appendChild(item);
-        });
+          addSeeMoreLink(container, query, 'services');
+        }
+
+        if (userSuggestions.length > 0) {
+          const sectionHeader = document.createElement('div');
+          sectionHeader.className = 'suggestion-header';
+          sectionHeader.textContent = 'Users';
+          container.appendChild(sectionHeader);
+
+          userSuggestions.forEach(suggestion => {
+            addSuggestionItem(container, suggestion, query);
+          });
+
+          addSeeMoreLink(container, query, 'users');
+        }
+
+        if (categorySuggestions.length > 0) {
+          const sectionHeader = document.createElement('div');
+          sectionHeader.className = 'suggestion-header';
+          sectionHeader.textContent = 'Categories';
+          container.appendChild(sectionHeader);
+
+          categorySuggestions.forEach(suggestion => {
+            addSuggestionItem(container, suggestion, query);
+          });
+        }
 
         container.classList.add('active');
       } else {
@@ -103,6 +118,72 @@ function fetchSuggestions(query, container, input) {
     .catch(error => {
       console.error('Error fetching search suggestions:', error);
     });
+}
+
+function addSuggestionItem(container, suggestion, query) {
+  const item = document.createElement('div');
+  item.className = 'suggestion-item';
+  if (suggestion.type === 'category') {
+    item.classList.add('suggestion-category');
+  }
+
+  let iconClass;
+  switch (suggestion.type) {
+    case 'category':
+      iconClass = 'fas fa-folder';
+      break;
+    case 'user':
+      iconClass = 'fas fa-user';
+      break;
+    case 'service':
+    default:
+      iconClass = 'fas fa-tag';
+      break;
+  }
+
+  const textContainer = document.createElement('span');
+  textContainer.className = 'suggestion-text';
+
+  if (suggestion.type === 'user' && suggestion.username) {
+    textContainer.innerHTML = `${highlightMatch(suggestion.text, query)} <span class="username">@${suggestion.username}</span>`;
+  } else {
+    textContainer.innerHTML = highlightMatch(suggestion.text, query);
+  }
+
+  item.innerHTML = `<i class="${iconClass}"></i>`;
+  item.appendChild(textContainer);
+
+  item.addEventListener('click', function () {
+    if (suggestion.type === 'service') {
+      window.location.href = `/pages/service.php?id=${suggestion.id}`;
+    } else if (suggestion.type === 'user') {
+      window.location.href = `/pages/profile.php?username=${suggestion.username}`;
+    } else {
+      window.location.href = `/pages/search.php?category=${suggestion.id}`;
+    }
+  });
+
+  container.appendChild(item);
+}
+
+function addSeeMoreLink(container, query, mode) {
+  const seeMoreItem = document.createElement('div');
+  seeMoreItem.className = 'suggestion-item see-more';
+
+  const iconClass = 'fas fa-search';
+
+  const textContainer = document.createElement('span');
+  textContainer.className = 'suggestion-text';
+  textContainer.textContent = `See all ${mode} for "${query}"`;
+
+  seeMoreItem.innerHTML = `<i class="${iconClass}"></i>`;
+  seeMoreItem.appendChild(textContainer);
+
+  seeMoreItem.addEventListener('click', function () {
+    window.location.href = `/pages/search.php?q=${encodeURIComponent(query)}&mode=${mode}`;
+  });
+
+  container.appendChild(seeMoreItem);
 }
 
 function highlightMatch(text, query) {

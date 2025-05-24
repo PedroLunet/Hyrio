@@ -21,7 +21,7 @@
         grid-template-columns: 1fr;
     }
 
-	.card {
+    .card {
         width: 100%;
         padding: 8px;
     }
@@ -45,17 +45,17 @@
 }
 
 .card {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	background-color: #fff;
-	border-radius: 16px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card:hover {
-	transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .card-link {
@@ -63,12 +63,12 @@
 }
 
 .card-content {
-	padding: 4px;
+    padding: 4px;
 }
 
 .card-content img {
-	border-radius: 12px;
-	display: block;
+    border-radius: 12px;
+    display: block;
     width: 100%;
     object-fit: cover;
 }
@@ -204,19 +204,23 @@
 }
 
 .user-image {
-	width: 100px;
-	height: 100px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    padding: 12px;
+    padding-bottom: 0;
+}
+
+.user-image img {
 	border-radius: 50%;
-	object-fit: cover;
-	margin: 0 auto;
-	padding: 12px;
-	padding-bottom: 0;
 }
 
 .user-badge {
-	color: var(--text);
-	border-radius: 8px;
-	padding: 4px 8px;
-	font-size: 0.8rem;
-	border: 1px solid var(--primary);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    border: 1px solid var(--primary);
 }

@@ -49,6 +49,32 @@
     margin: 0;
     padding: 0;
     white-space: nowrap;
+}
+
+.suggestion-item .username {
+    color: #777;
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-left: 3px;
+}
+
+.suggestion-header {
+    padding: 6px 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+}
+
+.suggestion-item.see-more {
+    font-size: 0.85rem;
+    color: var(--primary);
+    background-color: #fff;
+}
+
+.suggestion-item .highlight {
     letter-spacing: normal;
     white-space: nowrap;
     display: inline !important;
