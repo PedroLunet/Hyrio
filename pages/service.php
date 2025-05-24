@@ -9,6 +9,7 @@ require_once(__DIR__ . '/../components/rating/rating.php');
 require_once(__DIR__ . '/../database/classes/service.php');
 require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../database/classes/rating.php');
+require_once(__DIR__ . '/../database/classes/purchase.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
 head();
@@ -28,8 +29,17 @@ if ($loggedInUser && $service) {
 // Get rating data
 $ratingStats = Rating::getRatingStats($service->getId());
 $userRating = null;
+$canUserRate = false;
+$ratingMessage = '';
+
 if ($loggedInUser) {
-  $userRating = Rating::getUserRatingForService($loggedInUser['id'], $service->getId());
+  $canRateCheck = Rating::canUserRate($loggedInUser['id'], $service->getId());
+  $canUserRate = $canRateCheck['can_rate'];
+  $ratingMessage = $canRateCheck['reason'];
+  
+  if ($canUserRate) {
+    $userRating = Rating::getUserRatingForService($loggedInUser['id'], $service->getId());
+  }
 }
 $allRatings = Rating::getRatingsByServiceId($service->getId());
 
@@ -110,19 +120,29 @@ drawHeader();
     <div class="service-rating-section">
       <div class="rating-actions">
         <h2>Ratings & Reviews</h2>
-        <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
+        <?php if ($loggedInUser && $canUserRate): ?>
           <button class="rate-service-btn"
             onclick="document.querySelector('.rating-form-container').scrollIntoView({behavior: 'smooth'})">
             <?= $userRating ? 'Update Rating' : 'Rate Service' ?>
           </button>
+        <?php elseif ($loggedInUser && !$canUserRate): ?>
+          <div class="rating-restriction-message">
+            <i class="ph-bold ph-info"></i>
+            <span><?= htmlspecialchars($ratingMessage) ?></span>
+          </div>
+        <?php elseif (!$loggedInUser): ?>
+          <div class="rating-restriction-message">
+            <i class="ph-bold ph-info"></i>
+            <span>Please <a href="/pages/login.php">log in</a> to rate this service</span>
+          </div>
         <?php endif; ?>
       </div>
 
       <!-- Rating Statistics -->
       <?php RatingComponent::renderRatingStats($ratingStats); ?>
 
-      <!-- Rating Form (only for logged-in users who aren't the seller) -->
-      <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
+      <!-- Rating Form (only for users who have purchased and aren't the seller) -->
+      <?php if ($loggedInUser && $canUserRate): ?>
         <?php RatingComponent::renderRatingForm($service->getId(), $userRating); ?>
       <?php endif; ?>
 

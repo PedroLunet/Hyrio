@@ -39,20 +39,12 @@ if ($serviceId <= 0) {
   exit;
 }
 
-// Check if service exists
-$service = Service::getServiceById($serviceId);
-if (!$service) {
-  header('HTTP/1.1 404 Not Found');
-  header('Content-Type: application/json');
-  echo json_encode(['success' => false, 'message' => 'Service not found']);
-  exit;
-}
-
-// Check if user is trying to rate their own service
-if ($service->getSeller() === $user['id']) {
+// Check if user can rate this service (handles service existence, ownership, and purchase validation)
+$canRateCheck = Rating::canUserRate($user['id'], $serviceId);
+if (!$canRateCheck['can_rate']) {
   header('HTTP/1.1 403 Forbidden');
   header('Content-Type: application/json');
-  echo json_encode(['success' => false, 'message' => 'You cannot rate your own service']);
+  echo json_encode(['success' => false, 'message' => $canRateCheck['reason']]);
   exit;
 }
 
@@ -112,15 +104,24 @@ switch ($action) {
     break;
 
   case 'get':
+    // Check if user can rate this service
+    $canRateCheck = Rating::canUserRate($user['id'], $serviceId);
+
     // Get user's existing rating for this service
-    $userRating = Rating::getUserRatingForService($user['id'], $serviceId);
+    $userRating = null;
+    if ($canRateCheck['can_rate']) {
+      $userRating = Rating::getUserRatingForService($user['id'], $serviceId);
+    }
+
     $stats = Rating::getRatingStats($serviceId);
 
     header('Content-Type: application/json');
     echo json_encode([
       'success' => true,
       'userRating' => $userRating,
-      'stats' => $stats
+      'stats' => $stats,
+      'canRate' => $canRateCheck['can_rate'],
+      'reason' => $canRateCheck['reason']
     ]);
     break;
 

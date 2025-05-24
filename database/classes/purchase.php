@@ -31,4 +31,26 @@ class Purchase
     $stmt->execute([$userId]);
     return $stmt->fetchAll();
   }
+
+  /**
+   * Check if a user has purchased a specific service
+   */
+  public static function hasPurchased(int $userId, int $serviceId): bool
+  {
+    $db = getDatabaseConnection();
+    $stmt = $db->prepare('SELECT COUNT(*) FROM purchases WHERE user_id = ? AND service_id = ?');
+    $stmt->execute([$userId, $serviceId]);
+    return $stmt->fetchColumn() > 0;
+  }
+
+  /**
+   * Get all purchases for a specific service
+   */
+  public static function getByService(int $serviceId): array
+  {
+    $db = getDatabaseConnection();
+    $stmt = $db->prepare('SELECT * FROM purchases WHERE service_id = ? ORDER BY purchased_at DESC');
+    $stmt->execute([$serviceId]);
+    return $stmt->fetchAll();
+  }
 }

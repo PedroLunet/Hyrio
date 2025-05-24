@@ -121,6 +121,35 @@
 	gap: 0.75rem;
 }
 
+.rating-restriction-message {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	background: #fef3c7;
+	border: 1px solid #f59e0b;
+	color: #92400e;
+	padding: 0.75rem 1rem;
+	border-radius: 8px;
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+
+.rating-restriction-message i {
+	font-size: 1rem;
+	color: #f59e0b;
+	flex-shrink: 0;
+}
+
+.rating-restriction-message a {
+	color: #1d4ed8;
+	text-decoration: underline;
+	font-weight: 600;
+}
+
+.rating-restriction-message a:hover {
+	color: #1e40af;
+}
+
 /* Rating Statistics Styles */
 .rating-stats {
 	background: #f9f9f9;

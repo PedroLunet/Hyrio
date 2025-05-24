@@ -86,6 +86,33 @@ class Rating
   }
 
   /**
+   * Check if a user can rate a service (must have purchased it and not be the seller)
+   */
+  public static function canUserRate(int $userId, int $serviceId): array
+  {
+    require_once(__DIR__ . '/purchase.php');
+    require_once(__DIR__ . '/service.php');
+
+    // Check if service exists
+    $service = Service::getServiceById($serviceId);
+    if (!$service) {
+      return ['can_rate' => false, 'reason' => 'Service not found'];
+    }
+
+    // Check if user is the seller
+    if ($service->getSeller() === $userId) {
+      return ['can_rate' => false, 'reason' => 'You cannot rate your own service'];
+    }
+
+    // Check if user has purchased the service
+    if (!Purchase::hasPurchased($userId, $serviceId)) {
+      return ['can_rate' => false, 'reason' => 'You must purchase this service before rating it'];
+    }
+
+    return ['can_rate' => true, 'reason' => ''];
+  }
+
+  /**
    * Get all ratings for a service
    */
   public static function getRatingsByServiceId(int $serviceId): array

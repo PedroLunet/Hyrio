@@ -882,3 +882,179 @@ VALUES
     (97, 15, 33, 4, 'Good UI design service. Clean and modern interface design.', '2024-01-08 13:55:00'),
     (98, 14, 33, 5, 'Excellent UI design! Beautiful and intuitive interface.', '2024-01-13 16:15:00'),
     (99, 2, 33, 4, 'Professional UI design service. Good attention to detail and usability.', '2024-01-19 10:30:00');
+
+-- Insert sample purchases (users must purchase before they can rate)
+INSERT
+    OR IGNORE INTO purchases (
+        id,
+        user_id,
+        service_id,
+        price,
+        message,
+        purchased_at
+    )
+VALUES 
+    -- Purchases for Logo Design (Service 1) - Users: 2, 14, 15
+    (1, 2, 1, 50.00, 'Need a professional logo for my startup', '2024-01-09 10:00:00'),
+    (2, 14, 1, 50.00, 'Logo design for our new project', '2024-01-11 09:30:00'),
+    (3, 15, 1, 50.00, 'Creating a brand identity package', '2024-01-14 08:45:00'),
+    
+    -- Purchases for Web Development (Service 2) - Users: 2, 16, 1
+    (4, 2, 2, 200.00, 'Need a complete website for my business', '2024-01-07 11:20:00'),
+    (5, 16, 2, 200.00, 'Portfolio website development', '2024-01-10 14:15:00'),
+    (6, 1, 2, 200.00, 'Corporate website redesign', '2024-01-13 16:30:00'),
+    
+    -- Purchases for Content Writing (Service 3) - Users: 14, 15, 16
+    (7, 14, 3, 30.00, 'Blog content for our website', '2024-01-08 13:45:00'),
+    (8, 15, 3, 30.00, 'Product descriptions and web copy', '2024-01-12 10:30:00'),
+    (9, 16, 3, 30.00, 'Marketing content creation', '2024-01-15 12:45:00'),
+    
+    -- Purchases for Custom Illustration (Service 4) - Users: 2, 15, 1
+    (10, 2, 4, 100.00, 'Custom illustrations for our app', '2024-01-06 15:20:00'),
+    (11, 15, 4, 100.00, 'Book illustrations project', '2024-01-09 11:30:00'),
+    (12, 1, 4, 100.00, 'Marketing material illustrations', '2024-01-17 14:20:00'),
+    
+    -- Purchases for Character Design (Service 5) - Users: 16, 14, 2
+    (13, 16, 5, 120.00, 'Character design for our game', '2024-01-05 09:45:00'),
+    (14, 14, 5, 120.00, 'Mascot character for brand', '2024-01-11 13:20:00'),
+    (15, 2, 5, 120.00, 'Animation character concepts', '2024-01-16 11:40:00'),
+    
+    -- Purchases for Book Cover Design (Service 6) - Users: 15, 1, 16
+    (16, 15, 6, 80.00, 'Novel cover design', '2024-01-07 13:30:00'),
+    (17, 1, 6, 80.00, 'Technical manual cover', '2024-01-10 16:20:00'),
+    (18, 16, 6, 80.00, 'E-book cover design', '2024-01-18 10:45:00'),
+    
+    -- Purchases for API Development (Service 7) - Users: 14, 2, 15
+    (19, 14, 7, 150.00, 'REST API for mobile app', '2024-01-04 12:15:00'),
+    (20, 2, 7, 150.00, 'Payment processing API', '2024-01-08 10:30:00'),
+    (21, 15, 7, 150.00, 'Data synchronization API', '2024-01-13 15:10:00'),
+    
+    -- Purchases for Database Optimization (Service 8) - Users: 1, 16, 14
+    (22, 1, 8, 200.00, 'Performance tuning for production DB', '2024-01-05 11:45:00'),
+    (23, 16, 8, 200.00, 'Query optimization project', '2024-01-12 14:30:00'),
+    (24, 14, 8, 200.00, 'Database restructuring', '2024-01-15 16:20:00'),
+    
+    -- Purchases for Backend Architecture (Service 9) - Users: 15, 2, 1
+    (25, 15, 9, 250.00, 'Scalable backend for e-commerce', '2024-01-03 10:30:00'),
+    (26, 2, 9, 250.00, 'Microservices architecture', '2024-01-09 13:45:00'),
+    (27, 1, 9, 250.00, 'System architecture review', '2024-01-14 09:25:00'),
+    
+    -- Purchases for Video Editing (Service 10) - Users: 16, 14, 2
+    (28, 16, 10, 300.00, 'Corporate video editing', '2024-01-06 14:20:00'),
+    (29, 14, 10, 300.00, 'Marketing video production', '2024-01-11 11:15:00'),
+    (30, 2, 10, 300.00, 'Event footage editing', '2024-01-17 13:30:00'),
+    
+    -- Purchases for Motion Graphics (Service 11) - Users: 15, 1, 16
+    (31, 15, 11, 350.00, 'Animated logo and graphics', '2024-01-05 15:40:00'),
+    (32, 1, 11, 350.00, 'Presentation animations', '2024-01-10 12:25:00'),
+    (33, 16, 11, 350.00, 'Marketing motion graphics', '2024-01-16 14:10:00'),
+    
+    -- Purchases for Color Grading (Service 12) - Users: 14, 2, 15
+    (34, 14, 12, 200.00, 'Video color correction', '2024-01-07 09:45:00'),
+    (35, 2, 12, 200.00, 'Cinematic color grading', '2024-01-12 15:20:00'),
+    (36, 15, 12, 200.00, 'Documentary color enhancement', '2024-01-18 11:30:00'),
+    
+    -- Purchases for Portrait Photography (Service 13) - Users: 1, 16, 14
+    (37, 1, 13, 150.00, 'Executive portrait session', '2024-01-04 13:45:00'),
+    (38, 16, 13, 150.00, 'Professional headshots', '2024-01-09 16:20:00'),
+    (39, 14, 13, 150.00, 'Team portrait photography', '2024-01-15 10:30:00'),
+    
+    -- Purchases for Event Photography (Service 14) - Users: 15, 2, 1
+    (40, 15, 14, 300.00, 'Conference photography', '2024-01-03 12:30:00'),
+    (41, 2, 14, 300.00, 'Wedding photography', '2024-01-08 11:45:00'),
+    (42, 1, 14, 300.00, 'Corporate event coverage', '2024-01-13 14:20:00'),
+    
+    -- Purchases for Product Photography (Service 15) - Users: 16, 14, 15
+    (43, 16, 15, 250.00, 'E-commerce product shots', '2024-01-06 10:15:00'),
+    (44, 14, 15, 250.00, 'Catalog photography', '2024-01-11 13:40:00'),
+    (45, 15, 15, 250.00, 'Product lifestyle photos', '2024-01-17 15:50:00'),
+    
+    -- Purchases for Mobile App Development (Service 16) - Users: 2, 1, 15
+    (46, 2, 16, 500.00, 'iOS and Android app', '2024-01-02 11:30:00'),
+    (47, 1, 16, 500.00, 'Business productivity app', '2024-01-07 14:20:00'),
+    (48, 15, 16, 500.00, 'Customer service app', '2024-01-12 16:45:00'),
+    
+    -- Purchases for Cross-Platform Apps (Service 17) - Users: 14, 16, 2
+    (49, 14, 17, 600.00, 'React Native application', '2024-01-05 12:45:00'),
+    (50, 16, 17, 600.00, 'Flutter app development', '2024-01-10 15:30:00'),
+    (51, 2, 17, 600.00, 'Xamarin cross-platform app', '2024-01-16 10:20:00'),
+    
+    -- Purchases for App Maintenance (Service 18) - Users: 15, 1, 14
+    (52, 15, 18, 300.00, 'Monthly app maintenance', '2024-01-08 16:15:00'),
+    (53, 1, 18, 300.00, 'App update and bug fixes', '2024-01-13 11:40:00'),
+    (54, 14, 18, 300.00, 'Performance optimization', '2024-01-18 13:20:00'),
+    
+    -- Purchases for Content Strategy (Service 19) - Users: 16, 2, 15
+    (55, 16, 19, 200.00, 'Social media content plan', '2024-01-04 14:50:00'),
+    (56, 2, 19, 200.00, 'Marketing content strategy', '2024-01-09 12:15:00'),
+    (57, 15, 19, 200.00, 'Brand content roadmap', '2024-01-15 13:40:00'),
+    
+    -- Purchases for Blog Writing (Service 20) - Users: 14, 1, 16
+    (58, 14, 20, 100.00, 'Weekly blog posts', '2024-01-03 13:25:00'),
+    (59, 1, 20, 100.00, 'Technical blog content', '2024-01-11 15:50:00'),
+    (60, 16, 20, 100.00, 'Industry blog articles', '2024-01-17 11:15:00'),
+    
+    -- Purchases for Copywriting (Service 21) - Users: 15, 2, 14
+    (61, 15, 21, 150.00, 'Website copy and sales pages', '2024-01-06 13:35:00'),
+    (62, 2, 21, 150.00, 'Email marketing copy', '2024-01-12 12:20:00'),
+    (63, 14, 21, 150.00, 'Ad copy and marketing materials', '2024-01-16 14:45:00'),
+    
+    -- Purchases for SEO Audit (Service 22) - Users: 1, 16, 15
+    (64, 1, 22, 300.00, 'Complete website SEO audit', '2024-01-05 09:50:00'),
+    (65, 16, 22, 300.00, 'E-commerce SEO analysis', '2024-01-10 12:40:00'),
+    (66, 15, 22, 300.00, 'Technical SEO review', '2024-01-14 16:15:00'),
+    
+    -- Purchases for Keyword Research (Service 23) - Users: 14, 2, 1
+    (67, 14, 23, 150.00, 'Industry keyword analysis', '2024-01-07 12:10:00'),
+    (68, 2, 23, 150.00, 'Long-tail keyword research', '2024-01-13 14:35:00'),
+    (69, 1, 23, 150.00, 'Competitive keyword study', '2024-01-18 10:55:00'),
+    
+    -- Purchases for Link Building (Service 24) - Users: 15, 16, 14
+    (70, 15, 24, 400.00, 'High-authority backlinks', '2024-01-04 15:20:00'),
+    (71, 16, 24, 400.00, 'Niche-relevant link building', '2024-01-09 13:10:00'),
+    (72, 14, 24, 400.00, 'Local SEO link building', '2024-01-15 12:25:00'),
+    
+    -- Purchases for Social Media Strategy (Service 25) - Users: 2, 1, 15
+    (73, 2, 25, 200.00, 'Instagram marketing strategy', '2024-01-03 15:45:00'),
+    (74, 1, 25, 200.00, 'LinkedIn business strategy', '2024-01-08 14:10:00'),
+    (75, 15, 25, 200.00, 'Multi-platform social strategy', '2024-01-17 10:30:00'),
+    
+    -- Purchases for Content Scheduling (Service 26) - Users: 16, 14, 2
+    (76, 16, 26, 150.00, 'Monthly content scheduling', '2024-01-06 11:45:00'),
+    (77, 14, 26, 150.00, 'Social media automation', '2024-01-11 15:20:00'),
+    (78, 2, 26, 150.00, 'Content calendar management', '2024-01-16 12:35:00'),
+    
+    -- Purchases for Analytics Reporting (Service 27) - Users: 15, 1, 16
+    (79, 15, 27, 250.00, 'Social media analytics', '2024-01-05 13:15:00'),
+    (80, 1, 27, 250.00, 'Marketing performance reports', '2024-01-10 16:40:00'),
+    (81, 16, 27, 250.00, 'ROI analysis and reporting', '2024-01-14 14:25:00'),
+    
+    -- Purchases for Game Prototyping (Service 28) - Users: 14, 2, 15
+    (82, 14, 28, 400.00, 'Mobile game prototype', '2024-01-02 12:20:00'),
+    (83, 2, 28, 400.00, 'VR game concept development', '2024-01-07 15:35:00'),
+    (84, 15, 28, 400.00, 'Educational game prototype', '2024-01-12 11:50:00'),
+    
+    -- Purchases for Level Design (Service 29) - Users: 1, 16, 14
+    (85, 1, 29, 350.00, 'RPG level design', '2024-01-04 14:30:00'),
+    (86, 16, 29, 350.00, 'Puzzle game levels', '2024-01-09 13:25:00'),
+    (87, 14, 29, 350.00, 'Action game level design', '2024-01-15 15:40:00'),
+    
+    -- Purchases for Game Testing (Service 30) - Users: 15, 2, 1
+    (88, 15, 30, 200.00, 'Beta testing and QA', '2024-01-06 16:10:00'),
+    (89, 2, 30, 200.00, 'Gameplay testing session', '2024-01-11 12:30:00'),
+    (90, 1, 30, 200.00, 'Bug testing and reporting', '2024-01-17 14:55:00'),
+    
+    -- Purchases for UX Research (Service 31) - Users: 16, 14, 15
+    (91, 16, 31, 300.00, 'User behavior analysis', '2024-01-03 11:20:00'),
+    (92, 14, 31, 300.00, 'Usability testing study', '2024-01-08 13:50:00'),
+    (93, 15, 31, 300.00, 'User journey mapping', '2024-01-13 16:25:00'),
+    
+    -- Purchases for Wireframing (Service 32) - Users: 2, 1, 16
+    (94, 2, 32, 200.00, 'Mobile app wireframes', '2024-01-05 15:30:00'),
+    (95, 1, 32, 200.00, 'Website wireframe design', '2024-01-10 12:15:00'),
+    (96, 16, 32, 200.00, 'Dashboard wireframing', '2024-01-16 14:20:00'),
+    
+    -- Purchases for UI Design (Service 33) - Users: 15, 14, 2
+    (97, 15, 33, 400.00, 'Modern web interface', '2024-01-07 13:40:00'),
+    (98, 14, 33, 400.00, 'Mobile app UI design', '2024-01-12 16:10:00'),
+    (99, 2, 33, 400.00, 'Dashboard UI redesign', '2024-01-18 10:15:00');
