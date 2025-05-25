@@ -71,13 +71,15 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             <div class="section-header">
                 <h2>About me</h2>
             </div>
-            <?php
-            if ($user->getBio() === '') {
-                echo '<p>This user has not set a bio yet.</p>';
-            } else {
-                echo '<p>' . htmlspecialchars($user->getBio()) . '</p>';
-            }
-            ?>
+            <div class="section-content">
+                <?php
+                if ($user->getBio() === '') {
+                    echo '<p>This user has not set a bio yet.</p>';
+                } else {
+                    echo '<p>' . htmlspecialchars($user->getBio()) . '</p>';
+                }
+                ?>
+            </div>
         </section>
 
         <?php
@@ -107,6 +109,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<div class="section-header">';
             echo '<h2>Services Offered</h2>';
             echo '</div>';
+            echo '<div class="section-content">';
 
             if (empty($userServices)) {
                 echo '<p>This user hasn\'t listed any services yet.</p>';
@@ -114,6 +117,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 Card::renderGrid($userServices);
             }
 
+            echo '</div>';
             echo '</section>';
         }
         ?>
@@ -124,6 +128,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<div class="section-header">';
             echo '<h2>Favorites</h2>';
             echo '</div>';
+            echo '<div class="section-content">';
 
             $favorites = $user->getUserFavorites($user->getId());
 
@@ -137,6 +142,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 echo '</div>';
             }
 
+            echo '</div>';
             echo '</section>';
 
             // Purchased services section

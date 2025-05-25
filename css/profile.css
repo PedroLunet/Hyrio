@@ -49,16 +49,20 @@ section {
 	padding: 20px;
 }
 
-section h2 {
-	margin: 0;
-}
-
 section p {
 	margin: 0;
 }
 
 .section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	margin-bottom: 20px;
+}
+
+.section-header h2 {
+	margin: 0;
+	font-size: 1.5rem;
 }
 
 .services-row {
