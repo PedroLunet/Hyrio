@@ -45,20 +45,23 @@
 }
 
 .star-rating-input {
-	margin-bottom: 1rem;
+	margin-bottom: 1.5rem;
+	text-align: center;
 }
 
 .star-rating-input label {
 	display: block;
-	margin-bottom: 0.5rem;
+	margin-bottom: 1rem;
 	font-weight: 500;
 	color: #374151;
+	font-size: 1rem;
 }
 
 .stars-input {
 	display: flex;
 	align-items: center;
-	gap: 0;
+	gap: 0.25rem;
+	justify-content: center;
 }
 
 .stars-input input[type='radio'] {
@@ -67,15 +70,17 @@
 
 .rating-form .star-label {
 	cursor: pointer;
-	font-size: 1.5rem;
+	font-size: 1.8rem;
 	color: #d1d5db;
-	transition: color 0.2s ease;
-	padding: 0.25rem 0.1rem;
+	transition: all 0.2s ease;
+	padding: 0.25rem;
 	margin: 0;
+	border-radius: 50%;
 }
 
 .rating-form .star-label:hover {
 	color: #fbbf24;
+	transform: scale(1.1);
 }
 
 /* Remove the checked state styling - will be handled by JavaScript */
@@ -83,31 +88,36 @@
 /* Remove hover effects from CSS - will be handled by JavaScript */
 
 .review-input {
-	margin-bottom: 1rem;
+	margin-bottom: 1.5rem;
 }
 
 .review-input label {
 	display: block;
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.75rem;
 	font-weight: 500;
 	color: #374151;
 }
 
 .review-input textarea {
 	width: 100%;
-	padding: 0.75rem;
-	border: 1px solid #d1d5db;
-	border-radius: 0.375rem;
+	box-sizing: border-box;
+	padding: 1rem;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 12px;
 	font-family: inherit;
-	font-size: 0.875rem;
+	font-size: 0.9rem;
+	line-height: 1.5;
 	resize: vertical;
+	transition: all 0.2s ease;
+	background: #fafbfc;
 	min-height: 100px;
 }
 
 .review-input textarea:focus {
 	outline: none;
-	border-color: #3b82f6;
-	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+	border-color: rgba(254, 136, 86, 0.4);
+	box-shadow: 0 0 0 3px rgba(254, 136, 86, 0.1);
+	background: #fff;
 }
 
 .rating-form-actions {
@@ -353,59 +363,66 @@
 
 /* Rating Overlay Specific Styles */
 .rating-overlay .overlay-content {
-	max-width: 600px;
+	max-width: 500px;
 	width: 90%;
+	border-radius: 20px;
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	background: #fff;
 }
 
 .rating-overlay .overlay-header {
-	background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-	color: white;
+	background: linear-gradient(180deg, #f8fafb 0%, #f1f5f8 100%);
+	color: #1a202c;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	border-radius: 20px 20px 0 0;
+	padding: 1.5rem 2rem;
+	text-align: center;
 }
 
-.rating-overlay .close-btn {
-	color: white;
-	font-size: 18px;
-	width: 32px;
-	height: 32px;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: background-color 0.2s ease;
+.rating-overlay .overlay-header h2 {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin: 0;
+	letter-spacing: -0.01em;
 }
 
-.rating-overlay .close-btn:hover {
-	background-color: rgba(255, 255, 255, 0.2);
+.rating-overlay .overlay-body {
+	padding: 2rem;
 }
 
 .service-info-header {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	margin-bottom: 1.5rem;
-	padding: 1rem;
-	background: #f8f9fa;
-	border-radius: 8px;
-	border: 1px solid #e9ecef;
+	margin-bottom: 2rem;
+	padding: 1.25rem;
+	background: linear-gradient(135deg, rgba(254, 136, 86, 0.05) 0%, rgba(255, 107, 0, 0.03) 100%);
+	border-radius: 16px;
+	border: 1px solid rgba(254, 136, 86, 0.15);
 }
 
 .service-thumbnail {
 	height: 60px;
-	border-radius: 8px;
+	width: 60px;
+	border-radius: 12px;
 	object-fit: cover;
 	flex-shrink: 0;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .service-details h3 {
-	margin: 0 0 0.25rem 0;
+	margin: 0 0 0.5rem 0;
 	font-size: 1.1rem;
-	color: #212529;
+	color: #1a202c;
+	font-weight: 600;
+	letter-spacing: -0.01em;
 }
 
 .service-price {
 	margin: 0;
 	font-weight: 600;
-	color: var(--primary);
+	color: #fe8856;
 	font-size: 1rem;
 }
 
@@ -416,8 +433,21 @@
 	box-shadow: none;
 }
 
+.star-rating-input {
+	margin-bottom: 1.5rem;
+	text-align: center;
+}
+
+.star-rating-input label {
+	display: block;
+	margin-bottom: 1rem;
+	font-weight: 500;
+	color: #374151;
+	font-size: 1rem;
+}
+
 .rating-text-feedback {
-	margin-top: 0.5rem;
+	margin-top: 1rem;
 }
 
 .rating-text-feedback span {
@@ -426,46 +456,126 @@
 	font-weight: 500;
 }
 
+.review-input {
+	margin-bottom: 2rem;
+}
+
+.review-input label {
+	display: block;
+	margin-bottom: 0.75rem;
+	font-weight: 500;
+	color: #374151;
+	font-size: 1rem;
+}
+
+.review-input textarea {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 1rem;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 12px;
+	font-family: inherit;
+	font-size: 0.9rem;
+	line-height: 1.5;
+	resize: vertical;
+	transition: all 0.2s ease;
+	background: #fafbfc;
+	min-height: 100px;
+}
+
+.review-input textarea:focus {
+	outline: none;
+	border-color: rgba(254, 136, 86, 0.4);
+	box-shadow: 0 0 0 3px rgba(254, 136, 86, 0.1);
+	background: #fff;
+}
+
 .character-count {
 	text-align: right;
 	font-size: 0.75rem;
 	color: #6b7280;
-	margin-top: 0.25rem;
+	margin-top: 0.5rem;
 }
 
 .rating-overlay .rating-form-actions {
 	display: flex;
 	gap: 0.75rem;
 	justify-content: flex-end;
-	margin-top: 1.5rem;
-	padding-top: 1rem;
-	border-top: 1px solid #e9ecef;
+	margin-top: 1rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.rating-overlay .rating-form-actions .btn {
+	padding: 0.75rem 1.5rem;
+	border-radius: 10px;
+	font-weight: 500;
+	font-size: 0.9rem;
+	transition: all 0.2s ease;
+	border: 1px solid transparent;
+}
+
+.rating-overlay .rating-form-actions .btn-secondary {
+	background: #f8f9fa;
+	color: #6b7280;
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+.rating-overlay .rating-form-actions .btn-secondary:hover {
+	background: #e9ecef;
+	transform: translateY(-1px);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rating-overlay .rating-form-actions .btn-primary {
+	background: linear-gradient(135deg, #fe8856 0%, #ff6b00 100%);
+	color: white;
+}
+
+.rating-overlay .rating-form-actions .btn-primary:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(254, 136, 86, 0.3);
+}
+
+.rating-overlay .rating-form-actions .btn-danger {
+	background: #f87171;
+	color: white;
+}
+
+.rating-overlay .rating-form-actions .btn-danger:hover {
+	background: #ef4444;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(248, 113, 113, 0.3);
 }
 
 .rating-restriction,
 .service-not-found {
 	text-align: center;
-	padding: 2rem 1rem;
+	padding: 2.5rem 1.5rem;
 }
 
 .rating-restriction i,
 .service-not-found i {
-	font-size: 3rem;
-	color: #fbbf24;
-	margin-bottom: 1rem;
+	font-size: 2.5rem;
+	color: #fe8856;
+	margin-bottom: 1.5rem;
 	display: block;
+	opacity: 0.8;
 }
 
 .rating-restriction h3,
 .service-not-found h3 {
-	margin: 0 0 0.5rem 0;
-	color: #212529;
+	margin: 0 0 1rem 0;
+	color: #1a202c;
+	font-weight: 600;
+	font-size: 1.1rem;
 }
 
 .rating-restriction p,
 .service-not-found p {
-	margin: 0 0 1.5rem 0;
+	margin: 0 0 2rem 0;
 	color: #6b7280;
+	line-height: 1.5;
 }
 
 .rate-service-btn {
@@ -488,59 +598,91 @@
 /* Enhanced star rating hover effects for overlay */
 .rating-overlay .stars-input {
 	justify-content: center;
-	gap: 0;
-	margin: 0.5rem 0;
+	margin: 1rem 0;
 }
 
 .rating-overlay .star-label {
-	font-size: 2rem;
+	font-size: 2.5rem;
 	transition: all 0.2s ease;
-	padding: 0.25rem 0.1rem;
+	padding: 0.25rem;
 	margin: 0;
+	cursor: pointer;
+	color: #d1d5db;
+	border-radius: 50%;
 }
 
 .rating-overlay .star-label:hover {
-	transform: scale(1.1);
+	transform: scale(1.15);
+	color: #fbbf24;
+}
+
+.rating-overlay .star-label i {
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 /* Responsive design for overlay */
 @media (max-width: 768px) {
 	.rating-overlay .overlay-content {
 		width: 95%;
-		margin: 20px auto;
+		margin: 15px auto;
+		border-radius: 16px;
+	}
+
+	.rating-overlay .overlay-header {
+		padding: 1.25rem 1.5rem;
+		border-radius: 16px 16px 0 0;
+	}
+
+	.rating-overlay .overlay-body {
+		padding: 1.5rem;
 	}
 
 	.service-info-header {
 		flex-direction: column;
 		text-align: center;
+		gap: 0.75rem;
+		padding: 1rem;
 	}
 
 	.rating-overlay .rating-form-actions {
 		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.rating-overlay .rating-form-actions .btn {
+		width: 100%;
+		justify-content: center;
 	}
 
 	.rating-overlay .star-label {
-		font-size: 1.5rem;
+		font-size: 2rem;
+		padding: 0.2rem;
 	}
 }
 
 /* Character limit validation styles */
 .review-input textarea.over-limit {
-	border-color: #e74c3c !important;
-	box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+	border-color: #f87171 !important;
+	box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.1) !important;
+	background: rgba(248, 113, 113, 0.02) !important;
 }
 
 .character-count.over-limit {
-	color: #e74c3c !important;
+	color: #f87171 !important;
 	font-weight: 600;
 }
 
 .character-limit-warning {
 	display: none;
-	margin-top: 0.25rem;
+	margin-top: 0.5rem;
 	font-size: 0.75rem;
-	color: #e74c3c;
+	color: #f87171;
 	font-weight: 500;
+	text-align: center;
+	padding: 0.5rem;
+	background: rgba(248, 113, 113, 0.05);
+	border-radius: 8px;
+	border: 1px solid rgba(248, 113, 113, 0.2);
 }
 
 .character-limit-warning.show {
@@ -550,11 +692,13 @@
 .rating-form button[type='submit']:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
-	background-color: #9ca3af;
+	background: #d1d5db !important;
+	box-shadow: none !important;
+	transform: none !important;
 }
 
 .rating-form button[type='submit']:disabled:hover {
-	background-color: #9ca3af;
-	transform: none;
-	box-shadow: none;
+	background: #d1d5db !important;
+	transform: none !important;
+	box-shadow: none !important;
 }

@@ -66,12 +66,12 @@ function initializeCharacterCount() {
 
 			// Update color and form validation state
 			if (count > 500) {
-				reviewCount.style.color = '#e74c3c';
-				reviewTextarea.style.borderColor = '#e74c3c';
+				reviewCount.style.color = '#f87171';
+				reviewTextarea.classList.add('over-limit');
 				updateSubmitButtonState();
 			} else {
-				reviewCount.style.color = '#666';
-				reviewTextarea.style.borderColor = '#d1d5db';
+				reviewCount.style.color = '#6b7280';
+				reviewTextarea.classList.remove('over-limit');
 				updateSubmitButtonState();
 			}
 		}

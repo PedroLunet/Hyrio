@@ -47,7 +47,6 @@ $isUpdate = $existingRating !== null;
   <div class="overlay-content">
     <div class="overlay-header">
       <h2><?= $isUpdate ? 'Update Your Rating' : 'Rate This Service' ?></h2>
-      <button class="close-btn" aria-label="Close">✕</button>
     </div>
     <div class="overlay-body">
       <?php if (isset($_SESSION['error_message'])): ?>
