@@ -15,6 +15,27 @@ function getServices(?int $categoryId = null): array
     }
 }
 
+// Function to get featured services for landing page
+function getFeaturedServices(int $limit = 6): array
+{
+    try {
+        $db = Database::getInstance();
+        // Get random services with good ratings or recent ones
+        $stmt = $db->prepare('
+            SELECT services.*, users.name as seller_name, categories.name as category_name
+            FROM services 
+            JOIN users ON services.seller = users.id
+            JOIN categories ON services.category = categories.id
+            ORDER BY RANDOM()
+            LIMIT ?
+        ');
+        $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
 ?>
 
 <?php function head(): void
@@ -70,6 +91,23 @@ function getServices(?int $categoryId = null): array
         // Include and use Card component
         require_once(__DIR__ . '/../components/card/card.php');
         Card::renderGrid($services);
+    } ?>
+
+    <?php function drawFeaturedCards()
+    {
+        // Get featured services for landing page
+        $services = getFeaturedServices(6); // Show 6 featured services
+    
+        // Include and use Card component
+        require_once(__DIR__ . '/../components/card/card.php');
+
+        // Render the service cards
+        Card::renderGrid($services);
+
+        // Add "See All Services" button with gradient border below the cards
+        echo '<div class="see-all-container">';
+        echo '<button class="see-all-button" onclick="window.location.href=\'/pages/search.php\'">Explore More Services</button>';
+        echo '</div>';
     } ?>
 
     <?php function drawFooter()
