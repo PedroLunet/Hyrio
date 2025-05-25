@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../includes/database.php');
 require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../includes/auth.php');
@@ -19,6 +21,7 @@ if (!$user) {
 head();
 
 echo '<link rel="stylesheet" href="/css/profile.css">';
+echo '<link rel="stylesheet" href="/css/landing.css">';
 echo '<script src="/js/overlay.js"></script>';
 
 drawHeader();
@@ -54,6 +57,12 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 echo '<span>Account Settings</span>';
                 Button::end();
                 echo '</div>';
+            } elseif ($loggedInUser) {
+                echo '<div class="profile-actions">';
+                echo '<button class="cta-button primary" onclick="window.location.href=\'/pages/messages.php?user=' . urlencode($user->getUsername()) . '\'">';
+                echo '<span>Send Message</span>';
+                echo '</button>';
+                echo '</div>';
             }
             ?>
         </header>
@@ -62,20 +71,64 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             <div class="section-header">
                 <h2>About me</h2>
             </div>
-            <?php
-            if ($user->getBio() === '') {
-                echo '<p>This user has not set a bio yet.</p>';
-            } else {
-                echo '<p>' . htmlspecialchars($user->getBio()) . '</p>';
-            }
-            ?>
+            <div class="section-content">
+                <?php
+                if ($user->getBio() === '') {
+                    echo '<p>This user has not set a bio yet.</p>';
+                } else {
+                    echo '<p>' . htmlspecialchars($user->getBio()) . '</p>';
+                }
+                ?>
+            </div>
         </section>
+
+        <?php
+        // Show services offered by this user (visible to everyone if user is a seller)
+        if ($user->isSeller()) {
+            require_once(__DIR__ . '/../database/classes/service.php');
+            require_once(__DIR__ . '/../database/classes/category.php');
+
+            // Get services with seller and category information for proper card rendering
+            try {
+                $db = Database::getInstance();
+                $stmt = $db->prepare('
+                    SELECT services.*, users.name as seller_name, categories.name as category_name
+                    FROM services 
+                    JOIN users ON services.seller = users.id
+                    JOIN categories ON services.category = categories.id
+                    WHERE services.seller = ?
+                    ORDER BY services.id DESC
+                ');
+                $stmt->execute([$user->getId()]);
+                $userServices = $stmt->fetchAll();
+            } catch (PDOException $e) {
+                $userServices = [];
+            }
+
+            echo '<section>';
+            echo '<div class="section-header">';
+            echo '<h2>Services Offered</h2>';
+            echo '</div>';
+            echo '<div class="section-content">';
+
+            if (empty($userServices)) {
+                echo '<p>This user hasn\'t listed any services yet.</p>';
+            } else {
+                Card::renderGrid($userServices);
+            }
+
+            echo '</div>';
+            echo '</section>';
+        }
+        ?>
+
         <?php
         if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<section>';
             echo '<div class="section-header">';
             echo '<h2>Favorites</h2>';
             echo '</div>';
+            echo '<div class="section-content">';
 
             $favorites = $user->getUserFavorites($user->getId());
 
@@ -89,6 +142,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 echo '</div>';
             }
 
+            echo '</div>';
             echo '</section>';
 
             // Purchased services section

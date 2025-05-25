@@ -29,7 +29,7 @@ drawHeader(); ?>
 
   <!-- Services Section -->
   <section class="services-section">
-    <div class="section-header">
+    <div class="section-header" style="margin-bottom: 30px;">
       <h2>Featured Services</h2>
       <p>Discover the best professionals on our platform</p>
     </div>

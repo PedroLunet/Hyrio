@@ -58,7 +58,15 @@ section p {
 }
 
 .section-header {
-    margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.section-header h2 {
+	margin: 0;
+	font-size: 1.5rem;
 }
 
 .services-row {
