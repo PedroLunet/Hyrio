@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../includes/database.php');
 require_once(__DIR__ . '/../components/button/button.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../includes/auth.php');
@@ -70,6 +72,45 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             }
             ?>
         </section>
+
+        <?php
+        // Show services offered by this user (visible to everyone if user is a seller)
+        if ($user->isSeller()) {
+            require_once(__DIR__ . '/../database/classes/service.php');
+            require_once(__DIR__ . '/../database/classes/category.php');
+
+            // Get services with seller and category information for proper card rendering
+            try {
+                $db = Database::getInstance();
+                $stmt = $db->prepare('
+                    SELECT services.*, users.name as seller_name, categories.name as category_name
+                    FROM services 
+                    JOIN users ON services.seller = users.id
+                    JOIN categories ON services.category = categories.id
+                    WHERE services.seller = ?
+                    ORDER BY services.id DESC
+                ');
+                $stmt->execute([$user->getId()]);
+                $userServices = $stmt->fetchAll();
+            } catch (PDOException $e) {
+                $userServices = [];
+            }
+
+            echo '<section>';
+            echo '<div class="section-header">';
+            echo '<h2>Services Offered</h2>';
+            echo '</div>';
+
+            if (empty($userServices)) {
+                echo '<p>This user hasn\'t listed any services yet.</p>';
+            } else {
+                Card::renderGrid($userServices);
+            }
+
+            echo '</section>';
+        }
+        ?>
+
         <?php
         if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             echo '<section>';
