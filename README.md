@@ -1,4 +1,16 @@
-# ltw01g01
+# Hyrio - ltw01g01
+
+A Freelancing Website.
+
+## Team Members
+
+- João Miguel Lopes (202307809)
+- João Pedro Pinto Lunet (202207150)
+- Pedro ANdré Freitas Monteiro (202307242)
+
+## Info about the project
+
+- All accounts have their passwords set as: 123456.
 
 ## Features
 
