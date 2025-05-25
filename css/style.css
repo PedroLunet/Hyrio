@@ -6,8 +6,35 @@
 	--secondary: #bd5656;
 	--accent: #944c4c;
 	--shadow: rgba(0, 0, 0, 0.25);
-	background: var(--background);
 	font-family: 'Inter', sans-serif;
+}
+
+/* Global gradient background */
+body {
+	background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f4f8 100%);
+	background-attachment: fixed;
+	position: relative;
+}
+
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: radial-gradient(
+			circle at 20% 80%,
+			rgba(254, 136, 86, 0.1) 0%,
+			transparent 50%
+		),
+		radial-gradient(
+			circle at 80% 20%,
+			rgba(189, 86, 86, 0.1) 0%,
+			transparent 50%
+		);
+	pointer-events: none;
+	z-index: -1;
 }
 
 /* Set up for sticky footer */
@@ -21,46 +48,12 @@ body {
 body {
 	display: flex;
 	flex-direction: column;
-	min-height: 100vh; 
+	min-height: 100vh;
 }
 
-/* Categories with gradient text wrapper */
-.categories-wrapper {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	gap: 2rem;
-	margin-bottom: 2rem;
-	box-sizing: border-box;
-	padding: 0;
+/* Basic layout styles */
+main {
 	width: 100%;
-	overflow: visible;
-	position: relative; 
-}
-
-.gradient-text {
-	text-align: center;
-	font-family: 'Inter', sans-serif;
-	font-size: 72px;
-	font-style: normal;
-	font-weight: 600;
-	line-height: 90%;
-	letter-spacing: -3.24px;
-	background: radial-gradient(
-		circle at center,
-		#e2ca9b 0%,
-		#e8c094 40%,
-		#f8b080 75%,
-		#f9a070 100%
-	);
-	background-clip: text;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	flex: 1;
-	box-sizing: border-box;
-	max-width: 50%;
-	padding: 0;
 	margin: 0;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
@@ -127,25 +120,12 @@ main {
 	flex: 1 0 auto; /* This allows main to grow and push footer down */
 }
 
-/* @media (max-width: 768px) {
-	main {
-		padding: 12px;
-	}
-}
-
-@media (max-width: 480px) {
-	main {
-		padding: 10px;
-	}
-} */
-
 footer {
 	text-align: center;
 	padding: 20px 0;
 	margin-top: 40px;
 	color: var(--text);
-	flex-shrink: 0; 
-	position: relative; 
-	z-index: 2; 
-	background-color: var(--background); 
+	flex-shrink: 0;
+	position: relative;
+	z-index: 2;
 }

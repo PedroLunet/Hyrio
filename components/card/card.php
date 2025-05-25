@@ -52,25 +52,26 @@ class Card
     $serviceId = isset($service['id']) ? (int) $service['id'] : 0;
     $seller = User::getUserById($service['seller']);
 
-?>
+    ?>
     <div class="card">
       <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
         <div class="card-content">
-          <?php 
+          <?php
           // Calculate rating on-the-fly instead of relying on stored value
           require_once(__DIR__ . '/../../database/classes/rating.php');
-          $ratingStats = Rating::getRatingStats((int)$service['id']);
-          if ($ratingStats['total_ratings'] > 0): 
+          $ratingStats = Rating::getRatingStats((int) $service['id']);
           ?>
-          <div class="rating">
-            <i class="ph-fill ph-star"></i>
-            <span><?= htmlspecialchars(number_format((float)$ratingStats['average_rating'], 1)) ?></span>
-          </div>
-          <?php endif; ?>
-
-          <div class="service-image">
-            <img src="<?= htmlspecialchars($service['image']) ?>"
-              alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
+          <div class="image-container">
+            <div class="service-image">
+              <img src="<?= htmlspecialchars($service['image']) ?>"
+                alt="<?= isset($service['name']) ? htmlspecialchars($service['name']) : 'Service' ?>">
+            </div>
+            <?php if ($ratingStats['total_ratings'] > 0): ?>
+              <div class="rating">
+                <i class="ph-fill ph-star"></i>
+                <span><?= htmlspecialchars(number_format((float) $ratingStats['average_rating'], 1)) ?></span>
+              </div>
+            <?php endif; ?>
           </div>
 
           <div class="label">
@@ -92,7 +93,7 @@ class Card
         </div>
       </a>
     </div>
-  <?php
+    <?php
   }
 
   /**
@@ -105,27 +106,26 @@ class Card
   {
     self::includeCSS();
 
-  ?>
+    ?>
     <div class="card">
       <a href="/pages/profile.php?username=<?= htmlspecialchars($user['username']) ?>" class="card-link">
         <div class="card-content">
           <div class="user-image">
-            <img src="<?= htmlspecialchars($user['profile_pic']) ?>"
-              alt="<?= htmlspecialchars($user['name']) ?>">
+            <img src="<?= htmlspecialchars($user['profile_pic']) ?>" alt="<?= htmlspecialchars($user['name']) ?>">
           </div>
           <div class="label">
             <div class="titles">
               <h3><?= htmlspecialchars($user['name']) ?></h3>
               <p class="username">@<?= htmlspecialchars($user['username']) ?></p>
             </div>
-            <?php if ((bool)$user['is_seller']): ?>
+            <?php if ((bool) $user['is_seller']): ?>
               <span class="user-badge freelancer">Freelancer</span>
             <?php endif; ?>
           </div>
         </div>
       </a>
     </div>
-<?php
+    <?php
   }
 
   /**
