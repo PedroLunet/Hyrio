@@ -57,8 +57,8 @@
 
 .stars-input {
 	display: flex;
-	gap: 0.25rem;
 	align-items: center;
+	gap: 0;
 }
 
 .stars-input input[type='radio'] {
@@ -70,6 +70,8 @@
 	font-size: 1.5rem;
 	color: #d1d5db;
 	transition: color 0.2s ease;
+	padding: 0.25rem 0.1rem;
+	margin: 0;
 }
 
 .rating-form .star-label:hover {
@@ -486,13 +488,15 @@
 /* Enhanced star rating hover effects for overlay */
 .rating-overlay .stars-input {
 	justify-content: center;
-	gap: 0.5rem;
+	gap: 0;
 	margin: 0.5rem 0;
 }
 
 .rating-overlay .star-label {
 	font-size: 2rem;
 	transition: all 0.2s ease;
+	padding: 0.25rem 0.1rem;
+	margin: 0;
 }
 
 .rating-overlay .star-label:hover {

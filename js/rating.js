@@ -12,7 +12,9 @@ function initializeRatingForms() {
 		const starLabels = ratingForm.querySelectorAll('.star-label');
 
 		// Initialize the display based on any checked input
-		const checkedInput = ratingForm.querySelector('input[name="rating"]:checked');
+		const checkedInput = ratingForm.querySelector(
+			'input[name="rating"]:checked'
+		);
 		if (checkedInput) {
 			highlightStars(parseInt(checkedInput.value));
 		}
@@ -47,6 +49,36 @@ function initializeRatingForms() {
 			e.preventDefault();
 			submitRating(this);
 		});
+
+		// Initialize character count for review textarea
+		initializeCharacterCount();
+	}
+}
+
+function initializeCharacterCount() {
+	const reviewTextarea = document.getElementById('review');
+	const reviewCount = document.getElementById('review-count');
+
+	if (reviewTextarea && reviewCount) {
+		function updateCharCount() {
+			const count = reviewTextarea.value.length;
+			reviewCount.textContent = count;
+			reviewCount.style.color = count > 500 ? '#e74c3c' : '#666';
+		}
+
+		reviewTextarea.addEventListener('input', updateCharCount);
+		updateCharCount(); // Initial count
+
+		// Limit to 500 characters
+		reviewTextarea.addEventListener('keydown', function (e) {
+			if (
+				this.value.length >= 500 &&
+				e.key !== 'Backspace' &&
+				e.key !== 'Delete'
+			) {
+				e.preventDefault();
+			}
+		});
 	}
 }
 
@@ -60,7 +92,7 @@ function updateRatingFeedback(rating) {
 		2: 'Fair',
 		3: 'Good',
 		4: 'Very Good',
-		5: 'Excellent'
+		5: 'Excellent',
 	};
 
 	feedbackElement.textContent = feedbackTexts[rating] || 'Click to rate';

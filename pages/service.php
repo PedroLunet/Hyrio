@@ -259,10 +259,10 @@ drawHeader();
         })
         .then(html => {
           container.innerHTML = html;
-          OverlaySystem.open('rating-overlay');
+OverlaySystem.open('rating-overlay');
           // Initialize rating form after overlay content is loaded
           if (typeof initializeRatingForms === 'function') {
-            initializeRatingForms();
+  initializeRatingForms();
           }
         })
         .catch(error => {
