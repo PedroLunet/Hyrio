@@ -6,7 +6,10 @@ require_once(__DIR__ . '/../includes/common.php');
 require_once(__DIR__ . '/../includes/auth.php');
 require_once(__DIR__ . '/../components/card/card.php');
 require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../database/classes/purchase.php');
+require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../overlays/add_service.php');
+require_once(__DIR__ . '/../overlays/view_order.php');
 
 $loggedInUser = Auth::getInstance()->getUser();
 
@@ -21,6 +24,7 @@ drawHeader();
 if ($loggedInUser) {
     require_once(__DIR__ . '/../overlays/add_service.php');
     require_once(__DIR__ . '/../overlays/edit_service.php');
+    require_once(__DIR__ . '/../overlays/complete_order.php');
 
     if (isset($_SESSION['show_add_service']) && $_SESSION['show_add_service'] === true) {
         unset($_SESSION['show_add_service']);
@@ -63,10 +67,6 @@ echo '<script src="/js/overlay.js"></script>';
     <section>
         <div class="dashboard-stats">
             <div class="stat-card">
-                <h3>Total Earnings</h3>
-                <p class="stat-number">0 €</p>
-            </div>
-            <div class="stat-card">
                 <h3>Listings</h3>
                 <?php
                 echo '<p class="stat-number">' . htmlspecialchars((string)Service::getTotalServicesBySeller($loggedInUser['id'])) . '</p>';
@@ -74,7 +74,9 @@ echo '<script src="/js/overlay.js"></script>';
             </div>
             <div class="stat-card">
                 <h3>Current Orders</h3>
-                <p class="stat-number">0</p>
+                <?php
+                echo '<p class="stat-number">' . htmlspecialchars((string)Purchase::getTotalPendingPurchasesBySeller($loggedInUser['id'])) . '</p>';
+                ?>
             </div>
         </div>
     </section>
@@ -130,8 +132,42 @@ echo '<script src="/js/overlay.js"></script>';
         <div class="section-header">
             <h2>Your Orders</h2>
         </div>
-        <div class="services-row">
-            <p>You don't have any orders yet.</p>
+        <div class="section-content">
+            <table class="panel-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Buyer</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $orders = Purchase::getBySeller($loggedInUser['id']);
+                    foreach ($orders as $order) {
+                        $buyer = User::getUserById($order['user_id']);
+                        $service = Service::getServiceById($order['service_id']);
+                        echo '<tr>';
+                        echo '<td>' . htmlspecialchars(strval($order['id'])) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($buyer->getName())) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($service->getName())) . '</td>';
+                        echo '<td>' . htmlspecialchars(strval($order['status'])) . '</td>';
+                        echo '<td>
+                            <button class="action-btn view-btn" onclick="showOrderDetails(' . $order['id'] . ')">View</button>';
+
+                        if ($order['status'] === 'pending') {
+                            echo '<button class="action-btn edit-btn" data-order-id="' . $order['id'] . '" onclick="completeOrder(' . $order['id'] . ')">Complete</button>';
+                            echo '<button class="action-btn delete-btn" data-order-id="' . $order['id'] . '" onclick="cancelOrder(' . $order['id'] . ')">Cancel</button>';
+                        }
+
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
 
 </main>
@@ -202,7 +238,7 @@ drawFooter();
     });
 
     document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('delete-btn')) {
+        if (event.target.classList.contains('delete-btn') && !event.target.dataset.orderId) {
             event.preventDefault();
 
             const id = event.target.dataset.id;
@@ -241,4 +277,38 @@ drawFooter();
             }
         }
     });
+
+    function cancelOrder(orderId) {
+        if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/actions/purchase_action.php';
+            form.style.display = 'none';
+
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = orderId;
+            form.appendChild(idInput);
+
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'cancel';
+            form.appendChild(actionInput);
+
+            const sectionInput = document.createElement('input');
+            sectionInput.type = 'hidden';
+            sectionInput.name = 'section';
+            sectionInput.value = '<?php echo $section; ?>';
+            form.appendChild(sectionInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    function completeOrder(orderId) {
+        showCompleteOrderOverlay(orderId);
+    }
 </script>
