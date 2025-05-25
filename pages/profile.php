@@ -21,6 +21,7 @@ if (!$user) {
 head();
 
 echo '<link rel="stylesheet" href="/css/profile.css">';
+echo '<link rel="stylesheet" href="/css/landing.css">';
 echo '<script src="/js/overlay.js"></script>';
 
 drawHeader();
@@ -55,6 +56,12 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                 Button::start(['variant' => 'primary', 'onClick' => 'OverlaySystem.open("account-settings-overlay")']);
                 echo '<span>Account Settings</span>';
                 Button::end();
+                echo '</div>';
+            } elseif ($loggedInUser) {
+                echo '<div class="profile-actions">';
+                echo '<button class="cta-button primary" onclick="window.location.href=\'/pages/messages.php?user=' . urlencode($user->getUsername()) . '\'">';
+                echo '<span>Send Message</span>';
+                echo '</button>';
                 echo '</div>';
             }
             ?>
