@@ -96,7 +96,7 @@ class Purchase
   public static function getTotalPendingPurchasesBySeller(int $sellerId): int
   {
     $db = getDatabaseConnection();
-    $stmt = $db->prepare('SELECT COUNT(*) FROM purchases WHERE service_id IN (SELECT id FROM services WHERE user_id = ?) AND status = ?');
+    $stmt = $db->prepare('SELECT COUNT(*) FROM purchases WHERE service_id IN (SELECT id FROM services WHERE seller = ?) AND status = ?');
     $stmt->execute([$sellerId, 'pending']);
     return (int) $stmt->fetchColumn();
   }
