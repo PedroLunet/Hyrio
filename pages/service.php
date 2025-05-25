@@ -140,7 +140,7 @@ drawHeader();
           </div>
         </a>
 
-        <!-- <div class="service-actions">
+        <div class="service-actions">
           <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
             <form action="/actions/messages_action.php" method="POST">
               <input type="hidden" name="user_id" value="<?php echo $service->getSeller(); ?>">
@@ -150,7 +150,7 @@ drawHeader();
               </button>
             </form>
           <?php endif; ?>
-        </div> -->
+        </div> 
       </div>
     </div>
 
