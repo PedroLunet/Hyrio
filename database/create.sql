@@ -40,6 +40,17 @@ CREATE TABLE purchases (
   purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS ratings;
+CREATE TABLE ratings (
+  id INTEGER PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  service_id INTEGER NOT NULL REFERENCES services(id) ON DELETE CASCADE,
+  rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  review TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id, service_id)  -- Ensure one rating per user per service
+);
+
 DROP TABLE IF EXISTS messages;
 CREATE TABLE messages (
   id INTEGER PRIMARY KEY,
