@@ -54,6 +54,10 @@ if (!$user || !$user['is_seller']) {
                     <input type="number" id="edit-service-price" name="price" step="0.01" required>
                 </div>
                 <div class="form-group">
+                    <label for="edit-service-delivery-time">Delivery Time (hours):</label>
+                    <input type="number" id="edit-service-delivery-time" name="delivery_time" min="1" required>
+                </div>
+                <div class="form-group">
                     <label for="edit-service-category">Category:</label>
                     <select id="edit-service-category" name="category_id" required>
                         <?php
@@ -120,6 +124,7 @@ if (!$user || !$user['is_seller']) {
                         document.getElementById('edit-service-name').value = service.name;
                         document.getElementById('edit-service-description').value = service.description;
                         document.getElementById('edit-service-price').value = service.price;
+                        document.getElementById('edit-service-delivery-time').value = service.delivery_time;
                         document.getElementById('edit-service-category').value = service.category;
                         document.getElementById('current-image').value = service.image;
 
@@ -147,6 +152,7 @@ if (!$user || !$user['is_seller']) {
                 const nameInput = document.getElementById('edit-service-name');
                 const descriptionInput = document.getElementById('edit-service-description');
                 const priceInput = document.getElementById('edit-service-price');
+                const deliveryTimeInput = document.getElementById('edit-service-delivery-time');
 
                 if (!nameInput.value.trim()) {
                     formEvent.preventDefault();
@@ -157,6 +163,9 @@ if (!$user || !$user['is_seller']) {
                 } else if (parseFloat(priceInput.value) <= 0) {
                     formEvent.preventDefault();
                     alert('Price must be greater than 0');
+                } else if (parseInt(deliveryTimeInput.value) <= 0) {
+                    formEvent.preventDefault();
+                    alert('Delivery time must be greater than 0 hours');
                 }
             });
         }

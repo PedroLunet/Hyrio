@@ -36,7 +36,7 @@ if (!$user || !$user['is_seller']) {
                 <input type="hidden" name="type" value="service">
                 <input type="hidden" name="action" value="add">
                 <?php
-                $section = isset($_GET['section']) ? $_GET['section'] : 'services';
+                $section = isset($_GET['section']) ? $_GET['section'] : 'listings';
                 echo '<input type="hidden" name="section" value="' . $section . '">';
                 ?>
                 <div class="form-group">
@@ -50,6 +50,10 @@ if (!$user || !$user['is_seller']) {
                 <div class="form-group">
                     <label for="service-price">Price (€):</label>
                     <input type="number" id="service-price" name="price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="service-delivery-time">Delivery Time (hours):</label>
+                    <input type="number" id="service-delivery-time" name="delivery_time" min="1" required>
                 </div>
                 <div class="form-group">
                     <label for="service-category">Category:</label>
@@ -105,6 +109,7 @@ if (!$user || !$user['is_seller']) {
                 const nameInput = document.getElementById('service-name');
                 const descriptionInput = document.getElementById('service-description');
                 const priceInput = document.getElementById('service-price');
+                const deliveryTimeInput = document.getElementById('service-delivery-time');
 
                 if (!nameInput.value.trim()) {
                     formEvent.preventDefault();
@@ -115,6 +120,9 @@ if (!$user || !$user['is_seller']) {
                 } else if (parseFloat(priceInput.value) <= 0) {
                     formEvent.preventDefault();
                     alert('Price must be greater than 0');
+                } else if (parseInt(deliveryTimeInput.value) <= 0) {
+                    formEvent.preventDefault();
+                    alert('Delivery time must be greater than 0 hours');
                 }
             });
         }

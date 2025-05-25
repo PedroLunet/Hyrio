@@ -20,6 +20,7 @@ CREATE TABLE services (id INTEGER PRIMARY KEY,
   price DECIMAL(10, 2) NOT NULL CHECK (price >=0),
   seller INTEGER NOT NULL REFERENCES users(id),
   category INTEGER NOT NULL REFERENCES categories(id),
+  delivery_time INTEGER NOT NULL CHECK (delivery_time > 0),  -- in hours
   image TEXT NOT NULL,
   rating DECIMAL(2, 1) CHECK (rating >=0 AND rating <=5));
 

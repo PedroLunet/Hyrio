@@ -75,13 +75,6 @@ drawHeader();
     <div class="service-details-container">
       <div class="service-header">
         <div class="service-pricing-block">
-          <?php if ($ratingStats['total_ratings'] > 0): ?>
-            <div class="rating-section">
-              <div class="stars-container">
-                <?php RatingComponent::renderStars((float) $ratingStats['average_rating'], (int) $ratingStats['total_ratings']); ?>
-              </div>
-            </div>
-          <?php endif; ?>
           <div class="favorite-price-container">
             <form action="/actions/favorite_action.php" method="post" class="favorite-form">
               <input type="hidden" name="serviceId" value="<?php echo $service->getId(); ?>">
@@ -95,7 +88,6 @@ drawHeader();
               <form action="/pages/checkout.php" method="get" style="display:inline;">
                 <input type="hidden" name="id" value="<?= $service->getId() ?>">
                 <button type="submit" class="service-price-button">
-                  <i class="ph-bold ph-currency-eur"></i>
                   <span><?= htmlspecialchars(number_format($service->getPrice(), 2)) ?>€</span>
                 </button>
               </form>
@@ -140,7 +132,7 @@ drawHeader();
           </div>
         </a>
 
-        <!-- <div class="service-actions">
+        <div class="service-actions">
           <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
             <form action="/actions/messages_action.php" method="POST">
               <input type="hidden" name="user_id" value="<?php echo $service->getSeller(); ?>">
@@ -150,7 +142,20 @@ drawHeader();
               </button>
             </form>
           <?php endif; ?>
-        </div> -->
+        </div> 
+      </div>
+
+      <div class="delivery-time-badge">
+        <i class="ph-bold ph-clock"></i>
+        <span><?php 
+          $hours = $service->getDeliveryTime();
+          if ($hours < 24) {
+            echo $hours . ' hour' . ($hours !== 1 ? 's' : '');
+          } else {
+            $days = round($hours / 24);
+            echo $days . ' day' . ($days !== 1 ? 's' : '');
+          }
+        ?></span>
       </div>
     </div>
 
