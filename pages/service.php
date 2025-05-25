@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-require_once(_DIR_ . '/../includes/common.php');
-require_once(_DIR_ . '/../components/button/button.php');
-require_once(_DIR_ . '/../components/card/card.php');
-require_once(_DIR_ . '/../database/classes/service.php');
-require_once(_DIR_ . '/../database/classes/user.php');
-require_once(_DIR_ . '/../database/classes/category.php');
-require_once(_DIR_ . '/../includes/auth.php');
+require_once(__DIR__ . '/../includes/common.php');
+require_once(__DIR__ . '/../components/button/button.php');
+require_once(__DIR__ . '/../components/card/card.php');
+require_once(__DIR__ . '/../database/classes/service.php');
+require_once(__DIR__ . '/../database/classes/user.php');
+require_once(__DIR__ . '/../database/classes/category.php');
+require_once(__DIR__ . '/../includes/auth.php');
 
 head();
 
