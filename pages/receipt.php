@@ -35,7 +35,7 @@ drawHeader();
         <p>by <?= htmlspecialchars($seller->getName()) ?></p>
         <p>Purchased by: <?= htmlspecialchars($buyer->getName()) ?></p>
         <p><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
-        <p><strong>Price Paid:</strong> <?= htmlspecialchars(number_format($purchase['price'], 2)) ?>€</p>
+        <p><strong>Price Paid:</strong> <?= htmlspecialchars(number_format($service->getPrice(), 2)) ?>€</p>
 
         <?php if (!empty($purchase['message'])): ?>
           <div class="message-box">

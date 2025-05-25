@@ -111,55 +111,30 @@ section p {
 }
 .purchases-table td {
 	color: #444;
-	vertical-align: middle;
-}
-.purchases-table td.price {
-	font-weight: 600;
-	color: #1a8917;
-}
-.purchases-table td.seller {
-	color: #555;
-}
-.purchases-table td.date {
-	color: #888;
-	font-size: 0.98em;
 }
 
-.purchases-table td.message-btn {
-	text-align: center;
-	padding: 0.7rem;
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 0.9em;
+    transition: transform 0.2s, opacity 0.2s;
 }
 
-.message-view-btn {
-	padding: 0.45rem 0.7rem;
-	border-radius: 6px;
-	border: none;
-	font-size: 0.85rem;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.2s;
-	min-width: 90px;
-	white-space: nowrap;
+.action-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
 }
 
-.message-view-btn.btn-primary {
-	background-color: var(--primary, #3b82f6);
-	color: white;
-	box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
-}
-
-.message-view-btn.btn-secondary {
-	background-color: #e2e8f0;
-	color: #64748b;
-}
-
-.message-view-btn:hover {
-	opacity: 0.9;
-	transform: translateY(-1px);
-}
-
-.message-view-btn:active {
-	transform: translateY(1px);
+.view-btn {
+    background-color: darkgray;
+    text-decoration: none;
 }
 
 @media (max-width: 768px) {

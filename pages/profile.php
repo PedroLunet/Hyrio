@@ -25,7 +25,7 @@ drawHeader();
 
 if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
     require_once(__DIR__ . '/../overlays/account_settings.php');
-    require_once(__DIR__ . '/../overlays/seller_message.php');
+    require_once(__DIR__ . '/../overlays/view_order.php');
 
     if (isset($_SESSION['show_account_settings']) && $_SESSION['show_account_settings'] === true) {
         unset($_SESSION['show_account_settings']);
@@ -103,7 +103,7 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
             } else {
                 echo '<div class="section-content">';
                 echo '<table class="purchases-table">';
-                echo '<thead><tr><th>Service</th><th>Price</th><th>Seller</th><th>Date</th><th>Message</th></tr></thead>';
+                echo '<thead><tr><th>Service</th><th>Price</th><th>Seller</th><th>Date</th><th>Actions</th></tr></thead>';
                 echo '<tbody>';
                 foreach ($purchases as $purchase) {
                     $service = Service::getServiceById($purchase['service_id']);
@@ -113,15 +113,9 @@ if ($loggedInUser && $loggedInUser['id'] === $user->getId()) {
                         echo '<td><a href="/pages/service.php?id=' . $service->getId() . '">' . htmlspecialchars($service->getName()) . '</a></td>';
                         echo '<td class="price">' . htmlspecialchars(number_format($service->getPrice(), 2)) . '€</td>';
                         echo '<td class="seller">' . htmlspecialchars($sellerObj ? $sellerObj->getName() : 'Unknown') . '</td>';
-                        echo '<td class="date">' . htmlspecialchars(date('M d, Y', strtotime($purchase['purchased_at']))) . '</td>';
+                        echo '<td class="status">' . htmlspecialchars($purchase['status']) . '</td>';
                         echo '<td class="message-btn">';
-                        // Check if a message exists before displaying the button
-                        $messageContent = isset($purchase['message']) && !empty($purchase['message'])
-                            ? nl2br(htmlspecialchars($purchase['message'])) : '';
-                        $buttonClass = empty($messageContent) ? 'btn-secondary' : 'btn-primary';
-                        $serviceName = htmlspecialchars($service->getName());
-                        $sellerName = htmlspecialchars($sellerObj ? $sellerObj->getName() : 'Unknown');
-                        echo '<button class="message-view-btn ' . $buttonClass . '" onclick="showSellerMessage(`' . str_replace('`', '\`', $messageContent) . '`, `' . str_replace('`', '\`', $serviceName) . '`, `' . str_replace('`', '\`', $sellerName) . '`)">View Message</button>';
+                        echo '<button class="action-btn view-btn" onclick="showOrderDetails(' . $purchase['id'] . ')">View</button>';
                         echo '</td>';
                         echo '</tr>';
                     }
