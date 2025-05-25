@@ -74,7 +74,7 @@ class Purchase
   public static function getBySeller(int $sellerId): array
   {
     $db = getDatabaseConnection();
-    $stmt = $db->prepare('SELECT * FROM purchases WHERE service_id IN (SELECT id FROM services WHERE user_id = ?) ORDER BY purchased_at DESC');
+    $stmt = $db->prepare('SELECT * FROM purchases WHERE service_id IN (SELECT id FROM services WHERE seller = ?) ORDER BY purchased_at DESC');
     $stmt->execute([$sellerId]);
     return $stmt->fetchAll();
   }
