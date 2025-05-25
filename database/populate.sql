@@ -210,6 +210,7 @@ INSERT
         price,
         seller,
         category,
+        delivery_time,
         image,
         rating
     )
@@ -220,6 +221,7 @@ VALUES (
         50.00,
         3,
         1,
+        72,
         '/assets/placeholder.png',
         4.5
     ),
@@ -230,6 +232,7 @@ VALUES (
         200.00,
         3,
         2,
+        168,
         '/assets/placeholder.png',
         4.8
     ),
@@ -240,6 +243,7 @@ VALUES (
         30.00,
         2,
         3,
+        48,
         '/assets/placeholder.png',
         4.2
     ),
@@ -250,6 +254,7 @@ VALUES (
         100.00,
         4,
         1,
+        96,
         '/assets/placeholder.png',
         4.7
     ),
@@ -260,6 +265,7 @@ VALUES (
         120.00,
         4,
         1,
+        120,
         '/assets/placeholder.png',
         4.9
     ),
@@ -270,6 +276,7 @@ VALUES (
         80.00,
         4,
         1,
+        72,
         '/assets/placeholder.png',
         4.6
     ),
@@ -280,6 +287,7 @@ VALUES (
         150.00,
         5,
         2,
+        144,
         '/assets/placeholder.png',
         4.8
     ),
@@ -290,6 +298,7 @@ VALUES (
         200.00,
         5,
         2,
+        96,
         '/assets/placeholder.png',
         4.7
     ),
@@ -300,6 +309,7 @@ VALUES (
         250.00,
         5,
         2,
+        192,
         '/assets/placeholder.png',
         4.9
     ),
@@ -309,7 +319,8 @@ VALUES (
         'Professional video editing services',
         300.00,
         6,
-        1,
+        5,
+        120,
         '/assets/placeholder.png',
         4.8
     ),
@@ -319,7 +330,8 @@ VALUES (
         'Create stunning motion graphics',
         350.00,
         6,
-        1,
+        5,
+        144,
         '/assets/placeholder.png',
         4.9
     ),
@@ -329,7 +341,8 @@ VALUES (
         'Enhance your videos with color grading',
         200.00,
         6,
-        1,
+        5,
+        72,
         '/assets/placeholder.png',
         4.7
     ),
@@ -339,7 +352,8 @@ VALUES (
         'High-quality portrait photography',
         150.00,
         7,
-        1,
+        4,
+        48,
         '/assets/placeholder.png',
         4.8
     ),
@@ -349,7 +363,8 @@ VALUES (
         'Capture your events professionally',
         300.00,
         7,
-        1,
+        4,
+        24,
         '/assets/placeholder.png',
         4.9
     ),
@@ -359,7 +374,8 @@ VALUES (
         'Showcase your products with great photos',
         250.00,
         7,
-        1,
+        4,
+        72,
         '/assets/placeholder.png',
         4.7
     ),
@@ -370,6 +386,7 @@ VALUES (
         500.00,
         8,
         2,
+        336,
         '/assets/placeholder.png',
         4.8
     ),
@@ -380,6 +397,7 @@ VALUES (
         600.00,
         8,
         2,
+        384,
         '/assets/placeholder.png',
         4.9
     ),
@@ -390,6 +408,7 @@ VALUES (
         300.00,
         8,
         2,
+        48,
         '/assets/placeholder.png',
         4.7
     ),
@@ -399,7 +418,8 @@ VALUES (
         'Develop a content strategy for your brand',
         200.00,
         9,
-        3,
+        7,
+        120,
         '/assets/placeholder.png',
         4.8
     ),
@@ -410,6 +430,7 @@ VALUES (
         100.00,
         9,
         3,
+        12,
         '/assets/placeholder.png',
         4.9
     ),
@@ -420,6 +441,7 @@ VALUES (
         150.00,
         9,
         3,
+        96,
         '/assets/placeholder.png',
         4.7
     ),
@@ -429,7 +451,8 @@ VALUES (
         'Comprehensive SEO audit for your website',
         300.00,
         10,
-        3,
+        7,
+        168,
         '/assets/placeholder.png',
         4.8
     ),
@@ -439,7 +462,8 @@ VALUES (
         'Find the best keywords for your niche',
         150.00,
         10,
-        3,
+        7,
+        96,
         '/assets/placeholder.png',
         4.9
     ),
@@ -449,7 +473,8 @@ VALUES (
         'Build high-quality backlinks',
         400.00,
         10,
-        3,
+        7,
+        240,
         '/assets/placeholder.png',
         4.7
     ),
@@ -459,7 +484,8 @@ VALUES (
         'Develop a social media strategy',
         200.00,
         11,
-        3,
+        7,
+        120,
         '/assets/placeholder.png',
         4.8
     ),
@@ -469,7 +495,8 @@ VALUES (
         'Schedule content for your social media',
         150.00,
         11,
-        3,
+        7,
+        12,
         '/assets/placeholder.png',
         4.9
     ),
@@ -479,7 +506,8 @@ VALUES (
         'Analyze and report social media performance',
         250.00,
         11,
-        3,
+        7,
+        96,
         '/assets/placeholder.png',
         4.7
     ),
@@ -489,7 +517,8 @@ VALUES (
         'Create prototypes for your game ideas',
         400.00,
         12,
-        2,
+        6,
+        240,
         '/assets/placeholder.png',
         4.8
     ),
@@ -499,7 +528,8 @@ VALUES (
         'Design engaging levels for your game',
         350.00,
         12,
-        2,
+        6,
+        192,
         '/assets/placeholder.png',
         4.9
     ),
@@ -509,7 +539,8 @@ VALUES (
         'Test your game for bugs and improvements',
         200.00,
         12,
-        2,
+        6,
+        120,
         '/assets/placeholder.png',
         4.7
     ),
@@ -520,6 +551,7 @@ VALUES (
         300.00,
         13,
         1,
+        144,
         '/assets/placeholder.png',
         4.8
     ),
@@ -530,6 +562,7 @@ VALUES (
         200.00,
         13,
         1,
+        96,
         '/assets/placeholder.png',
         4.9
     ),
@@ -540,6 +573,7 @@ VALUES (
         400.00,
         13,
         1,
+        168,
         '/assets/placeholder.png',
         4.7
     );

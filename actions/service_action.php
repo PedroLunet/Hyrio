@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
         'name' => $service->getName(),
         'description' => $service->getDescription(),
         'price' => $service->getPrice(),
+        'delivery_time' => $service->getDeliveryTime(),
         'category' => $service->getCategory(),
         'image' => $service->getImage()
     ];
@@ -62,13 +63,17 @@ try {
             $description = $_POST['description'] ?? '';
             $price = $_POST['price'] ?? '';
             $categoryId = $_POST['category_id'] ?? '';
+            $deliveryTime = $_POST['delivery_time'] ?? '';
             $image = $_FILES['image'] ?? null;
 
-            if (empty($name) || empty($description) || empty($price) || empty($categoryId)) {
-                $error = "Name, description, price and category are required";
+            if (empty($name) || empty($description) || empty($price) || empty($categoryId) || empty($deliveryTime)) {
+                $error = "Name, description, price, category and delivery time are required";
                 break;
             } else if (!is_numeric($price) || $price <= 0) {
                 $error = "Price must be a positive number";
+                break;
+            } else if (!is_numeric($deliveryTime) || $deliveryTime <= 0) {
+                $error = "Delivery time must be a positive number";
                 break;
             }
 
@@ -77,7 +82,8 @@ try {
                 $description,
                 (float)$price,
                 $user['id'],
-                (int)$categoryId
+                (int)$categoryId,
+                (int)$deliveryTime
             );
 
             if (!$created) {
@@ -128,14 +134,18 @@ try {
             $description = $_POST['description'] ?? '';
             $price = $_POST['price'] ?? '';
             $categoryId = $_POST['category_id'] ?? '';
+            $deliveryTime = $_POST['delivery_time'] ?? '';
             $image = $_FILES['image'] ?? null;
             $currentImage = $_POST['current_image'] ?? '';
 
-            if (empty($name) || empty($description) || empty($price) || empty($categoryId)) {
-                $error = "Name, description, price and category are required";
+            if (empty($name) || empty($description) || empty($price) || empty($categoryId) || empty($deliveryTime)) {
+                $error = "Name, description, price, category and delivery time are required";
                 break;
             } else if (!is_numeric($price) || $price <= 0) {
                 $error = "Price must be a positive number";
+                break;
+            } else if (!is_numeric($deliveryTime) || $deliveryTime <= 0) {
+                $error = "Delivery time must be a positive number";
                 break;
             }
 
@@ -161,7 +171,8 @@ try {
                 $description,
                 (float)$price,
                 (int)$categoryId,
-                $imagePath,
+                (int)$deliveryTime,
+                $imagePath
             )) {
                 $_SESSION['success_message'] = "Service updated successfully";
             } else {
