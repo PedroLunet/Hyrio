@@ -144,6 +144,10 @@
     cursor: pointer;
 }
 
+#category, #min-rating {
+    color: var(--text);
+}
+
 @media (max-width: 768px) {
     .search-page-container {
         grid-template-columns: 1fr;
