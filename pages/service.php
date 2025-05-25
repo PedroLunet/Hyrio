@@ -2,23 +2,21 @@
 
 declare(strict_types=1);
 
-require_once(__DIR__ . '/../includes/common.php');
-require_once(__DIR__ . '/../components/button/button.php');
-require_once(__DIR__ . '/../components/card/card.php');
-require_once(__DIR__ . '/../components/rating/rating.php');
-require_once(__DIR__ . '/../database/classes/service.php');
-require_once(__DIR__ . '/../database/classes/user.php');
-require_once(__DIR__ . '/../database/classes/rating.php');
-require_once(__DIR__ . '/../database/classes/purchase.php');
-require_once(__DIR__ . '/../includes/auth.php');
+require_once(_DIR_ . '/../includes/common.php');
+require_once(_DIR_ . '/../components/button/button.php');
+require_once(_DIR_ . '/../components/card/card.php');
+require_once(_DIR_ . '/../database/classes/service.php');
+require_once(_DIR_ . '/../database/classes/user.php');
+require_once(_DIR_ . '/../database/classes/category.php');
+require_once(_DIR_ . '/../includes/auth.php');
 
 head();
 
 echo '<link rel="stylesheet" href="/css/service.css">';
-echo '<link rel="stylesheet" href="/components/rating/css/rating.css">';
 
 $service = Service::getServiceById((int) $_GET['id']);
 $seller = User::getUserById($service->getSeller());
+$category = $service ? Category::getCategoryById($service->getCategory()) : null;
 $loggedInUser = Auth::getInstance()->getUser();
 
 $isFavorite = false;
@@ -26,57 +24,20 @@ if ($loggedInUser && $service) {
   $isFavorite = User::isFavorite($loggedInUser['id'], $service->getId());
 }
 
-// Get rating data
-$ratingStats = Rating::getRatingStats($service->getId());
-$userRating = null;
-$canUserRate = false;
-$ratingMessage = '';
-
-if ($loggedInUser) {
-  $canRateCheck = Rating::canUserRate($loggedInUser['id'], $service->getId());
-  $canUserRate = $canRateCheck['can_rate'];
-  $ratingMessage = $canRateCheck['reason'];
-
-  if ($canUserRate) {
-    $userRating = Rating::getUserRatingForService($loggedInUser['id'], $service->getId());
-  }
-}
-$allRatings = Rating::getRatingsByServiceId($service->getId());
-
 drawHeader();
 ?>
 <main>
-  <?php
-  // Display success/error messages
-  if (isset($_SESSION['success_message'])): ?>
-    <div class="success-message">
-      <i class="ph-bold ph-check-circle"></i>
-      <?= htmlspecialchars($_SESSION['success_message']) ?>
-    </div>
-    <?php
-    unset($_SESSION['success_message']);
-  endif;
-
-  if (isset($_SESSION['error_message'])): ?>
-    <div class="error-message">
-      <i class="ph-bold ph-warning-circle"></i>
-      <?= htmlspecialchars($_SESSION['error_message']) ?>
-    </div>
-    <?php
-    unset($_SESSION['error_message']);
-  endif;
-  ?>
-
   <?php
   if ($service):
     ?>
     <div class="service-details-container">
       <div class="service-header">
         <div class="service-pricing-block">
-          <?php if ($ratingStats['total_ratings'] > 0): ?>
+          <?php if ($service->getRating()): ?>
             <div class="rating-section">
               <div class="stars-container">
-                <?php RatingComponent::renderStars((float) $ratingStats['average_rating'], (int) $ratingStats['total_ratings']); ?>
+                <i class="ph-fill ph-star star-filled"></i>
+                <span class="rating-value"><?= number_format(floatval($service->getRating()), 1) ?></span>
               </div>
             </div>
           <?php endif; ?>
@@ -102,6 +63,17 @@ drawHeader();
         </div>
       </div>
 
+      <div class="service-basic-info">
+        <h1><?= htmlspecialchars($service->getName()) ?></h1>
+        <div class="service-meta-info">
+          <h2>by <?= htmlspecialchars($seller->getName()) ?></h2>
+          <span class="service-category">
+            <i class="ph-bold ph-tag"></i> 
+            <?= htmlspecialchars($category ? $category->getName() : 'Unknown Category') ?>
+          </span>
+        </div>
+      </div>
+
       <div class="service-image">
         <img src="<?= htmlspecialchars($service->getImage()) ?>" alt="<?= htmlspecialchars($service->getName()) ?>">
       </div>
@@ -110,7 +82,10 @@ drawHeader();
         <h1><?= htmlspecialchars($service->getName()) ?></h1>
         <div class="service-meta-info">
           <h2>by <?= htmlspecialchars($seller->getName()) ?></h2>
-          <span class="service-category"><i class="ph-bold ph-tag"></i> <?= htmlspecialchars("Category") ?></span>
+          <span class="service-category">
+            <i class="ph-bold ph-tag"></i> 
+            <?= htmlspecialchars($category ? $category->getName() : 'Unknown Category') ?>
+          </span>
         </div>
 
         <div class="seller-profile">
@@ -133,39 +108,12 @@ drawHeader();
             </form>
           <?php endif; ?>
         </div>
-
       </div>
-    </div>
-
-    <!-- Rating Section -->
-    <div class="service-rating-section">
-      <div class="rating-actions">
-        <h2>Ratings & Reviews</h2>
-        <?php if ($loggedInUser && $canUserRate): ?>
-          <?php RatingComponent::renderRatingButton($service->getId(), $userRating); ?>
-        <?php elseif ($loggedInUser && !$canUserRate): ?>
-          <div class="rating-restriction-message">
-            <i class="ph-bold ph-info"></i>
-            <span><?= htmlspecialchars($ratingMessage) ?></span>
-          </div>
-        <?php elseif (!$loggedInUser): ?>
-          <div class="rating-restriction-message">
-            <i class="ph-bold ph-info"></i>
-            <span>Please <a href="/pages/login.php">log in</a> to rate this service</span>
-          </div>
-        <?php endif; ?>
-      </div>
-
-      <!-- Rating Statistics -->
-      <?php RatingComponent::renderRatingStats($ratingStats); ?>
-
-      <!-- Reviews List -->
-      <?php RatingComponent::renderReviews($allRatings); ?>
     </div>
 
     <!-- Related services from the same category -->
     <div class="related-services">
-      <h2>More services in <?= htmlspecialchars("Category") ?></h2>
+      <h2>More services in <?= htmlspecialchars($category ? $category->getName() : 'this category') ?></h2>
       <div class="services-row">
         <?php
         $categoryServices = Service::getRelatedServicesByCategory($service->getCategory(), $service->getId());
@@ -205,16 +153,8 @@ drawHeader();
     </div>
   <?php endif; ?>
 </main>
-
-<!-- Rating Overlay -->
-<?php if ($loggedInUser): ?>
-  <div id="rating-overlay-container"></div>
-<?php endif; ?>
-
 <?php drawFooter(); ?>
 
-<script src="/js/rating.js"></script>
-<script src="/js/overlay.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const favoriteForms = document.querySelectorAll('.favorite-form');
@@ -224,65 +164,6 @@ drawHeader();
         console.log('Favorite form submitted');
       });
     });
-
-    // Initialize overlay system
-    OverlaySystem.init();
   });
 
-  // Function to open rating overlay
-  function openRatingOverlay(serviceId) {
-    const container = document.getElementById('rating-overlay-container');
-    if (container) {
-      // Show loading state
-      container.innerHTML = `
-        <div class="overlay rating-overlay" id="rating-overlay" style="display: block; opacity: 1;">
-          <div class="overlay-content" style="transform: translateY(0); opacity: 1;">
-            <div class="overlay-header">
-              <h2>Loading...</h2>
-              <button class="close-btn" onclick="OverlaySystem.close('rating-overlay')" aria-label="Close">✕</button>
-            </div>
-            <div class="overlay-body" style="text-align: center; padding: 2rem;">
-              <i class="ph-bold ph-spinner" style="font-size: 2rem; animation: spin 1s linear infinite;"></i>
-              <p>Loading rating form...</p>
-            </div>
-          </div>
-        </div>
-      `;
-
-      // Load the overlay content via fetch
-      fetch(`/overlays/rating.php?service_id=${serviceId}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.text();
-        })
-        .then(html => {
-          container.innerHTML = html;
-OverlaySystem.open('rating-overlay');
-          // Initialize rating form after overlay content is loaded
-          if (typeof initializeRatingForms === 'function') {
-  initializeRatingForms();
-          }
-        })
-        .catch(error => {
-          console.error('Error loading rating overlay:', error);
-          container.innerHTML = `
-            <div class="overlay rating-overlay" id="rating-overlay" style="display: block; opacity: 1;">
-              <div class="overlay-content" style="transform: translateY(0); opacity: 1;">
-                <div class="overlay-header">
-                  <h2>Error</h2>
-                  <button class="close-btn" onclick="OverlaySystem.close('rating-overlay')" aria-label="Close">✕</button>
-                </div>
-                <div class="overlay-body" style="text-align: center; padding: 2rem;">
-                  <i class="ph-bold ph-warning" style="font-size: 2rem; color: #e74c3c;"></i>
-                  <p>Error loading rating form. Please try again.</p>
-                  <button class="btn btn-secondary" onclick="OverlaySystem.close('rating-overlay')">Close</button>
-                </div>
-              </div>
-            </div>
-          `;
-        });
-    }
-  }
 </script>

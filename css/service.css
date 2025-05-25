@@ -34,6 +34,10 @@
   display: block;
 }
 
+.service-basic-info {
+  display: none;
+}
+
 .service-info {
   grid-column: 2 / 3;
   grid-row: 1 / 3; 
@@ -64,26 +68,26 @@
 }
 
 .service-info h2 {
-	margin: 0;
-	font-size: 1.2rem;
-	color: var(--secondary);
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--secondary);
 }
 
 .service-category {
-	display: flex;
-	align-items: center;
-	gap: 0.3rem;
-	font-weight: 500;
-	background-color: #f0f4f8;
-	color: #2c3e50;
-	font-size: 0.9rem;
-	padding: 4px 12px;
-	border-radius: 20px;
-	border: 1px solid #e1e8ed;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+  background-color: #f0f4f8;
+  color: #2c3e50;
+  font-size: 0.9rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #e1e8ed;
 }
 
 .service-category i {
-	font-size: 1rem;
+  font-size: 1rem;
 }
 
 .service-description {
@@ -112,162 +116,144 @@
 }
 
 .service-pricing-block {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	gap: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.8rem;
 }
 
 .favorite-price-container {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .favorite-form {
-	margin: 0;
-	padding: 0;
-	display: inline-block;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
 }
 
 .favorite-button {
-	background: none;
-	border: none;
-	cursor: pointer;
-	font-size: 1.5rem;
-	color: #ccc;
-	transition: all 0.3s ease;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 5px;
-	border-radius: 50%;
-	background-color: white;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	width: 35px;
-	height: 35px;
-	position: relative;
-	overflow: hidden;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #ccc;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 35px;
+  height: 35px;
+  position: relative;
+  overflow: hidden;
 }
 
 .favorite-button::before {
-	content: '';
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(255, 59, 92, 0.1);
-	border-radius: 50%;
-	transform: scale(0);
-	transition: transform 0.3s ease;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 59, 92, 0.1);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.3s ease;
 }
 
 .favorite-button.active {
-	color: #ff3b5c;
-	animation: pulse 0.4s ease-out;
+  color: #ff3b5c;
+  animation: pulse 0.4s ease-out;
 }
 
 .favorite-button:hover {
-	transform: scale(1.1);
-	color: #ff3b5c;
+  transform: scale(1.1);
+  color: #ff3b5c;
 }
 
 .favorite-button:hover::before {
-	transform: scale(1);
+  transform: scale(1);
 }
 
 .favorite-button:active {
-	transform: scale(0.9);
+  transform: scale(0.9);
 }
 
 @keyframes pulse {
-	0% {
-		transform: scale(1);
-	}
-	50% {
-		transform: scale(1.2);
-	}
-	100% {
-		transform: scale(1);
-	}
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 @keyframes fadeInOut {
-	0% {
-		opacity: 0;
-		transform: translateY(-20px);
-	}
-	20% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-	80% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-	100% {
-		opacity: 0;
-		transform: translateY(-20px);
-	}
+  0% { opacity: 0; transform: translateY(-20px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
 }
 
 .price-section {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .service-price-button {
-	border-radius: 50px;
-	padding: 10px 20px;
-	font-size: 1.2rem;
-	font-weight: bold;
-	background-color: var(--primary);
-	color: white;
-	border: none;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .service-price-button:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .service-price-button i {
-	font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .rating-section {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .stars-container {
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	background: #fff;
-	padding: 6px 12px;
-	border-radius: 50px;
-	border: 1px solid #eee;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 50px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .stars-container i {
-	font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .star-filled {
-	color: #ffcc00;
-	text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  color: #ffcc00;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .rating-value {
-	font-weight: 700;
-	font-size: 1rem;
-	color: #333;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #333;
 }
 
 .seller-profile {
@@ -285,61 +271,61 @@
 }
 
 .seller-pic {
-	width: 64px;
-	height: 64px;
-	border-radius: 50%;
-	object-fit: cover;
-	flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .seller-bio {
-	flex: 1;
-	font-size: 1rem;
+  flex: 1;
+  font-size: 1rem;
 }
 
 .seller-bio strong {
-	font-size: 1.1rem;
-	color: var(--secondary);
-	display: block;
-	margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 .service-actions {
-	margin-top: 2rem;
-	display: flex;
-	gap: 1rem;
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .contact-button {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 12px 24px;
-	border-radius: 8px;
-	font-weight: 600;
-	font-size: 1rem;
-	cursor: pointer;
-	background-color: var(--secondary);
-	color: white;
-	transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: var(--secondary);
+  color: white;
+  transition: all 0.2s ease;
 }
 
 .contact-button:hover {
-	background-color: var(--secondary-dark);
-	transform: translateY(-2px);
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .service-not-found {
-	text-align: center;
-	padding: 3rem;
-	background: #fff;
-	border-radius: 24px;
-	box-shadow: 0 2px 15px 0 var(--shadow);
-	margin: 2rem auto;
-	max-width: 600px;
-	width: calc(100% - 2rem);
-	box-sizing: border-box;
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 2px 15px 0 var(--shadow);
+  margin: 2rem auto;
+  max-width: 600px;
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
 }
 
 .service-not-found {
@@ -481,16 +467,16 @@
     margin-right: 0;
   }
 
-	.service-info h1 {
-		max-width: 100%;
-		font-size: 2rem;
-	}
+  .service-info h1 {
+    max-width: 100%;
+    font-size: 2rem;
+  }
 
-	.service-meta-info {
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.5rem;
-	}
+  .service-meta-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 
   .service-description {
     margin: 0.4rem 0 0.5rem;
@@ -501,32 +487,13 @@
   .service-details-container {
     grid-template-columns: 1fr; 
     grid-template-rows: auto; 
-  }
-
-  .service-image {
-    grid-column: 1 / -1; 
-    grid-row: auto; 
-    max-width: 800px; 
-    margin: 0 auto 0.5rem; 
-  }
-
-  .service-description {
-    grid-column: 1 / -1; 
-    grid-row: auto; 
-    width: 100%;
-    
-  }
-  
-  .service-info {
-    grid-column: 1 / -1; 
-    grid-row: auto; 
-    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .service-header {
     position: relative; 
-    grid-column: 1 / -1; 
-    grid-row: auto; 
+    order: 1;
     top: 0;
     right: 0;
     width: 100%;
@@ -534,6 +501,66 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 1rem;
+  }
+
+  .service-basic-info {
+    order: 2;
+    width: 100%;
+    margin-bottom: 1rem;
+    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .service-basic-info h1 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+    font-size: 2rem;
+    color: var(--text);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    max-width: 100%;
+    word-break: break-word;
+  }
+
+  .service-basic-info .service-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.5rem 0 1rem;
+    margin-right: 0;
+    flex-wrap: wrap;
+  }
+
+  .service-basic-info .service-meta-info h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--secondary);
+  }
+
+  .service-image {
+    order: 3;
+    max-width: 800px; 
+    margin: 0 auto 0.5rem; 
+  }
+
+  .service-description {
+    order: 4;
+    width: 100%;
+  }
+
+  .service-info {
+    order: 5;
+    width: 100%;
+  }
+
+  .service-info h1,
+  .service-info .service-meta-info {
+    display: none;
   } 
 
   .service-details-container {
@@ -554,26 +581,26 @@
     margin-bottom: 1.5rem;
   }
 
-	.service-pricing-block {
-		flex-direction: row;
-		justify-content: space-between;
-		width: 100%;
-		gap: 0.5rem;
-		align-items: center;
-	}
+  .service-pricing-block {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+    align-items: center;
+  }
 
-	.stars-container {
-		padding: 4px 8px;
-		gap: 2px;
-	}
+  .stars-container {
+    padding: 4px 8px;
+    gap: 2px;
+  }
 
-	.stars-container i {
-		font-size: 1rem;
-	}
+  .stars-container i {
+    font-size: 1rem;
+  }
 
-	.rating-value {
-		font-size: 0.9rem;
-	}
+  .rating-value {
+    font-size: 0.9rem;
+  }
 
   .favorite-button {
     width: 30px;
@@ -587,23 +614,32 @@
     object-position: center;
   }
 
-	.service-info h1 {
-		font-size: 1.6rem;
-		margin-right: 0;
-	}
+  .service-info h1 {
+    font-size: 1.6rem;
+    margin-right: 0;
+    display: none;
+  }
 
-	.seller-profile {
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		padding: 1rem;
-		width: 100%;
-		box-sizing: border-box;
-	}
+  .service-info .service-meta-info {
+    display: none;
+  }
 
-	.seller-pic {
-		margin-bottom: 1rem;
-	}
+  .service-basic-info h1 {
+    font-size: 1.6rem;
+  }
+
+  .seller-profile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .seller-pic {
+    margin-bottom: 1rem;
+  }
 
   .service-price-button {
     font-size: 1rem;
@@ -620,9 +656,9 @@
     margin: 0.5rem auto;
   }
 
-	.related-services h2 {
-		font-size: 1.4rem;
-	}
+  .related-services h2 {
+    font-size: 1.4rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -689,17 +725,26 @@
     min-width: 0;
   }
 
-	.service-info h1 {
-		font-size: 1.4rem;
-	}
+  .service-info h1 {
+    font-size: 1.4rem;
+    display: none;
+  }
 
-	.service-meta-info h2 {
-		font-size: 1rem;
-	}
+  .service-basic-info h1 {
+    font-size: 1.4rem;
+  }
 
-	.service-description {
-		font-size: 0.95rem;
-	}
+  .service-meta-info h2 {
+    font-size: 1rem;
+  }
+
+  .service-info .service-meta-info {
+    display: none;
+  }
+
+  .service-description {
+    font-size: 0.95rem;
+  }
 
   .services-row .card-link {
     min-width: 210px; 
@@ -758,6 +803,12 @@
   }
 
   .service-info h1 {
+    font-size: 1.3rem;
+    padding-bottom: 0.3rem;
+    display: none;
+  }
+
+  .service-basic-info h1 {
     font-size: 1.3rem;
     padding-bottom: 0.3rem;
   }
