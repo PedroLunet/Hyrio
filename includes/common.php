@@ -106,7 +106,7 @@ function getFeaturedServices(int $limit = 6): array
 
         // Add "See All Services" button with gradient border below the cards
         echo '<div class="see-all-container">';
-        echo '<button class="see-all-button" onclick="window.location.href=\'/pages/search.php\'">See All Services</button>';
+        echo '<button class="see-all-button" onclick="window.location.href=\'/pages/search.php\'">Explore More Services</button>';
         echo '</div>';
     } ?>
 
