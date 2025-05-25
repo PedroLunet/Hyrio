@@ -474,7 +474,7 @@
   width: 100%;
 }
 
-@media (max-width: 1270px) {
+@media (max-width: 1285px) {
 
   .service-info h1,
   .service-meta-info {
@@ -610,6 +610,10 @@
     padding: 8px 16px;
   }
 
+  .service-actions {
+    justify-content: center;
+  }
+
   .related-services {
     width: calc(100% - 1rem);
     padding: 1rem;
@@ -621,20 +625,60 @@
 	}
 }
 
+@media (max-width: 600px) {
+  .services-row .card-link {
+    min-width: 210px; 
+    width: 210px;
+  }
+
+  .related-services .card {
+    height: 280px;
+    max-width: 226px; 
+    padding: 4px;
+  }
+
+  .services-row .rating {
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    margin: 10px 10px 0 0;
+    }
+
+  .services-row .card-rating i {
+    font-size: 0.7rem;
+  }
+
+  .services-row .rating-value {
+    font-size: 0.7rem;
+  }
+
+  body > main > div > div > div> a > div > div.label > button{
+    font-size: 0.70rem !important;
+    padding: 4px 8px; 
+    width: 70px;
+  } 
+
+  .services-row #label h3 {
+    font-size: 0.95rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    max-height: 2.8em;
+  }
+
+  .services-row .card-link .label h3 {
+    font-size: 0.95rem;
+  }
+
+  body > main > div > div > div > a > div > div.label > h3 {
+    font-size: 0.95rem !important;
+    margin-bottom: 4px;
+  }
+  
+}
+
 @media (max-width: 480px) {
    
   main {
     padding: 8px;
-  }
-
-  .services-row {
-    gap: 1rem;
-    padding: 0.5rem 0.2rem;
-  }
-
-  .services-row .card-link {
-    min-width: 180px;
-    width: 180px;
   }
 
   .service-details-container {
@@ -657,18 +701,35 @@
 		font-size: 0.95rem;
 	}
 
-  .related-services {
-    padding: 0.8rem;
-  }
-
-  .services-row {
-    gap: 1rem;
-    padding: 0.5rem 0.2rem;
-  }
-
   .services-row .card-link {
-    min-width: 220px; 
-    width: 220px;
+    min-width: 210px; 
+    width: 210px;
+  }
+
+  .related-services .card {
+    height: 280px;
+    max-width: 226px; 
+    padding: 4px;
+  }
+
+  .services-row .rating {
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    margin: 10px 10px 0 0;
+    }
+
+  .services-row .card-rating i {
+    font-size: 0.7rem;
+  }
+
+  .services-row .rating-value {
+    font-size: 0.7rem;
+  }
+
+  .services-row .button.btn{
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    width: 25px
   }
 }
 
@@ -714,5 +775,10 @@
   .service-image {
     height: auto; 
     max-height: none; 
+  }
+  .related-services .card {
+    height: 250px;
+    max-width: 226px; 
+    padding: 4px;
   }
 }
