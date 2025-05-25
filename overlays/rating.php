@@ -139,7 +139,7 @@ $isUpdate = $existingRating !== null;
       function updateCharCount() {
         const count = reviewTextarea.value.length;
         reviewCount.textContent = count;
-        
+
         // Update color and form validation state
         if (count > 500) {
           reviewCount.style.color = '#e74c3c';
@@ -155,7 +155,7 @@ $isUpdate = $existingRating !== null;
       function updateSubmitButtonState() {
         const submitButton = document.querySelector('#rating-form button[type="submit"]');
         const count = reviewTextarea.value.length;
-        
+
         if (submitButton) {
           if (count > 500) {
             submitButton.disabled = true;
@@ -196,7 +196,7 @@ $isUpdate = $existingRating !== null;
         const selectionStart = this.selectionStart;
         const selectionEnd = this.selectionEnd;
         const newText = currentText.substring(0, selectionStart) + pastedData + currentText.substring(selectionEnd);
-        
+
         if (newText.length > 500) {
           e.preventDefault();
           // Allow partial paste if it doesn't exceed the limit
