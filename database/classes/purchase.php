@@ -100,4 +100,12 @@ class Purchase
     $stmt->execute([$sellerId, 'pending']);
     return (int) $stmt->fetchColumn();
   }
+
+  public static function hasPurchased(int $userId, int $serviceId): bool
+  {
+    $db = getDatabaseConnection();
+    $stmt = $db->prepare('SELECT COUNT(*) FROM purchases WHERE user_id = ? AND service_id = ?');
+    $stmt->execute([$userId, $serviceId]);
+    return (int) $stmt->fetchColumn() > 0;
+  }
 }
