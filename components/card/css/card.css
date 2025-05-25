@@ -21,11 +21,6 @@
         grid-template-columns: 1fr;
     }
 
-    .card {
-        width: 100%;
-        padding: 8px;
-    }
-
     .card #label {
         padding: 10px 15px;
         flex-direction: column;
