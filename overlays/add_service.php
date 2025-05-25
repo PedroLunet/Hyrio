@@ -52,6 +52,10 @@ if (!$user || !$user['is_seller']) {
                     <input type="number" id="service-price" name="price" step="0.01" required>
                 </div>
                 <div class="form-group">
+                    <label for="service-delivery-time">Delivery Time (hours):</label>
+                    <input type="number" id="service-delivery-time" name="delivery_time" min="1" required>
+                </div>
+                <div class="form-group">
                     <label for="service-category">Category:</label>
                     <select id="service-category" name="category_id" required>
                         <?php
@@ -105,6 +109,7 @@ if (!$user || !$user['is_seller']) {
                 const nameInput = document.getElementById('service-name');
                 const descriptionInput = document.getElementById('service-description');
                 const priceInput = document.getElementById('service-price');
+                const deliveryTimeInput = document.getElementById('service-delivery-time');
 
                 if (!nameInput.value.trim()) {
                     formEvent.preventDefault();
@@ -115,6 +120,9 @@ if (!$user || !$user['is_seller']) {
                 } else if (parseFloat(priceInput.value) <= 0) {
                     formEvent.preventDefault();
                     alert('Price must be greater than 0');
+                } else if (parseInt(deliveryTimeInput.value) <= 0) {
+                    formEvent.preventDefault();
+                    alert('Delivery time must be greater than 0 hours');
                 }
             });
         }
