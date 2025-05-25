@@ -75,13 +75,6 @@ drawHeader();
     <div class="service-details-container">
       <div class="service-header">
         <div class="service-pricing-block">
-          <?php if ($ratingStats['total_ratings'] > 0): ?>
-            <div class="rating-section">
-              <div class="stars-container">
-                <?php RatingComponent::renderStars((float) $ratingStats['average_rating'], (int) $ratingStats['total_ratings']); ?>
-              </div>
-            </div>
-          <?php endif; ?>
           <div class="favorite-price-container">
             <form action="/actions/favorite_action.php" method="post" class="favorite-form">
               <input type="hidden" name="serviceId" value="<?php echo $service->getId(); ?>">

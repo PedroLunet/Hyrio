@@ -501,22 +501,94 @@
     order: 1;
     top: 0;
     right: 0;
-    width: 100%;
-    max-width: 100%;
+    width: auto;
+    max-width: none;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
   }
 
   .service-basic-info {
     order: 2;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     display: block;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
+    flex-grow: 1;
+  }
+
+  /* Create horizontal layout for basic info and pricing */
+  .service-details-container .service-header,
+  .service-details-container .service-basic-info {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+
+  .service-details-container .service-header {
+    order: 2;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    width: auto;
+  }
+
+  .service-details-container .service-basic-info {
+    order: 1;
+    flex-grow: 1;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* Use CSS Grid to create the horizontal layout */
+  .service-details-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto auto;
+    gap: 1rem 1rem;
+    grid-template-areas:
+      "basic-info pricing"
+      "image image"
+      "description description"
+      "info info";
+  }
+
+  .service-basic-info {
+    grid-area: basic-info;
+    order: unset;
+    margin-bottom: 0;
+  }
+
+  .service-header {
+    grid-area: pricing;
+    order: unset;
+    margin-bottom: 0;
+    position: relative;
+    top: 0;
+    right: 0;
+  }
+
+  .service-image {
+    grid-area: image;
+    order: unset;
+    max-width: 800px; 
+    margin: 0 auto; 
+  }
+
+  .service-description {
+    grid-area: description;
+    order: unset;
+    width: 100%;
+  }
+
+  .service-info {
+    grid-area: info;
+    order: unset;
+    width: 100%;
   }
 
   .service-basic-info h1 {
@@ -536,7 +608,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin: 0.5rem 0 1rem;
+    margin: 0.5rem 0 0;
     margin-right: 0;
     flex-wrap: wrap;
   }
@@ -548,18 +620,18 @@
   }
 
   .service-image {
-    order: 3;
+    order: 2;
     max-width: 800px; 
     margin: 0 auto 0.5rem; 
   }
 
   .service-description {
-    order: 4;
+    order: 3;
     width: 100%;
   }
 
   .service-info {
-    order: 5;
+    order: 4;
     width: 100%;
   }
 
@@ -568,39 +640,15 @@
     display: none;
   } 
 
-  .service-header {
-    position: relative;
-    top: 0;
-    right: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: none;
-    margin-bottom: 1.5rem;
-  }
-
   .service-pricing-block {
     flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: flex-end;
+    width: auto;
     gap: 0.5rem;
     align-items: center;
   }
 
-  .stars-container {
-    padding: 4px 8px;
-    gap: 2px;
-  }
-
-  .stars-container i {
-    font-size: 1rem;
-  }
-
-  .rating-value {
-    font-size: 0.9rem;
-  }
-
+  
   .favorite-button {
     width: 30px;
     height: 30px;
