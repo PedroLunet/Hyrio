@@ -60,6 +60,14 @@ switch ($action) {
       exit;
     }
 
+    // Validate review character limit
+    if (strlen($review) > 500) {
+      header('HTTP/1.1 400 Bad Request');
+      header('Content-Type: application/json');
+      echo json_encode(['success' => false, 'message' => 'Review text cannot exceed 500 characters']);
+      exit;
+    }
+
     // Clean review text (optional)
     $review = !empty($review) ? $review : null;
 

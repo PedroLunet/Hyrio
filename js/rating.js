@@ -63,20 +63,85 @@ function initializeCharacterCount() {
 		function updateCharCount() {
 			const count = reviewTextarea.value.length;
 			reviewCount.textContent = count;
-			reviewCount.style.color = count > 500 ? '#e74c3c' : '#666';
+
+			// Update color and form validation state
+			if (count > 500) {
+				reviewCount.style.color = '#e74c3c';
+				reviewTextarea.style.borderColor = '#e74c3c';
+				updateSubmitButtonState();
+			} else {
+				reviewCount.style.color = '#666';
+				reviewTextarea.style.borderColor = '#d1d5db';
+				updateSubmitButtonState();
+			}
+		}
+
+		function updateSubmitButtonState() {
+			const submitButton = document.querySelector(
+				'.rating-form button[type="submit"]'
+			);
+			const count = reviewTextarea.value.length;
+
+			if (submitButton) {
+				if (count > 500) {
+					submitButton.disabled = true;
+					submitButton.style.opacity = '0.5';
+					submitButton.style.cursor = 'not-allowed';
+				} else {
+					submitButton.disabled = false;
+					submitButton.style.opacity = '1';
+					submitButton.style.cursor = 'pointer';
+				}
+			}
 		}
 
 		reviewTextarea.addEventListener('input', updateCharCount);
 		updateCharCount(); // Initial count
 
-		// Limit to 500 characters
+		// Prevent typing when at 500 characters (but allow deletion)
 		reviewTextarea.addEventListener('keydown', function (e) {
 			if (
 				this.value.length >= 500 &&
 				e.key !== 'Backspace' &&
-				e.key !== 'Delete'
+				e.key !== 'Delete' &&
+				e.key !== 'ArrowLeft' &&
+				e.key !== 'ArrowRight' &&
+				e.key !== 'ArrowUp' &&
+				e.key !== 'ArrowDown' &&
+				!e.ctrlKey && // Allow Ctrl+A, Ctrl+C, etc.
+				!e.metaKey // Allow Cmd+A, Cmd+C, etc. on Mac
 			) {
 				e.preventDefault();
+			}
+		});
+
+		// Prevent pasting text that would exceed the limit
+		reviewTextarea.addEventListener('paste', function (e) {
+			const pastedData = e.clipboardData.getData('text');
+			const currentText = this.value;
+			const selectionStart = this.selectionStart;
+			const selectionEnd = this.selectionEnd;
+			const newText =
+				currentText.substring(0, selectionStart) +
+				pastedData +
+				currentText.substring(selectionEnd);
+
+			if (newText.length > 500) {
+				e.preventDefault();
+				// Allow partial paste if it doesn't exceed the limit
+				const availableSpace =
+					500 - (currentText.length - (selectionEnd - selectionStart));
+				if (availableSpace > 0) {
+					const truncatedPaste = pastedData.substring(0, availableSpace);
+					const beforeSelection = currentText.substring(0, selectionStart);
+					const afterSelection = currentText.substring(selectionEnd);
+					this.value = beforeSelection + truncatedPaste + afterSelection;
+					this.setSelectionRange(
+						selectionStart + truncatedPaste.length,
+						selectionStart + truncatedPaste.length
+					);
+					updateCharCount();
+				}
 			}
 		});
 	}
@@ -118,6 +183,13 @@ function submitRating(form) {
 	const formData = new FormData(form);
 	const submitButton = form.querySelector('button[type="submit"]');
 	const originalText = submitButton.textContent;
+
+	// Validate character count before submitting
+	const reviewTextarea = form.querySelector('#review');
+	if (reviewTextarea && reviewTextarea.value.length > 500) {
+		showMessage('Review text cannot exceed 500 characters.', 'error');
+		return;
+	}
 
 	// Disable button and show loading state
 	submitButton.disabled = true;

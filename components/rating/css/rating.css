@@ -523,3 +523,38 @@
 		font-size: 1.5rem;
 	}
 }
+
+/* Character limit validation styles */
+.review-input textarea.over-limit {
+	border-color: #e74c3c !important;
+	box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+}
+
+.character-count.over-limit {
+	color: #e74c3c !important;
+	font-weight: 600;
+}
+
+.character-limit-warning {
+	display: none;
+	margin-top: 0.25rem;
+	font-size: 0.75rem;
+	color: #e74c3c;
+	font-weight: 500;
+}
+
+.character-limit-warning.show {
+	display: block;
+}
+
+.rating-form button[type='submit']:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	background-color: #9ca3af;
+}
+
+.rating-form button[type='submit']:disabled:hover {
+	background-color: #9ca3af;
+	transform: none;
+	box-shadow: none;
+}
