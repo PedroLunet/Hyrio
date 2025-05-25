@@ -10,6 +10,7 @@ require_once(__DIR__ . '/../database/classes/service.php');
 require_once(__DIR__ . '/../database/classes/user.php');
 require_once(__DIR__ . '/../database/classes/rating.php');
 require_once(__DIR__ . '/../database/classes/purchase.php');
+require_once(__DIR__ . '/../database/classes/category.php');
 require_once(__DIR__ . '/../includes/auth.php');
 
 head();
@@ -19,6 +20,7 @@ echo '<link rel="stylesheet" href="/components/rating/css/rating.css">';
 
 $service = Service::getServiceById((int) $_GET['id']);
 $seller = User::getUserById($service->getSeller());
+$category = $service ? Category::getCategoryById($service->getCategory()) : null;
 $loggedInUser = Auth::getInstance()->getUser();
 
 $isFavorite = false;
@@ -53,7 +55,7 @@ drawHeader();
       <i class="ph-bold ph-check-circle"></i>
       <?= htmlspecialchars($_SESSION['success_message']) ?>
     </div>
-    <?php
+  <?php
     unset($_SESSION['success_message']);
   endif;
 
@@ -62,14 +64,14 @@ drawHeader();
       <i class="ph-bold ph-warning-circle"></i>
       <?= htmlspecialchars($_SESSION['error_message']) ?>
     </div>
-    <?php
+  <?php
     unset($_SESSION['error_message']);
   endif;
   ?>
 
   <?php
   if ($service):
-    ?>
+  ?>
     <div class="service-details-container">
       <div class="service-header">
         <div class="service-pricing-block">
@@ -102,27 +104,43 @@ drawHeader();
         </div>
       </div>
 
+      <div class="service-basic-info">
+        <h1><?= htmlspecialchars($service->getName()) ?></h1>
+        <h2>by <?= htmlspecialchars($seller->getName()) ?></h2>
+        <div class="service-meta-info">
+          <span class="service-category">
+            <i class="ph-bold ph-tag"></i>
+            <?= htmlspecialchars($category ? $category->getName() : 'Unknown Category') ?>
+          </span>
+        </div>
+      </div>
+
       <div class="service-image">
         <img src="<?= htmlspecialchars($service->getImage()) ?>" alt="<?= htmlspecialchars($service->getName()) ?>">
       </div>
+      <p class="service-description"><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
       <div class="service-info">
         <h1><?= htmlspecialchars($service->getName()) ?></h1>
         <div class="service-meta-info">
           <h2>by <?= htmlspecialchars($seller->getName()) ?></h2>
-          <span class="service-category"><i class="ph-bold ph-tag"></i> <?= htmlspecialchars("Category") ?></span>
+          <span class="service-category">
+            <i class="ph-bold ph-tag"></i>
+            <?= htmlspecialchars($category ? $category->getName() : 'Unknown Category') ?>
+          </span>
         </div>
-        <p class="service-description"><?= nl2br(htmlspecialchars($service->getDescription())) ?></p>
 
-        <div class="seller-profile">
-          <img src="<?= htmlspecialchars($seller->getProfilePic()) ?>" alt="<?= htmlspecialchars($seller->getName()) ?>"
-            class="seller-pic">
-          <div class="seller-bio">
-            <strong>About the seller:</strong>
-            <p><?= htmlspecialchars($seller->getBio()) ?></p>
+        <a href="/pages/profile.php?username=<?= $seller->getUsername() ?>" class="seller-link">
+          <div class="seller-profile">
+            <img src="<?= htmlspecialchars($seller->getProfilePic()) ?>" alt="<?= htmlspecialchars($seller->getName()) ?>"
+              class="seller-pic">
+            <div class="seller-bio">
+              <strong>About the seller:</strong>
+              <p><?= htmlspecialchars($seller->getBio()) ?></p>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="service-actions">
+        <!-- <div class="service-actions">
           <?php if ($loggedInUser && $loggedInUser['id'] !== $service->getSeller()): ?>
             <form action="/actions/messages_action.php" method="POST">
               <input type="hidden" name="user_id" value="<?php echo $service->getSeller(); ?>">
@@ -132,8 +150,7 @@ drawHeader();
               </button>
             </form>
           <?php endif; ?>
-        </div>
-
+        </div> -->
       </div>
     </div>
 
@@ -165,7 +182,7 @@ drawHeader();
 
     <!-- Related services from the same category -->
     <div class="related-services">
-      <h2>More services in <?= htmlspecialchars("Category") ?></h2>
+      <h2>More services in <?= htmlspecialchars($category ? $category->getName() : 'this category') ?></h2>
       <div class="services-row">
         <?php
         $categoryServices = Service::getRelatedServicesByCategory($service->getCategory(), $service->getId());
@@ -216,11 +233,11 @@ drawHeader();
 <script src="/js/rating.js"></script>
 <script src="/js/overlay.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     const favoriteForms = document.querySelectorAll('.favorite-form');
 
     favoriteForms.forEach(form => {
-      form.addEventListener('submit', function () {
+      form.addEventListener('submit', function() {
         console.log('Favorite form submitted');
       });
     });
@@ -259,10 +276,10 @@ drawHeader();
         })
         .then(html => {
           container.innerHTML = html;
-OverlaySystem.open('rating-overlay');
+          OverlaySystem.open('rating-overlay');
           // Initialize rating form after overlay content is loaded
           if (typeof initializeRatingForms === 'function') {
-  initializeRatingForms();
+            initializeRatingForms();
           }
         })
         .catch(error => {
