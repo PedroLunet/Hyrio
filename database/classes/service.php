@@ -12,10 +12,11 @@ class Service
     private float $price;
     private int $seller;
     private int $category;
+    private int $delivery_time;
     private string $image;
     private ?float $rating;
 
-    public function __construct(int $id, string $name, string $description, float $price, int $seller, int $category, string $image, ?float $rating)
+    public function __construct(int $id, string $name, string $description, float $price, int $seller, int $category, int $delivery_time, string $image, ?float $rating)
     {
         $this->id = $id;
         $this->name = $name;
@@ -23,31 +24,32 @@ class Service
         $this->price = $price;
         $this->seller = $seller;
         $this->category = $category;
+        $this->delivery_time = $delivery_time;
         $this->image = $image;
         $this->rating = $rating;
     }
 
-    public static function createService(string $name, string $description, float $price, int $seller, int $category, string $image = '/assets/placeholder.png', ?float $rating = 0.0): bool
+    public static function createService(string $name, string $description, float $price, int $seller, int $category, int $delivery_time, string $image = '/assets/placeholder.png', ?float $rating = 0.0): bool
     {
         try {
             $db = Database::getInstance();
             $stmt = $db->prepare('
-                INSERT INTO services (name, description, price, seller, category, image, rating) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO services (name, description, price, seller, category, delivery_time, image, rating) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ');
-            $stmt->execute([$name, $description, $price, $seller, $category, $image, $rating]);
+            $stmt->execute([$name, $description, $price, $seller, $category, $delivery_time, $image, $rating]);
             return true;
         } catch (PDOException $e) {
             return false;
         }
     }
 
-    public static function update(int $id, string $name, string $description, float $price, int $category, string $image): bool
+    public static function update(int $id, string $name, string $description, float $price, int $category, int $delivery_time, string $image): bool
     {
         try {
             $db = Database::getInstance();
-            $stmt = $db->prepare('UPDATE services SET name = ?, description = ?, price = ?, category = ?, image = ? WHERE id = ?');
-            $stmt->execute([$name, $description, $price, $category, $image, $id]);
+            $stmt = $db->prepare('UPDATE services SET name = ?, description = ?, price = ?, category = ?, delivery_time = ?, image = ? WHERE id = ?');
+            $stmt->execute([$name, $description, $price, $category, $delivery_time, $image, $id]);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -82,6 +84,7 @@ class Service
                     (float)$service['price'],
                     (int)$service['seller'],
                     (int)$service['category'],
+                    (int)$service['delivery_time'],
                     $service['image'],
                     isset($service['rating']) ? (float)$service['rating'] : null
                 );
@@ -331,5 +334,10 @@ class Service
     public function getRating(): ?float
     {
         return $this->rating;
+    }
+
+    public function getDeliveryTime(): int
+    {
+        return $this->delivery_time;
     }
 }
