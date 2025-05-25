@@ -247,4 +247,35 @@ class Rating
       return false;
     }
   }
+
+  /**
+   * Sync all service ratings with actual rating data
+   */
+  public static function syncAllServiceRatings(): void
+  {
+    $db = Database::getInstance();
+
+    try {
+      $stmt = $db->prepare('
+        UPDATE services 
+        SET rating = (
+          SELECT AVG(rating) 
+          FROM ratings 
+          WHERE service_id = services.id
+        ) 
+        WHERE id IN (SELECT DISTINCT service_id FROM ratings)
+      ');
+      $stmt->execute();
+      
+      // Set rating to NULL for services with no ratings
+      $stmt = $db->prepare('
+        UPDATE services 
+        SET rating = NULL 
+        WHERE id NOT IN (SELECT DISTINCT service_id FROM ratings)
+      ');
+      $stmt->execute();
+    } catch (PDOException $e) {
+      error_log("Error syncing service ratings: " . $e->getMessage());
+    }
+  }
 }

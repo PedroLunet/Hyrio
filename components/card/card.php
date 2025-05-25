@@ -56,10 +56,17 @@ class Card
     <div class="card">
       <a href="/pages/service.php?id=<?= $serviceId ?>" class="card-link">
         <div class="card-content">
+          <?php 
+          // Calculate rating on-the-fly instead of relying on stored value
+          require_once(__DIR__ . '/../../database/classes/rating.php');
+          $ratingStats = Rating::getRatingStats((int)$service['id']);
+          if ($ratingStats['total_ratings'] > 0): 
+          ?>
           <div class="rating">
             <i class="ph-fill ph-star"></i>
-            <span><?= isset($service['rating']) ? htmlspecialchars(number_format($service['rating'], 1)) : '4.5' ?></span>
+            <span><?= htmlspecialchars(number_format((float)$ratingStats['average_rating'], 1)) ?></span>
           </div>
+          <?php endif; ?>
 
           <div class="service-image">
             <img src="<?= htmlspecialchars($service['image']) ?>"
