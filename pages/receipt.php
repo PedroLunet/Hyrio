@@ -82,6 +82,10 @@ drawHeader();
     padding: 2rem;
   }
 
+  .receipt-container h1 {
+    margin-top: 0;
+  }
+
   .receipt-details {
     font-size: 1.1rem;
   }

@@ -65,7 +65,7 @@ section p {
 	display: flex;
 	overflow-x: auto;
 	gap: 1.5rem;
-	padding: 1rem 0.5rem;
+	padding: 8px;
 	scroll-behavior: smooth;
 	-webkit-overflow-scrolling: touch;
 	scrollbar-width: thin;
@@ -74,18 +74,17 @@ section p {
 	margin-bottom: -15px;
 }
 
-.services-row .card-link {
+/* .services-row .card-link {
 	min-width: 280px;
 	width: 280px;
 	max-width: 90%;
 	flex-shrink: 0;
-}
+} */
 
 /* --- Purchases Table Styles --- */
 .purchases-table {
 	width: 100%;
 	border-collapse: collapse;
-	margin-top: 20px;
 }
 .purchases-table th,
 .purchases-table td {
@@ -138,6 +137,10 @@ section p {
 }
 
 @media (max-width: 768px) {
+	.profile-container {
+		padding-top: 20px;
+	}
+
 	.profile-header {
 		grid-template-columns: auto;
 		grid-template-rows: auto auto auto auto;
@@ -145,7 +148,7 @@ section p {
 	}
 
 	.profile-picture {
-		width: 100px;
+		width: 150px;
 		grid-row: 1;
 		grid-column: 1;
 		margin: 0 auto 5px;
@@ -168,6 +171,7 @@ section p {
 	.profile-actions {
 		grid-row: 4;
 		grid-column: 1;
+		padding-top: 16px;
 		margin: 0 auto;
 	}
 
@@ -203,8 +207,7 @@ section p {
 
 @media (max-width: 480px) {
 	.profile-picture {
-		width: 80px;
-		height: 80px;
+		width: 120px;
 	}
 
 	.profile-header h1 {
