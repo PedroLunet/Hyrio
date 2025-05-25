@@ -36,7 +36,7 @@ if (!$user || !$user['is_seller']) {
                 <input type="hidden" name="type" value="service">
                 <input type="hidden" name="action" value="add">
                 <?php
-                $section = isset($_GET['section']) ? $_GET['section'] : 'services';
+                $section = isset($_GET['section']) ? $_GET['section'] : 'listings';
                 echo '<input type="hidden" name="section" value="' . $section . '">';
                 ?>
                 <div class="form-group">

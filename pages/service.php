@@ -88,7 +88,6 @@ drawHeader();
               <form action="/pages/checkout.php" method="get" style="display:inline;">
                 <input type="hidden" name="id" value="<?= $service->getId() ?>">
                 <button type="submit" class="service-price-button">
-                  <i class="ph-bold ph-currency-eur"></i>
                   <span><?= htmlspecialchars(number_format($service->getPrice(), 2)) ?>€</span>
                 </button>
               </form>
