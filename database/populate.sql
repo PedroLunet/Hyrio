@@ -430,7 +430,7 @@ VALUES (
         100.00,
         9,
         3,
-        72,
+        12,
         '/assets/placeholder.png',
         4.9
     ),
@@ -496,7 +496,7 @@ VALUES (
         150.00,
         11,
         7,
-        48,
+        12,
         '/assets/placeholder.png',
         4.9
     ),

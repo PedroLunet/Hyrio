@@ -152,6 +152,19 @@ drawHeader();
           <?php endif; ?>
         </div> 
       </div>
+
+      <div class="delivery-time-badge">
+        <i class="ph-bold ph-clock"></i>
+        <span><?php 
+          $hours = $service->getDeliveryTime();
+          if ($hours < 24) {
+            echo $hours . ' hour' . ($hours !== 1 ? 's' : '');
+          } else {
+            $days = round($hours / 24);
+            echo $days . ' day' . ($days !== 1 ? 's' : '');
+          }
+        ?></span>
+      </div>
     </div>
 
     <!-- Rating Section -->
