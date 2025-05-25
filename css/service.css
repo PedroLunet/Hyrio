@@ -482,6 +482,10 @@
   .service-description {
     margin: 0.4rem 0 0.5rem;
   }
+
+  .delivery-time-badge {
+    margin-bottom: 7px;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -739,6 +743,19 @@
 
   .service-description {
     font-size: 0.95rem;
+  }
+
+  .contact-button {
+    align-self: flex-start;
+  }
+
+  .service-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .delivery-time-badge {
+    margin-bottom: 2px;
   }
 
   .services-row .card-link {
