@@ -7,6 +7,8 @@
 
 A comprehensive freelancing website developed in PHP for the LTW (Web Languages and Technologies) course at FEUP. This project demonstrates full-stack web development with user authentication, database management, and responsive design.
 
+## 🎓 Grade: 17.6/20
+
 ## 🌐 About
 
 Hyrio is a complete freelancing platform that connects clients with service providers, featuring:
