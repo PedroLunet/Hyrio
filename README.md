@@ -80,7 +80,7 @@ Hyrio is a complete freelancing platform that connects clients with service prov
 ### Quick Start
 ```bash
 # Clone the repository
-git clone [repository-url]
+git clone git@github.com:PedroLunet/Hyrio.git
 cd hyrio
 
 # Set up database
